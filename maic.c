@@ -1,24 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ERROR -1
+#define ERROR 1
 #define SUCCESS 0
 
 int main(int argc, char const *argv[]) {
     if (argc == 1) {
-        fprintf(stderr, "Modo no especificado\n");
+        printf("Modo no especificado\n");
         return ERROR;
     }
 
-    const char* mode = argv[1];
-    if (strcmp("client", mode) == 0) {
-        //Do something with "client"
+    if (strcmp("server", argv[1]) == 0) {
+        server_init(argv[2]);
         return SUCCESS;
     }
-    if (strcmp("server", mode) == 0) {
-        //Do something with "server"
+    if (strcmp("client", argv[1]) == 0) {
+        client_init(argv[2], argv[3]);
         return SUCCESS;
     }
-    fprintf(stderr, "Modo no soportado, el primer parámetro debe ser server o client\n");
+
+    printf("Modo no soportado, el primer parámetro debe ser server o client\n");
     return ERROR;
 }
