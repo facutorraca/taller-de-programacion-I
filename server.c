@@ -1,3 +1,6 @@
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "server.h"
 #include "socket.h"
 
@@ -5,10 +8,23 @@
 #define SUCCESS 0
 
 int server_init(const char* port) {
-    socket_t acceptor;
-    int rv_i, rv_b, rv_l;
-    socket_init(&acceptor);
-    socket_bind(&acceptor, port);
-    socket_listen(&acceptor);
-    //int new_socket= accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+    server_t server;
+    server->port = port;
+    server.acceptor = socket_init(&server.acceptor);
+    server.connection = socket_init(&server.acceptor);
+
+    server_start(&server);
+}
+
+int server_start(server_t* server) {
+    socket_bind(&server.acceptor, server->port);
+    socket_listen(&server.acceptor);
+
+    bool server_running = true;
+    while (server_running) {
+        if (socket_accept(&accept, &new_connection, port) == ERROR) {
+            printf("Accept failed\n");
+            return ERROR;
+        }
+    }
 }

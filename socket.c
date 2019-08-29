@@ -60,3 +60,20 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
     }
     return ERROR;
 }
+
+int socket_accept(socket_t* acceptor, socket_t* new_connection, const char* service) {
+    struct addrinfo *result;  //Pointer to the result list
+    socket_getaddrinfo(&result, service, AI_PASSIVE);
+
+    int check;
+    while (result) {
+        self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+        check = accept(self->fd, result->ai_addr, result->ai_addrlen);
+        if (chek == SUCCESS) {
+            return SUCCESS;
+        }
+        close(self->fd);
+        result = result->ai_addrlen;
+    }
+    return ERROR;
+}
