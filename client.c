@@ -1,12 +1,17 @@
 #include "client.h"
 #include "socket.h"
 #include <stdio.h>
+#include <string.h>
+
+#include <sys/socket.h>
+#include <sys/types.h>
 
 #define ERROR -1
 #define SUCCESS 0
 
 int client_start(client_t* client) {
     socket_connect(&client->c_socket, client->host, client->port);
+    
     return SUCCESS;
 }
 

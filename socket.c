@@ -66,18 +66,7 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
 }
 
 int socket_accept(socket_t* acceptor, socket_t* s_socket, const char* service) {
-    struct addrinfo *result;  //Pointer to the result list
-    socket_getaddrinfo(&result, service, AI_PASSIVE);
-
-    int check;
-    while (result) {
-        s_socket->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-        check = accept(acceptor->fd, result->ai_addr, &result->ai_addrlen);
-        if (check == SUCCESS) {
-            return SUCCESS;
-        }
-        close(s_socket->fd);
-        result = result->ai_next;
-    }
-    return ERROR;
+    //client_address and client_address_lenght is NULL because is not needed
+    s_socket->fd = accept(acceptor->fd, NULL /*client_address*/, NULL /*client_address_lenght*/);
+    return SUCCESS;
 }

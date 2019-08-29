@@ -1,8 +1,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include "server.h"
 #include "socket.h"
+
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #define ERROR -1
 #define SUCCESS 0
@@ -15,9 +20,7 @@ int server_start(server_t* server) {
     // for the incoming connection
 
     socket_accept(&server->acceptor, &server->s_socket, server->port);
-
-    // Here goes a while to receive and send messages
-
+    
     return SUCCESS;
 }
 
