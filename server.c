@@ -10,4 +10,5 @@ int server_init(const char* port) {
     socket_init(&acceptor);
     socket_bind(&acceptor, port);
     socket_listen(&acceptor);
+    //int new_socket= accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 }

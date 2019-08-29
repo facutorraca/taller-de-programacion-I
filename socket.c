@@ -28,17 +28,35 @@ int socket_bind(socket_t* self, const char* service) {
     socket_getaddrinfo(&result, service, AI_PASSIVE);
 
     int check;
-    while (result_pointer) {
+    while (result) {
         self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
         check = bind(self->fd, result->ai_addr, result->ai_addrlen);
         if (chek == SUCCESS) {
             return SUCCESS;
         }
         close(self->fd);
+        result = result->ai_addrlen;
     }
     return ERROR;
 }
 
 int socket_listen(socket_t* self) {
-    listen(self->fd, MAX_PENDING_CONNECTIONS);
+    return listen(self->fd, MAX_PENDING_CONNECTIONS);
+}
+
+int socket_connect(socket_t* self, const char* host, const char* service) {
+    struct addrinfo *result;  //Pointer to the result list
+    socket_getaddrinfo(&result, service, 0);
+
+    int check;
+    while (result) {
+        self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+        check = connect(self->fd, result->ai_addr, result->ai_addrlen);
+        if (chek == SUCCESS) {
+            return SUCCESS;
+        }
+        close(self->fd);
+        result = result->ai_addrlen;
+    }
+    return ERROR;
 }

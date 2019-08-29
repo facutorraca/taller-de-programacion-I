@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ERROR 1
+#define ERROR -1
 #define SUCCESS 0
 
 int main(int argc, char const *argv[]) {
