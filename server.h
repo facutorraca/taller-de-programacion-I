@@ -6,8 +6,8 @@
 typedef struct server {
     const char* port;
     socket_t acceptor;
-    socket_t connection;
-} servet_t;
+    socket_t s_socket;
+} server_t;
 
 int server_init(const char* port);
 

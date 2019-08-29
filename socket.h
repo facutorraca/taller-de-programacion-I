@@ -1,6 +1,8 @@
 #ifndef _SOCKET_H_
 #define _SOCKET_H_
 
+#include <stdlib.h>
+
 typedef struct socket {
     int fd;
 } socket_t;
@@ -15,7 +17,7 @@ int socket_send(socket_t* self, const void* buffer, size_t length);
 
 int socket_receive(socket_t* self, void* buffer, size_t length);
 
-int socket_accept(socket_t* acceptor, socket_t* new_connection, const char* service);
+int socket_accept(socket_t* acceptor, socket_t* s_socket, const char* service);
 
 int socket_listen(socket_t* self);
 

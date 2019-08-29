@@ -7,24 +7,28 @@
 #define ERROR -1
 #define SUCCESS 0
 
-int server_init(const char* port) {
-    server_t server;
-    server->port = port;
-    server.acceptor = socket_init(&server.acceptor);
-    server.connection = socket_init(&server.acceptor);
+int server_start(server_t* server) {
+    socket_bind(&server->acceptor, server->port);
+    socket_listen(&server->acceptor);
 
-    server_start(&server);
+    // Now process is in sleep mode waiting
+    // for the incoming connection
+
+    socket_accept(&server->acceptor, &server->s_socket, server->port);
+
+    // Here goes a while to receive and send messages
+
+    return SUCCESS;
 }
 
-int server_start(server_t* server) {
-    socket_bind(&server.acceptor, server->port);
-    socket_listen(&server.acceptor);
 
-    bool server_running = true;
-    while (server_running) {
-        if (socket_accept(&accept, &new_connection, port) == ERROR) {
-            printf("Accept failed\n");
-            return ERROR;
-        }
-    }
+int server_init(const char* port) {
+    //server initalized on the stack
+    server_t server;
+    socket_init(&server.acceptor);
+    socket_init(&server.s_socket);
+    server.port = port;
+
+    //Memory direction of server
+    return server_start(&server);
 }

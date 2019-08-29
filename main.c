@@ -1,5 +1,8 @@
-#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include "client.h"
+#include "server.h"
 
 #define ERROR -1
 #define SUCCESS 0
