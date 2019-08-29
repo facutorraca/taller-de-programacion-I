@@ -13,9 +13,9 @@ int socket_bind(socket_t* self, const char* service);
 
 int socket_connect(socket_t* self, const char* host, const char* service);
 
-int socket_send(socket_t* self, const void* buffer, size_t length);
+int socket_send(socket_t* self, const char* buffer, size_t length);
 
-int socket_receive(socket_t* self, void* buffer, size_t length);
+int socket_receive(socket_t* self, char* buffer, size_t length);
 
 int socket_accept(socket_t* acceptor, socket_t* s_socket, const char* service);
 

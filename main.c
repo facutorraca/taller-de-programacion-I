@@ -4,7 +4,7 @@
 #include "client.h"
 #include "server.h"
 
-#define ERROR -1
+#define ERROR 1
 #define SUCCESS 0
 
 int main(int argc, char const *argv[]) {
@@ -14,12 +14,10 @@ int main(int argc, char const *argv[]) {
     }
 
     if (strcmp("server", argv[1]) == 0) {
-        server_init(argv[2]);
-        return SUCCESS;
+        return server_init(argv[2]);
     }
     if (strcmp("client", argv[1]) == 0) {
-        client_init(argv[2], argv[3]);
-        return SUCCESS;
+        return client_init(argv[2], argv[3]);
     }
 
     printf("Modo no soportado, el primer parámetro debe ser server o client\n");

@@ -5,12 +5,21 @@
 #include "server.h"
 #include "socket.h"
 
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
-
 #define ERROR -1
 #define SUCCESS 0
+
+int server_start_to_receive(server_t* server) {
+    char buffer[4] = {0};   //Initialize buffer
+
+    bool continue_receiving = true;
+    while(continue_receiving) {
+        printf("wainting\n");
+        socket_receive(&server->s_socket, buffer, 4);
+        printf("Received: %c %c %c %c\n", buffer[0],buffer[1],buffer[2],buffer[3] ); //test
+    }
+    return SUCCESS;
+}
+
 
 int server_start(server_t* server) {
     socket_bind(&server->acceptor, server->port);
@@ -20,10 +29,10 @@ int server_start(server_t* server) {
     // for the incoming connection
 
     socket_accept(&server->acceptor, &server->s_socket, server->port);
-    
+    server_start_to_receive(server);
+
     return SUCCESS;
 }
-
 
 int server_init(const char* port) {
     //server initalized on the stack

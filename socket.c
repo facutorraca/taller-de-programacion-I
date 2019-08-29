@@ -31,11 +31,9 @@ int socket_bind(socket_t* self, const char* service) {
     struct addrinfo *result;  //Pointer to the result list
     socket_getaddrinfo(&result, service, AI_PASSIVE);
 
-    int check;
     while (result) {
         self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-        check = bind(self->fd, result->ai_addr, result->ai_addrlen);
-        if (check == SUCCESS) {
+        if( bind(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
             return SUCCESS;
         }
         close(self->fd);
@@ -52,11 +50,9 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
     struct addrinfo *result;  //Pointer to the result list
     socket_getaddrinfo(&result, service, 0);
 
-    int check;
     while (result) {
         self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-        check = connect(self->fd, result->ai_addr, result->ai_addrlen);
-        if (check == SUCCESS) {
+        if( connect(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
             return SUCCESS;
         }
         close(self->fd);
@@ -68,5 +64,27 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
 int socket_accept(socket_t* acceptor, socket_t* s_socket, const char* service) {
     //client_address and client_address_lenght is NULL because is not needed
     s_socket->fd = accept(acceptor->fd, NULL /*client_address*/, NULL /*client_address_lenght*/);
+    return SUCCESS;
+}
+
+int socket_send(socket_t* self, const char* buffer, size_t length) {
+    int total_bytes = 0;
+    int bytes_sent = 0;
+
+    while(total_bytes != 4) {
+        bytes_sent = send(self->fd, (void*) buffer, length, 0 /*flags*/);
+        total_bytes = total_bytes + bytes_sent;
+    }
+    return SUCCESS;
+}
+
+int socket_receive(socket_t* self, char* buffer, size_t length) {
+    int total_bytes = 0;
+    int bytes_received = 0;
+
+    while(total_bytes != 4) {
+        bytes_received = recv(self->fd, (void*) buffer, length, 0 /*flags*/);
+        total_bytes = total_bytes + bytes_received;
+    }
     return SUCCESS;
 }
