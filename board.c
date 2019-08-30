@@ -37,10 +37,5 @@ board_t* board_create() {
     board->squares = (square_t*) malloc(COLUMNS * ROWS * sizeof(square_t));
 
     board_complete_squares(board);
-
-    for(int i = 0; i < 81; i++) {
-        printf("%c\n", board->squares[i].number);
-    }
-
     return board;
 }

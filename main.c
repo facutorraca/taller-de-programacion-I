@@ -4,7 +4,7 @@
 
 #include "sudoku_server.h"
 #include "sudoku_client.h"
-#include "verifier.h"
+//#include "verifier.h"
 
 #define SUCCESS 0
 #define ERROR 1
@@ -28,9 +28,8 @@ int main(int argc, char const *argv[]) {
         if(controller_validate_client_parameters(argc,argv) == ERROR) {
             return ERROR;
         }
-        return sudoku_init_as_client(argv[2], argv[3]);
         */
-        return SUCCESS;
+        return sudoku_client_start(argv[2], argv[3]);
     }
 
     printf("Modo no soportado, el primer parámetro debe ser server o client\n");

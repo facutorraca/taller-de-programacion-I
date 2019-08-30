@@ -1,4 +1,3 @@
-
 #define _POSIX_C_SOURCE 200112L
 
 #include "socket.h"
@@ -69,17 +68,11 @@ int socket_accept(socket_t* acceptor, socket_t* s_socket, const char* service) {
 }
 
 int socket_send(socket_t* self, const char* buffer, size_t length) {
-    int total_bytes = 0;
-    int bytes_sent = 0;
-
-    while(total_bytes != 4) {
-        bytes_sent = send(self->fd, (void*) buffer, length, 0 /*flags*/);
-        total_bytes = total_bytes + bytes_sent;
-    }
-    return SUCCESS;
+    // Return total bytes sent
+    return send(self->fd, (void*) buffer, length, 0 /*flags*/);
 }
 
 int socket_receive(socket_t* self, char* buffer, size_t length) {
     // Return total bytes received
-    return recv(self->fd, (void*) buffer, length, 0 /*flags*/);;
+    return recv(self->fd, (void*) buffer, length, 0 /*flags*/);
 }

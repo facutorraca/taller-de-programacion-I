@@ -1,7 +1,6 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_
 
-#include "sudoku_server.h"
 #include "socket.h"
 
 typedef struct server {
@@ -10,8 +9,10 @@ typedef struct server {
     socket_t s_socket;
 } server_t;
 
-int server_init(server_t* server, const char* port);
+int server_start_to_receive(server_t* server_t, int (*receive_control)(const char*, int));
 
-int server_start(sudoku_servet_t* sudoku_server);
+int server_start_to_listen(server_t* server);
+
+int server_init(server_t* server, const char* port);
 
 #endif
