@@ -1,16 +1,16 @@
-#ifndef _SUDOKU_H_
-#define _SUDOKU_H_
+#ifndef _BOARD_H_
+#define _BOARD_H_
 
 #include <stdbool.h>
-
-typedef struct board {
-    char* squares;
-} board_t;
 
 typedef struct square {
     char number;
     bool fixed;
 } square_t;
+
+typedef struct board {
+    square_t* squares;
+} board_t;
 
 board_t* board_create();
 

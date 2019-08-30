@@ -13,13 +13,10 @@ int server_start_to_receive(server_t* server) {
 
     bool continue_receiving = true;
     while(continue_receiving) {
-        printf("wainting\n");
         socket_receive(&server->s_socket, buffer, 4);
-        printf("Received: %c %c %c %c\n", buffer[0],buffer[1],buffer[2],buffer[3] ); //test
     }
     return SUCCESS;
 }
-
 
 int server_start(server_t* server) {
     socket_bind(&server->acceptor, server->port);

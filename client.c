@@ -15,10 +15,6 @@ int client_start_to_send(client_t* client) {
 
     bool continue_sending = true;
     while(continue_sending) {
-        printf("ingrese un msg...\n");
-        int a = scanf("%s", buffer);
-        if(a >1000) printf("%i\n",a);
-
         socket_send(&client->c_socket, buffer, 4);
     }
     return SUCCESS;
