@@ -1,8 +1,12 @@
 #ifndef _SUDOKU_H_
 #define _SUDOKU_H_
 
-int sudoku_init_as_server(int argc, char const* argv[]);
+#include "board.h"
 
-int sudoku_init_as_client(int argc, char const* argv[]);
+typedef struct sudoku {
+    board_t* board;
+} sudoku_t;
+
+int sudoku_init(sudoku_t* sudoku);
 
 #endif

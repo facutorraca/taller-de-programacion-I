@@ -2,23 +2,26 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "sudoku_server.h"
 #include "server.h"
 #include "socket.h"
 
 #define ERROR -1
 #define SUCCESS 0
 
-int server_start_to_receive(server_t* server) {
+int server_start_to_receive(sudoku_server_t* sudoku_server) {
     char buffer[4] = {0};   //Initialize buffer
 
-    bool continue_receiving = true;
-    while(continue_receiving) {
-        socket_receive(&server->s_socket, buffer, 4);
-    }
+    int bytes_recv = 0, total_bytes = 0;
+    do {
+        bytes_recv = socket_receive(&sudoku_server->server->s_socket, buffer, 4);
+        total_bytes = bytes_recv + total_bytes;
+    } while (sudoku_server_receive(sudoku_server, buffer, total_bytes) == ERROR) {
     return SUCCESS;
 }
 
-int server_start(server_t* server) {
+int server_start(sudoku_server_t* sudoku_server) {
+    server_t server = sudoku_server->server;
     socket_bind(&server->acceptor, server->port);
     socket_listen(&server->acceptor);
 
@@ -31,13 +34,12 @@ int server_start(server_t* server) {
     return SUCCESS;
 }
 
-int server_init(const char* port) {
+int server_init(server_t* server, const char* port) {
     //server initalized on the stack
     server_t server;
     socket_init(&server.acceptor);
     socket_init(&server.s_socket);
     server.port = port;
 
-    //Memory direction of server
-    return server_start(&server);
+    return SUCCESS;
 }
