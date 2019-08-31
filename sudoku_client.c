@@ -29,8 +29,7 @@ int sudoku_client_get_instruction(char* buffer) {
     if (scanf("%s", inst) < 0) {
         return ERROR;
     };
-    sudoku_client_process_instruction(inst, buffer);
-    return SUCCESS;
+    return sudoku_client_process_instruction(inst, buffer);
 }
 
 int sudoku_client_control_send(const char* buffer, int total_bytes) {

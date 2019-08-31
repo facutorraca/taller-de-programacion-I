@@ -12,6 +12,8 @@
 #define SUCCESS 0
 #define MAX_PENDING_CONNECTIONS 10
 
+#include <stdio.h>
+
 int socket_getaddrinfo(struct addrinfo** result, const char* service, int ai_flags) {
     struct addrinfo hints; //Criteria for selecting the socket address structures
 
@@ -74,5 +76,6 @@ int socket_send(socket_t* self, const char* buffer, size_t length) {
 
 int socket_receive(socket_t* self, char* buffer, size_t length) {
     // Return total bytes received
+    printf("hello\n");
     return recv(self->fd, (void*) buffer, length, 0 /*flags*/);
 }

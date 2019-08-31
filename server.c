@@ -15,11 +15,11 @@ int server_start_to_receive(server_t* server, int (*receive_control)(const char*
 
     int bytes_recv = 0, total_bytes = 0;
     do {
-        printf("hola\n");
         bytes_recv = socket_receive(&server->s_socket, buffer, 4);
         total_bytes = bytes_recv + total_bytes;
-    } while (receive_control(buffer, total_bytes) == ERROR);
-
+    } while ( false /*receive_control(buffer, total_bytes ) == ERROR*/ );
+    printf("%i\n", bytes_recv);
+    printf("%s\n", buffer);
     return SUCCESS;
 }
 
