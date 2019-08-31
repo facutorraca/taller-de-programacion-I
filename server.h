@@ -9,7 +9,7 @@ typedef struct server {
     socket_t s_socket;
 } server_t;
 
-int server_start_to_receive(server_t* server_t, int (*receive_control)(const char*, int));
+int server_start_to_receive(server_t* server, char* buffer, int len_buff, int (*receive_control)(const char*, int));
 
 int server_start_to_listen(server_t* server);
 

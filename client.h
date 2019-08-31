@@ -9,7 +9,7 @@ typedef struct client {
     socket_t c_socket;
 } client_t;
 
-int client_start_to_send(client_t* server, const char* inst, int len_inst, int (*receive_control)(const char*, int));
+int client_start_to_send(client_t* server, const char* buffer, int len_buff, int (*send_control)(const char*, int));
 
 int client_init(client_t* client, const char* host, const char* port);
 

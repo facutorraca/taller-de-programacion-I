@@ -1,8 +1,8 @@
 #include "sudoku_server.h"
 #include "sudoku.h"
 #include "server.h"
-
 #include <stdio.h>
+#include <stdbool.h>
 
 #define SUCCESS 0
 #define ERROR 1
@@ -20,6 +20,11 @@ int sudoku_control_receive(const char* buffer, int total_bytes) {
     return SUCCESS;
 }
 
+int sudoku_server_process_instructions(const char* buffer, sudoku_t* sudoku) {
+    printf("Buffer: %s\n", buffer);
+    return SUCCESS;
+}
+
 int sudoku_server_start(const char* port) {
     server_t server;
     server_init(&server, port);
@@ -27,11 +32,14 @@ int sudoku_server_start(const char* port) {
     sudoku_t sudoku;
     sudoku_init(&sudoku);
 
-    sudoku_server_t sudoku_server;
-    sudoku_server.server = server;
-    sudoku_server.sudoku = sudoku;
+    server_start_to_listen(&server);
+    printf("Coneccion establecida\n");
 
-    server_start_to_listen(&sudoku_server.server);
-    server_start_to_receive(&sudoku_server.server, sudoku_control_receive);
+    char buffer[4] = {0};
+    bool connected = true;
+    while (connected) {
+        server_start_to_receive(&server, buffer, 4, sudoku_control_receive);
+        sudoku_server_process_instructions(buffer, &sudoku);
+    }
     return SUCCESS;
 }

@@ -10,16 +10,12 @@
 
 int receive_control(const char* buffer, int total_bytes);
 
-int server_start_to_receive(server_t* server, int (*receive_control)(const char*, int)) {
-    char buffer[4] = {0};   //Initialize buffer
-
+int server_start_to_receive(server_t* server, char* buffer, int len_buff, int (*receive_control)(const char*, int)) {
     int bytes_recv = 0, total_bytes = 0;
     do {
-        bytes_recv = socket_receive(&server->s_socket, buffer, 4);
+        bytes_recv = socket_receive(&server->s_socket, buffer, len_buff);
         total_bytes = bytes_recv + total_bytes;
-    } while ( false /*receive_control(buffer, total_bytes ) == ERROR*/ );
-    printf("%i\n", bytes_recv);
-    printf("%s\n", buffer);
+    } while (receive_control(buffer, total_bytes ) == ERROR);
     return SUCCESS;
 }
 
