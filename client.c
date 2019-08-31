@@ -1,4 +1,5 @@
 #include "client.h"
+#include "message.h"
 #include "socket.h"
 #include <stdio.h>
 #include <string.h>
@@ -10,14 +11,12 @@
 #define ERROR 1
 #define SUCCESS 0
 
-int send_control(const char* buffer, int total_bytes);
-
-int client_start_to_send(client_t* client, const char* buffer, int len_buff,int (*send_control)(const char*, int)) {
+int client_start_to_send(client_t* client, message_t msg) {
     int bytes_sent = 0, total_bytes = 0;
     do {
-        bytes_sent = socket_send(&client->c_socket, buffer, len_buff);
+        bytes_sent = socket_send(&client->c_socket, msg.buffer, msg.len_msg);
         total_bytes = bytes_sent + total_bytes;
-    } while (send_control(buffer, total_bytes) == ERROR);
+    } while (msg.len_msg != total_bytes);
     return SUCCESS;
 }
 

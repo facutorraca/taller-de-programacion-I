@@ -1,60 +1,52 @@
 #include "sudoku_client.h"
+#include "interface.h"
+#include "verifier.h"
 #include "client.h"
+#include "message.h"
 #include <stdbool.h>
 #include <stdio.h>
 
+#define MAX_BUFFER_INS 20 //Buffer to save instruction
 #define SUCCESS 0
 #define ERROR 1
 
-int sudoku_client_process_instruction(const char* inst, char* buffer) {
-    if((char)inst[0] == 'p') {
-        buffer[0] = (char)inst[0];
-        buffer[1] = (char)inst[4];
-        buffer[2] = (char)inst[9];
-        buffer[3] = (char)inst[11];
-        return 4;
-    } else if ((char)inst[0] == 'g') {
-        buffer[0] = 'G';
-    } else if ((char)inst[0] == 'v') {
-        buffer[0] = 'V';
-    } else if ((char)inst[0] == 'r') {
-        buffer[0] = 'R';
+
+int sudoku_client_process_instruction(message_t* msg, const char* buffer_ins) {
+    if(buffer_ins[0] == 'p' && verifier_verify_put_instruction(buffer_ins)) {
+        message_append_character(msg, 'P');
+        message_append_character(msg, buffer_ins[4]);
+        message_append_character(msg, buffer_ins[9]);
+        message_append_character(msg, buffer_ins[11]);
+        return SUCCESS;
+    } else if(buffer_ins[0] == 'g' && verifier_verify_get_instruction(buffer_ins)) {
+            message_append_character(msg, 'G');
+            return SUCCESS;
+    } else if(buffer_ins[0] == 'v' && verifier_verify_verify_instruction(buffer_ins)) {
+            message_append_character(msg, 'V');
+            return SUCCESS;
+    } else if(buffer_ins[0] == 'r' && verifier_verify_reset_instruction(buffer_ins)) {
+            message_append_character(msg, 'R');
+            return SUCCESS;
     }
-    return 1;
+    return ERROR;
 }
 
-int sudoku_client_get_instruction(char* buffer) {
-    char inst[12] = {0}; //Buffer for instructions
-    printf("Ingrese un comando...\n");
-    if (scanf("%s", inst) < 0) {
-        return ERROR;
-    };
-    return sudoku_client_process_instruction(inst, buffer);
-}
-
-int sudoku_client_control_send(const char* buffer, int total_bytes) {
-    if(total_bytes != 1 && total_bytes != 4) {
-        return ERROR;
+int sudoku_client_wait_instructions(client_t* client) {
+    message_t msg;
+    char buffer_ins[MAX_BUFFER_INS];
+    while (true) {
+        message_init(&msg); //Initialize new message
+        interface_get_new_instruction(buffer_ins, MAX_BUFFER_INS);
+        sudoku_client_process_instruction(&msg, buffer_ins);
+        client_start_to_send(client, msg);
     }
-    if(total_bytes == 1) {
-        char frt_buf = (char)buffer[0];
-        if(frt_buf != 'V' || frt_buf != 'R' || frt_buf != 'G') {
-            return ERROR;
-        }
-    }
-    return SUCCESS;
 }
 
 int sudoku_client_start(const char* host, const char* port) {
     client_t client;
     client_init(&client, host, port);
     client_connect_with_server(&client);
-
-    char buffer[4] = {0};
-    bool connected = true;
-    while (connected) {
-        int len_inst = sudoku_client_get_instruction(buffer);
-        client_start_to_send(&client, buffer, len_inst, sudoku_client_control_send);
-    }
+    //waint instructions to the server
+    sudoku_client_wait_instructions(&client);
     return SUCCESS;
 }

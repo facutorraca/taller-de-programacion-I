@@ -8,7 +8,7 @@
 #include <string.h>
 #include <netdb.h>
 
-#define ERROR -1
+#define ERROR 1
 #define SUCCESS 0
 #define MAX_PENDING_CONNECTIONS 10
 
@@ -76,6 +76,5 @@ int socket_send(socket_t* self, const char* buffer, size_t length) {
 
 int socket_receive(socket_t* self, char* buffer, size_t length) {
     // Return total bytes received
-    printf("hello\n");
     return recv(self->fd, (void*) buffer, length, 0 /*flags*/);
 }
