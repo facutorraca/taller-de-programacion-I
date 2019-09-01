@@ -56,11 +56,12 @@ int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
 int sudoku_server_process_send_message(message_t* msg, server_t* server) {
     uint32_t len = htonl(message_get_length(msg));
 
+    //Save the uint32 var in a char vector 
     char buf_len[4];
     buf_len[0] = len >> 24;
     buf_len[1] = len >> 16;
-    buf_len[2] = len >> 8; 
-    buf_len[3] = len;      
+    buf_len[2] = len >> 8;
+    buf_len[3] = len;
 
     message_t length;
     message_create(&length, buf_len, 4);
@@ -104,7 +105,7 @@ int sudoku_server_start(const char* port) {
     sudoku_server.sudoku = sudoku;
 
     server_start_to_listen(&sudoku_server.server);
-    printf("Coneccion establecida\n");
+    printf("Coneccion establecida...\n");
 
     sudoku_server_start_connection(&sudoku_server);
     return SUCCESS;

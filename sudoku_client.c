@@ -43,31 +43,39 @@ int sudoku_client_process_instruction(message_t* msg, const char* buffer_ins) {
     return ERROR;
 }
 
-int sudoku_client_start_to_recv(client_t* client, message_t* msg) {
+uint32_t sudoku_client_get_length_next_message(client_t* client, message_t* msg) {
     message_t len_next_msg;
     message_init(&len_next_msg);
     client_start_to_recv(client, &len_next_msg, 4);
-
     char buf_len[4];
     message_copy_in_buffer(&len_next_msg, buf_len, 4);
+    return ntohl((buf_len[0] <<  24) | (buf_len[1] << 16) | (buf_len[2] << 8) | buf_len[3]);
+}
 
-    uint32_t len = ntohl((buf_len[0] <<  24) | (buf_len[1] << 16) | (buf_len[2] << 8) | buf_len[3]);
+int sudoku_client_start_to_recv(client_t* client, message_t* msg) {
+    uint32_t len  = sudoku_client_get_length_next_message(client, msg);
     client_start_to_recv(client, msg, len);
+    show_msg(msg);
+    return SUCCESS;
+}
+
+int sudoku_client_start_to_send(client_t* client, message_t* msg) {
+    char buffer_ins[MAX_BUFFER_INS];
+    interface_get_new_instruction(buffer_ins, MAX_BUFFER_INS);
+    sudoku_client_process_instruction(msg, buffer_ins);
+    client_start_to_send(client, msg);
     return SUCCESS;
 }
 
 int sudoku_client_start_connection(client_t* client) {
     message_t msg;
-    char buffer_ins[MAX_BUFFER_INS];
     while (true) {
         message_init(&msg); //Initialize new message
-        interface_get_new_instruction(buffer_ins, MAX_BUFFER_INS);
-        sudoku_client_process_instruction(&msg, buffer_ins);
-        client_start_to_send(client, msg);
+        sudoku_client_start_to_send(client, &msg);
         message_init(&msg); //Initialize new message
         sudoku_client_start_to_recv(client, &msg);
-        show_msg(&msg);
     }
+    return SUCCESS;
 }
 
 int sudoku_client_start(const char* host, const char* port) {
