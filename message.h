@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define MAX_BUFFER 300
+#define MAX_BUFFER 705
 
 typedef struct message {
     char buffer[MAX_BUFFER];
@@ -19,5 +19,7 @@ int message_append_character(message_t* msg, char character);
 unsigned int message_get_length(message_t* msg);
 
 char message_get_first_character(message_t* msg);
+
+int message_copy_in_buffer(message_t* msg, char* buffer, int len_buff);
 
 #endif

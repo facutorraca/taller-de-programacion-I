@@ -18,4 +18,6 @@ int board_reset();
 
 int board_destroy();
 
+int board_get_numbers(board_t* board, char* buffer);
+
 #endif

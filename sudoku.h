@@ -9,4 +9,6 @@ typedef struct sudoku {
 
 int sudoku_init(sudoku_t* sudoku);
 
+int sudoku_get_board_numbers(sudoku_t* sudoku, char* buffer);
+
 #endif

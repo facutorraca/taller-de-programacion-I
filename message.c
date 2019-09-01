@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdint.h>
 
-#define MAX_BUFFER 300
 #define ERROR 1
 #define SUCCESS 0
 
@@ -38,4 +37,12 @@ unsigned int message_get_length(message_t* msg) {
 
 char message_get_first_character(message_t* msg) {
     return msg->buffer[0];
+}
+
+int message_copy_in_buffer(message_t* msg, char* buffer, int len_buff) {
+    if (msg->len_msg > len_buff) {
+        return ERROR;
+    }
+    strncpy(buffer, msg->buffer, msg->len_msg);
+    return SUCCESS;
 }

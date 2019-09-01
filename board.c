@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "board.h"
 #include "parser.h"
 
@@ -20,7 +21,6 @@ int board_get_square_values(char** numbers) {
 int board_complete_squares(board_t* board) {
     char* numbers[81];
     board_get_square_values(numbers);
-
     for(int i = 0; i < COLUMNS * ROWS; i++) {
         board->squares[i].number = (char)*numbers[i];
         if(board->squares[i].number != 0) {
@@ -38,4 +38,11 @@ board_t* board_create() {
 
     board_complete_squares(board);
     return board;
+}
+
+int board_get_numbers(board_t* board, char* buffer) {
+    for (int i = 0; i < COLUMNS * ROWS; i++) {
+        buffer[i] = board->squares[i].number;
+    }
+    return SUCCESS;
 }

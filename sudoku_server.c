@@ -1,6 +1,7 @@
 #include "sudoku_server.h"
 #include "sudoku.h"
 #include "message.h"
+#include "interface.h"
 #include "server.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -22,11 +23,32 @@ int control_recv(message_t* msg) {
     return ERROR;
 }
 
+int sudoku_server_get_board_to_send(message_t* board_msg, sudoku_t* sudoku) {
+    char board_numbers[81];
+    char board_design[703];
+    sudoku_get_board_numbers(sudoku, board_numbers);
+    interface_get_board_design(board_design, board_numbers);
+    int a = message_create(board_msg, board_design, 703);
+    printf("%i\n", a);
+    return SUCCESS;
+}
+
 int sudoku_server_process_message(message_t* msg, sudoku_t* sudoku) {
-    printf("%s\n",msg->buffer);
-    //for(int i = 0; i < msg->len_msg; i++){
-    //    printf("%c",msg->buffer[i]);
-    //}
+    char inst[4];
+    message_copy_in_buffer(msg, inst, 4);
+    if (inst[0] == 'G') {
+        message_t board_msg;
+        sudoku_server_get_board_to_send(&board_msg, sudoku);
+    }
+    if (inst[0] == 'V') {
+        printf("%s\n", inst);
+    }
+    if (inst[0] == 'R') {
+        printf("%s\n", inst);
+    }
+    if (inst[0] == 'P') {
+        printf("%s\n", inst);
+    }
     return SUCCESS;
 }
 
