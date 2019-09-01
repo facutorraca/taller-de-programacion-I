@@ -22,6 +22,15 @@ int server_start_to_receive(server_t* server, message_t* msg, int (*control_recv
     return SUCCESS;
 }
 
+int server_start_to_send(server_t* server, message_t* msg) {
+    int bytes_sent = 0, total_bytes = 0;
+    do {
+        bytes_sent = socket_send(&server->s_socket, msg->buffer, msg->len_msg);
+        total_bytes = bytes_sent + total_bytes;
+    } while (msg->len_msg != total_bytes);
+    return SUCCESS;
+}
+
 int server_start_to_listen(server_t* server) {
     socket_bind(&server->acceptor, server->port);
     socket_listen(&server->acceptor);
@@ -32,8 +41,8 @@ int server_start_to_listen(server_t* server) {
 }
 
 int server_init(server_t* server, const char* port) {
-    socket_init(&server->acceptor);
     socket_init(&server->s_socket);
+    socket_init(&server->acceptor);
     server->port = port;
     return SUCCESS;
 }

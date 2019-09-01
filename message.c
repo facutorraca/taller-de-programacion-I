@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #define ERROR 1
 #define SUCCESS 0
@@ -19,6 +20,7 @@ int message_create(message_t* msg, const char* str, int len) {
         return ERROR;
     }
     strncpy(msg->buffer, str, len);
+    msg->len_msg = len;
     return SUCCESS;
 }
 
@@ -31,12 +33,16 @@ int message_append_character(message_t* msg, char character) {
     return SUCCESS;
 }
 
-unsigned int message_get_length(message_t* msg) {
+int message_get_length(message_t* msg) {
     return msg->len_msg;
 }
 
 char message_get_first_character(message_t* msg) {
     return msg->buffer[0];
+}
+
+char* message_get(message_t* msg) {
+    return msg->buffer;
 }
 
 int message_copy_in_buffer(message_t* msg, char* buffer, int len_buff) {

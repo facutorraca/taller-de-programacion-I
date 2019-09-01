@@ -2,6 +2,7 @@
 #define _MESSAGE_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #define MAX_BUFFER 705
 
@@ -16,7 +17,7 @@ int message_create(message_t* msg, const char* str, int len);
 
 int message_append_character(message_t* msg, char character);
 
-unsigned int message_get_length(message_t* msg);
+int message_get_length(message_t* msg);
 
 char message_get_first_character(message_t* msg);
 

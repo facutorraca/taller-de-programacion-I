@@ -14,9 +14,20 @@
 int client_start_to_send(client_t* client, message_t msg) {
     int bytes_sent = 0, total_bytes = 0;
     do {
-        bytes_sent = socket_send(&client->c_socket, msg.buffer, msg.len_msg);
+        bytes_sent = socket_send(&client->c_socket, msg.buffer, message_get_length(&msg));
         total_bytes = bytes_sent + total_bytes;
     } while (msg.len_msg != total_bytes);
+    return SUCCESS;
+}
+
+int client_start_to_recv(client_t* client, message_t* msg, int bytes_msg) {
+    char buffer[1]; //The message is capted byte by byte
+    do {
+        buffer[0] = 0;
+        if(socket_receive(&client->c_socket, buffer, 1) == 1) {
+            message_append_character(msg, buffer[0]);
+        }
+    } while (msg->len_msg != bytes_msg);
     return SUCCESS;
 }
 

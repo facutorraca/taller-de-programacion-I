@@ -4,7 +4,9 @@
 #include "interface.h"
 #include "server.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
+#include <arpa/inet.h>
 
 #define SUCCESS 0
 #define ERROR 1
@@ -28,17 +30,16 @@ int sudoku_server_get_board_to_send(message_t* board_msg, sudoku_t* sudoku) {
     char board_design[703];
     sudoku_get_board_numbers(sudoku, board_numbers);
     interface_get_board_design(board_design, board_numbers);
-    int a = message_create(board_msg, board_design, 703);
-    printf("%i\n", a);
+    message_init(board_msg); //Restart the message with length 0
+    message_create(board_msg, board_design, 703);
     return SUCCESS;
 }
 
-int sudoku_server_process_message(message_t* msg, sudoku_t* sudoku) {
+int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
     char inst[4];
     message_copy_in_buffer(msg, inst, 4);
     if (inst[0] == 'G') {
-        message_t board_msg;
-        sudoku_server_get_board_to_send(&board_msg, sudoku);
+        sudoku_server_get_board_to_send(msg, sudoku);
     }
     if (inst[0] == 'V') {
         printf("%s\n", inst);
@@ -52,12 +53,41 @@ int sudoku_server_process_message(message_t* msg, sudoku_t* sudoku) {
     return SUCCESS;
 }
 
-int sudoku_server_wait_instructions(sudoku_server_t* sudoku_server) {
+int sudoku_server_process_send_message(message_t* msg, server_t* server) {
+    uint32_t len = htonl(message_get_length(msg));
+
+    char buf_len[4];
+    buf_len[0] = len >> 24;
+    buf_len[1] = len >> 16;
+    buf_len[2] = len >> 8; 
+    buf_len[3] = len;      
+
+    message_t length;
+    message_create(&length, buf_len, 4);
+
+    //The 4-bytes message with a unsigned int 32 bits is send
+    server_start_to_send(server, &length);
+    return SUCCESS;
+}
+
+int sudoku_server_start_to_recv(sudoku_server_t* sudoku_server, message_t* msg) {
+    server_start_to_receive(&sudoku_server->server, msg, control_recv);
+    sudoku_server_process_recv_message(msg, &sudoku_server->sudoku);
+    return SUCCESS;
+}
+
+int sudoku_server_start_to_send(sudoku_server_t* sudoku_server, message_t* msg) {
+    sudoku_server_process_send_message(msg, &sudoku_server->server);
+    server_start_to_send(&sudoku_server->server, msg);
+    return SUCCESS;
+}
+
+int sudoku_server_start_connection(sudoku_server_t* sudoku_server) {
     message_t msg;
     while (true) {
         message_init(&msg); //Init a message with length 0
-        server_start_to_receive(&sudoku_server->server, &msg, control_recv);
-        sudoku_server_process_message(&msg, &sudoku_server->sudoku);
+        sudoku_server_start_to_recv(sudoku_server, &msg);
+        sudoku_server_start_to_send(sudoku_server, &msg);
     }
     return SUCCESS;
 }
@@ -76,6 +106,6 @@ int sudoku_server_start(const char* port) {
     server_start_to_listen(&sudoku_server.server);
     printf("Coneccion establecida\n");
 
-    sudoku_server_wait_instructions(&sudoku_server);
+    sudoku_server_start_connection(&sudoku_server);
     return SUCCESS;
 }

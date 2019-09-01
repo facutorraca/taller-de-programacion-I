@@ -11,6 +11,4 @@ typedef struct sudoku_server {
 
 int sudoku_server_start(const char* port);
 
-int sudoku_server_receive(sudoku_server_t* sudoku_server, char* buffer, int total_bytes);
-
 #endif
