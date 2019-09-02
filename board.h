@@ -23,4 +23,5 @@ int board_release();
 int board_get_numbers(board_t* board, char* buffer);
 
 int board_put_number(board_t* board, char num, char row, char col);
+
 #endif

@@ -45,11 +45,17 @@ int board_put_number(board_t* board, char num, char row, char col) {
     int pos = (((row - '0') - 1) * 9 + (col - '0')) - 1;
     printf("%i\n",pos);
     if(board->squares[pos].fixed) {
-        printf("llegue\n");
-        printf("el num: %c\n", board->squares[pos].number);
         return ERROR;
     }
-    printf("llegue\n");
     board->squares[pos].number = num;
+    return SUCCESS;
+}
+
+int board_reset(board_t* board) {
+    for (int i = 0; i < CANT_SQUARES; i++) {
+        if(!board->squares[i].fixed) {
+            board->squares[i].number = '0';
+        }
+    }
     return SUCCESS;
 }

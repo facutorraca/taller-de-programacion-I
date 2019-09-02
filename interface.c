@@ -43,7 +43,7 @@ int interface_get_board_design(char* buffer, char* numbers) {
             if(board_char == numbers[n_pos]) {
                 n_pos++;
             }
-            if(board_char == 0) {
+            if(board_char == '0') {
                 board_char = ' ';
             }
             buffer[i * (MAX_COL - 1) + j] = board_char;

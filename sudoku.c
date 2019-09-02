@@ -18,3 +18,7 @@ int sudoku_get_board_numbers(sudoku_t* sudoku, char* buffer) {
 int sudoku_put_number(sudoku_t* sudoku, char num, char row, char col) {
     return board_put_number(&sudoku->board, num, row, col);
 }
+
+int sudoku_reset(sudoku_t* sudoku) {
+    return board_reset(&sudoku->board);
+}
