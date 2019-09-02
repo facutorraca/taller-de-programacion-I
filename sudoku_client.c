@@ -13,10 +13,21 @@
 #define SUCCESS 0
 #define ERROR 1
 
+int control_recv_client(message_t* msg) {
+    if (message_get_length(msg) < 4) {
+        return ERROR;
+    }
+    uint32_t len = ntohl((msg->buffer[0] <<  24) | (msg->buffer[1] << 16) | (msg->buffer[2] << 8) | msg->buffer[3]);
+    if (message_get_length(msg) < len + 4) {
+        return ERROR;
+    }
+    return SUCCESS;
+}
+
 int show_msg(message_t* msg) {
     for (int i = 0; i < 19; i++) {
         for (int j = 0; j < 37; j++) {
-            printf("%c",msg->buffer[i*36+j]);
+            printf("%c",msg->buffer[(i*36+j)+4]);
         }
         printf("\n");
     }
@@ -43,20 +54,22 @@ int sudoku_client_process_instruction(message_t* msg, const char* buffer_ins) {
     return ERROR;
 }
 
-uint32_t sudoku_client_get_length_next_message(client_t* client, message_t* msg) {
-    message_t len_next_msg;
-    message_init(&len_next_msg);
-    client_start_to_recv(client, &len_next_msg, 4);
-    char buf_len[4];
-    message_copy_in_buffer(&len_next_msg, buf_len, 4);
-    return ntohl((buf_len[0] <<  24) | (buf_len[1] << 16) | (buf_len[2] << 8) | buf_len[3]);
+uint32_t sudoku_client_decode_msg(client_t* client, message_t* msg) {
+    char buffer[4];
+    message_copy_in_buffer(msg, buffer, 4);
+    return ntohl((buffer[0] <<  24) | (buffer[1] << 16) | (buffer[2] << 8) | buffer[3]);
 }
 
 int sudoku_client_start_to_recv(client_t* client, message_t* msg) {
-    uint32_t len  = sudoku_client_get_length_next_message(client, msg);
-    client_start_to_recv(client, msg, len);
+//    message_t msg;
+//    message_init(&msg);
+    client_start_to_recv(client, msg, control_recv_client);
     show_msg(msg);
     return SUCCESS;
+    /*
+    uint32_t len  = sudoku_client_get_length_next_message(client, msg);
+    client_start_to_recv(client, msg, len);
+    */
 }
 
 int sudoku_client_start_to_send(client_t* client, message_t* msg) {

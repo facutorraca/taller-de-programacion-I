@@ -11,7 +11,7 @@
 #define SUCCESS 0
 #define ERROR 1
 
-int control_recv(message_t* msg) {
+int control_recv_server(message_t* msg) {
     if(message_get_length(msg) == 0) {
         return ERROR;
     }
@@ -41,7 +41,6 @@ int sudoku_server_put_instruction(sudoku_t* sudoku, char num, char row, char col
 int sudoku_server_rst_instruction(sudoku_t* sudoku) {
     return sudoku_reset(sudoku);
 }
-
 
 int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
     char inst[4];
@@ -74,16 +73,17 @@ int sudoku_server_process_send_message(message_t* msg, server_t* server) {
     buf_len[2] = len >> 8;
     buf_len[3] = len;
 
-    message_t length;
-    message_create(&length, buf_len, 4);
+    message_t msg_with_len;
+    message_create(&msg_with_len, buf_len, 4);
+    message_concat(&msg_with_len, msg);
 
-    //The 4-bytes message with a unsigned int 32 bits is send
-    server_start_to_send(server, &length);
+    //The message now is a message with len
+    *msg = msg_with_len;
     return SUCCESS;
 }
 
 int sudoku_server_start_to_recv(sudoku_server_t* sudoku_server, message_t* msg) {
-    server_start_to_receive(&sudoku_server->server, msg, control_recv);
+    server_start_to_receive(&sudoku_server->server, msg, control_recv_server);
     sudoku_server_process_recv_message(msg, &sudoku_server->sudoku);
     return SUCCESS;
 }

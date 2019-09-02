@@ -10,6 +10,7 @@
 
 #define ERROR 1
 #define SUCCESS 0
+int control_recv(message_t* msg);
 
 int client_start_to_send(client_t* client, message_t* msg) {
     int bytes_sent = 0, total_bytes = 0;
@@ -20,14 +21,14 @@ int client_start_to_send(client_t* client, message_t* msg) {
     return SUCCESS;
 }
 
-int client_start_to_recv(client_t* client, message_t* msg, int bytes_msg) {
+int client_start_to_recv(client_t* client, message_t* msg, int (*control_recv)(message_t*)) {
     char buffer[1]; //The message is capted byte by byte
     do {
         buffer[0] = 0;
         if(socket_receive(&client->c_socket, buffer, 1) == 1) {
             message_append_character(msg, buffer[0]);
         }
-    } while (msg->len_msg != bytes_msg);
+    } while (control_recv(msg) == ERROR);
     return SUCCESS;
 }
 

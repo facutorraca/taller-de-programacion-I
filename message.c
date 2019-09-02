@@ -15,7 +15,7 @@ int message_init(message_t* msg) {
     return SUCCESS;
 }
 
-int message_create(message_t* msg, const char* str, int len) {
+int message_create(message_t* msg, const char* str, uint32_t len) {
     if(len > MAX_BUFFER) {
         return ERROR;
     }
@@ -33,7 +33,7 @@ int message_append_character(message_t* msg, char character) {
     return SUCCESS;
 }
 
-int message_get_length(message_t* msg) {
+uint32_t message_get_length(message_t* msg) {
     return msg->len_msg;
 }
 
@@ -50,5 +50,13 @@ int message_copy_in_buffer(message_t* msg, char* buffer, int len_buff) {
         return ERROR;
     }
     strncpy(buffer, msg->buffer, msg->len_msg);
+    return SUCCESS;
+}
+
+int message_concat(message_t* frt, message_t* scd) {
+    for (int i = 0; i < scd->len_msg; i++) {
+        frt->buffer[i + frt->len_msg] = scd->buffer[i];
+    }
+    frt->len_msg = frt->len_msg + scd->len_msg;
     return SUCCESS;
 }

@@ -16,6 +16,6 @@ int client_init(client_t* client, const char* host, const char* port);
 
 int client_connect_with_server(client_t* client);
 
-int client_start_to_recv(client_t* client, message_t* msg, int bytes_msg);
+int client_start_to_recv(client_t* client, message_t* msg,  int (*control_recv)(message_t*));
 
 #endif
