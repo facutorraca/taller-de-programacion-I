@@ -30,14 +30,18 @@ int sudoku_server_get_board_to_send(message_t* board_msg, sudoku_t* sudoku) {
     char board_design[703];
     sudoku_get_board_numbers(sudoku, board_numbers);
     interface_get_board_design(board_design, board_numbers);
-    message_init(board_msg); //Restart the message with length 0
     message_create(board_msg, board_design, 703);
     return SUCCESS;
+}
+
+int sudoku_server_put_instruction(sudoku_t* sudoku, char num, char row, char col) {
+    return sudoku_put_number(sudoku, num, row, col);
 }
 
 int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
     char inst[4];
     message_copy_in_buffer(msg, inst, 4);
+    message_init(msg); //Restart the message with length 0
     if (inst[0] == 'G') {
         sudoku_server_get_board_to_send(msg, sudoku);
     }
@@ -48,7 +52,8 @@ int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
         printf("%s\n", inst);
     }
     if (inst[0] == 'P') {
-        printf("%s\n", inst);
+        sudoku_server_put_instruction(sudoku, inst[1], inst[2], inst[3]);
+        sudoku_server_get_board_to_send(msg, sudoku);
     }
     return SUCCESS;
 }

@@ -20,7 +20,7 @@ int board_complete_squares(board_t* board) {
     board_get_square_values(numbers);
     for (int i = 0; i < CANT_SQUARES; i++) {
         board->squares[i].number = numbers[i];
-        if(board->squares[i].number != 0) {
+        if(board->squares[i].number != '0') {
             board->squares[i].fixed = true;
         } else {
             board->squares[i].fixed = false;
@@ -38,5 +38,18 @@ int board_get_numbers(board_t* board, char* buffer) {
     for (int i = 0; i < CANT_SQUARES; i++) {
         buffer[i] = board->squares[i].number;
     }
+    return SUCCESS;
+}
+
+int board_put_number(board_t* board, char num, char row, char col) {
+    int pos = (((row - '0') - 1) * 9 + (col - '0')) - 1;
+    printf("%i\n",pos);
+    if(board->squares[pos].fixed) {
+        printf("llegue\n");
+        printf("el num: %c\n", board->squares[pos].number);
+        return ERROR;
+    }
+    printf("llegue\n");
+    board->squares[pos].number = num;
     return SUCCESS;
 }
