@@ -1,6 +1,8 @@
 #ifndef _BOARD_H_
 #define _BOARD_H_
 
+#define CANT_SQUARES 81
+
 #include <stdbool.h>
 
 typedef struct square {
@@ -9,14 +11,14 @@ typedef struct square {
 } square_t;
 
 typedef struct board {
-    square_t* squares;
+    square_t squares[CANT_SQUARES];
 } board_t;
 
-board_t* board_create();
+int board_init(board_t* board);
 
 int board_reset();
 
-int board_destroy();
+int board_release();
 
 int board_get_numbers(board_t* board, char* buffer);
 
