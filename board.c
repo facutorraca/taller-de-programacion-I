@@ -1,34 +1,29 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include "board.h"
 #include "parser.h"
 
-#define MAX_ROW 9
-#define MAX_COL 9
 #define SUCCESS 0
 #define ERROR 1
 
 int board_get_square_values(char* numbers) {
     parser_t parser;
-    parser_init(&parser, "board.txt", numbers, " \n");
-    parser_set_max_line_length(&parser, 18); //Including "\n"
-    parser_process_file(&parser);
+    parser_init(&parser, "board.txt");
+    parser_process_file(&parser, numbers);
     return SUCCESS;
 }
 
 int board_complete_squares(board_t* board) {
     char numbers[CANT_SQUARES];
     board_get_square_values(numbers);
-    for (int i = 0; i < MAX_ROW; i++) {
-        for (int j = 0; j < MAX_COL; j++) {
-            int pos = i * (MAX_COL - 1) + j;
-            board->squares[pos] = numbers[pos];
-            if(board->squares[i].number != 0) {
-                board->squares[i].fixed = true;
-            } else {
-                board->squares[i].fixed = false;
-            }
+    for (int i = 0; i < CANT_SQUARES; i++) {
+        board->squares[i].number = numbers[i];
+        if(board->squares[i].number != 0) {
+            board->squares[i].fixed = true;
+        } else {
+            board->squares[i].fixed = false;
         }
     }
     return SUCCESS;
@@ -40,7 +35,7 @@ int board_init(board_t* board) {
 }
 
 int board_get_numbers(board_t* board, char* buffer) {
-    for (int i = 0; i < COLUMNS * ROWS; i++) {
+    for (int i = 0; i < CANT_SQUARES; i++) {
         buffer[i] = board->squares[i].number;
     }
     return SUCCESS;

@@ -56,7 +56,7 @@ int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
 int sudoku_server_process_send_message(message_t* msg, server_t* server) {
     uint32_t len = htonl(message_get_length(msg));
 
-    //Save the uint32 var in a char vector 
+    //Save the uint32 var in a char vector
     char buf_len[4];
     buf_len[0] = len >> 24;
     buf_len[1] = len >> 16;

@@ -22,7 +22,7 @@ char interface_get_board_char(int row, int col, char next_number) {
         return '-';
     }
     if (col % 2 == 0 /*U and = cases are contemplated above*/) {
-        return 'X'; //MODIFICAR
+        return next_number;
     }
     return ' ';
 }
