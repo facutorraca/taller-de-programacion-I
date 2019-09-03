@@ -25,7 +25,7 @@ int control_recv_server(message_t* msg) {
     return ERROR;
 }
 
-int sudoku_server_get_board_to_send(message_t* board_msg, sudoku_t* sudoku) {
+int sudoku_server_get_board_to_send(sudoku_t* sudoku, message_t* board_msg) {
     char board_numbers[81];
     char board_design[703];
     sudoku_get_board_numbers(sudoku, board_numbers);
@@ -34,16 +34,25 @@ int sudoku_server_get_board_to_send(message_t* board_msg, sudoku_t* sudoku) {
     return SUCCESS;
 }
 
-int sudoku_server_put_instruction(sudoku_t* sudoku, char num, char row, char col) {
-    return sudoku_put_number(sudoku, num, row, col);
+int sudoku_server_put_instruction(sudoku_t* sudoku, char num, char row, char col, message_t* msg) {
+    sudoku_put_number(sudoku, num, row, col);
+    sudoku_server_get_board_to_send(sudoku, msg);
+    return SUCCESS;
 }
 
-int sudoku_server_rst_instruction(sudoku_t* sudoku) {
-    return sudoku_reset(sudoku);
+int sudoku_server_rst_instruction(sudoku_t* sudoku, message_t* msg) {
+    sudoku_reset(sudoku);
+    sudoku_server_get_board_to_send(sudoku, msg);
+    return SUCCESS;
 }
 
-int sudoku_server_vrf_instruction(sudoku_t* sudoku) {
-    return sudoku_verify(sudoku);
+int sudoku_server_vrf_instruction(sudoku_t* sudoku, message_t* msg) {
+    if(sudoku_verify(sudoku) == SUCCESS) {
+        message_create(msg, "OK\n", 3);
+    } else {
+        message_create(msg, "ERROR\n", 6);
+    }
+    return SUCCESS;
 }
 
 int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
@@ -51,18 +60,16 @@ int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
     message_copy_in_buffer(msg, inst, 4);
     message_init(msg); //Restart the message with length 0
     if (inst[0] == 'G') {
-        sudoku_server_get_board_to_send(msg, sudoku);
+        sudoku_server_get_board_to_send(sudoku, msg);
     }
     if (inst[0] == 'V') {
-        sudoku_server_vrf_instruction(sudoku);
+        sudoku_server_vrf_instruction(sudoku, msg);
     }
     if (inst[0] == 'R') {
-        sudoku_server_rst_instruction(sudoku);
-        sudoku_server_get_board_to_send(msg, sudoku);
+        sudoku_server_rst_instruction(sudoku, msg);
     }
     if (inst[0] == 'P') {
-        sudoku_server_put_instruction(sudoku, inst[1], inst[2], inst[3]);
-        sudoku_server_get_board_to_send(msg, sudoku);
+        sudoku_server_put_instruction(sudoku, inst[1], inst[2], inst[3], msg);
     }
     return SUCCESS;
 }
