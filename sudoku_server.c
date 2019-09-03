@@ -43,7 +43,7 @@ int sudoku_server_rst_instruction(sudoku_t* sudoku) {
 }
 
 int sudoku_server_vrf_instruction(sudoku_t* sudoku) {
-    return sudoku_vrf(sudoku);
+    return sudoku_verify(sudoku);
 }
 
 int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {

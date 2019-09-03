@@ -27,10 +27,11 @@ int sudoku_verify(sudoku_t* sudoku) {
     if(board_verify_row(&sudoku->board) == ERROR) {
         return ERROR;
     }
-    if(board_verify_column(&sudoku->board) == ERROR) {
+    if(board_verify_col(&sudoku->board) == ERROR) {
         return ERROR;
     }
     if(board_verify_box(&sudoku->board) == ERROR) {
         return ERROR;
     }
+    return SUCCESS;
 }

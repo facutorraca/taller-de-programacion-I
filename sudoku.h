@@ -15,4 +15,6 @@ int sudoku_put_number(sudoku_t* sudoku, char num, char row, char col);
 
 int sudoku_reset(sudoku_t* sudoku);
 
+int sudoku_verify(sudoku_t* sudoku);
+
 #endif
