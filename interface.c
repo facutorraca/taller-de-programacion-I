@@ -51,3 +51,8 @@ int interface_get_board_design(char* buffer, char* numbers) {
     }
     return SUCCESS;
 }
+
+int interface_conection_success() {
+    printf("Conneccion establecida...\n");
+    return SUCCESS;
+}

@@ -6,17 +6,13 @@
 #include "socket.h"
 #include "message.h"
 
-#define ERROR 1
-#define SUCCESS 0
-
 int control_recv(message_t* msg);
 
-int server_start_to_receive(server_t* server, message_t* msg, int (*control_recv)(message_t*) ) {
-    char buffer[1]; //The message is capted byte by byte
+int server_start_to_recv(server_t* server, message_t* msg, int (*control_recv)(message_t*) ) {
+    char byte; //The message is capted byte by byte
     do {
-        buffer[0] = 0;
-        if(socket_receive(&server->s_socket, buffer, 1) == 1) {
-            message_append_character(msg, buffer[0]);
+        if(socket_receive(&server->s_socket, &byte, 1) == 1) {
+            message_append_character(msg, byte);
         }
     } while (control_recv(msg) == ERROR);
     return SUCCESS;

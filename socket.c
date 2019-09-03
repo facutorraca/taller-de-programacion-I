@@ -12,8 +12,6 @@
 #define SUCCESS 0
 #define MAX_PENDING_CONNECTIONS 10
 
-#include <stdio.h>
-
 int socket_getaddrinfo(struct addrinfo** result, const char* service, int ai_flags) {
     struct addrinfo hints; //Criteria for selecting the socket address structures
 
@@ -25,7 +23,7 @@ int socket_getaddrinfo(struct addrinfo** result, const char* service, int ai_fla
 }
 
 int socket_init(socket_t* self) {
-    self->fd = -1;       //Initiaize file descriptor value
+    self->fd = -1; //Initiaize file descriptor value
     return SUCCESS;
 }
 
@@ -35,12 +33,14 @@ int socket_bind(socket_t* self, const char* service) {
 
     while (result) {
         self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-        if( bind(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
+        if (bind(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
+            freeaddrinfo(result);
             return SUCCESS;
         }
         close(self->fd);
         result = result->ai_next;
     }
+    freeaddrinfo(result);
     return ERROR;
 }
 
@@ -54,18 +54,20 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
 
     while (result) {
         self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-        if( connect(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
+        if (connect(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
+            freeaddrinfo(result);
             return SUCCESS;
         }
         close(self->fd);
         result = result->ai_next;
     }
+    freeaddrinfo(result);
     return ERROR;
 }
 
 int socket_accept(socket_t* acceptor, socket_t* s_socket, const char* service) {
     //client_address and client_address_lenght is NULL because is not needed
-    s_socket->fd = accept(acceptor->fd, NULL /*client_address*/, NULL /*client_address_lenght*/);
+    s_socket->fd = accept(acceptor->fd, NULL, NULL);
     return SUCCESS;
 }
 

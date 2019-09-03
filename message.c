@@ -60,3 +60,13 @@ int message_concat(message_t* frt, message_t* scd) {
     frt->len_msg = frt->len_msg + scd->len_msg;
     return SUCCESS;
 }
+
+int message_get_nfirst(message_t* msg, char* buffer, int n) {
+    if(msg->len_msg > n) {
+        return ERROR;
+    }
+    for(int i = 0; i < n; i++) {
+        buffer[i] = msg->buffer[i];
+    }
+    return SUCCESS;
+}

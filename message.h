@@ -25,4 +25,8 @@ int message_copy_in_buffer(message_t* msg, char* buffer, int len_buff);
 
 int message_concat(message_t* frt, message_t* scd);
 
+int message_get_nfirst(message_t* msg, char* buffer, int n);
+
+char* message_get(message_t* msg);
+
 #endif
