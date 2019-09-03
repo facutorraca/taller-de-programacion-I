@@ -42,6 +42,10 @@ int sudoku_server_rst_instruction(sudoku_t* sudoku) {
     return sudoku_reset(sudoku);
 }
 
+int sudoku_server_vrf_instruction(sudoku_t* sudoku) {
+    return sudoku_vrf(sudoku);
+}
+
 int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
     char inst[4];
     message_copy_in_buffer(msg, inst, 4);
@@ -50,7 +54,7 @@ int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
         sudoku_server_get_board_to_send(msg, sudoku);
     }
     if (inst[0] == 'V') {
-        printf("%s\n", inst);
+        sudoku_server_vrf_instruction(sudoku);
     }
     if (inst[0] == 'R') {
         sudoku_server_rst_instruction(sudoku);

@@ -22,3 +22,15 @@ int sudoku_put_number(sudoku_t* sudoku, char num, char row, char col) {
 int sudoku_reset(sudoku_t* sudoku) {
     return board_reset(&sudoku->board);
 }
+
+int sudoku_verify(sudoku_t* sudoku) {
+    if(board_verify_row(&sudoku->board) == ERROR) {
+        return ERROR;
+    }
+    if(board_verify_column(&sudoku->board) == ERROR) {
+        return ERROR;
+    }
+    if(board_verify_box(&sudoku->board) == ERROR) {
+        return ERROR;
+    }
+}

@@ -1,17 +1,19 @@
 #ifndef _BOARD_H_
 #define _BOARD_H_
 
-#define CANT_SQUARES 81
+#define CANT_SQR 81
+#define CANT_ROW 9
+#define CANT_COL 9
+#define CANT_BOX 9
 
 #include <stdbool.h>
-
-typedef struct square {
-    char number;
-    bool fixed;
-} square_t;
+#include "square.h"
 
 typedef struct board {
-    square_t squares[CANT_SQUARES];
+    square_t square[CANT_SQUARES];
+    //row_t row[CANT_ROW];
+    //box_t box[CANT_BOX];
+    //column_t column[CANT_COL];
 } board_t;
 
 int board_init(board_t* board);
