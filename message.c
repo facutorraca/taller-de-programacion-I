@@ -9,27 +9,36 @@
 
 int message_init(message_t* msg) {
     msg->len_msg = 0;
-    for (int i = 0; i < MAX_BUFFER; i++){
+    for (int i = 0; i < MAX_BUFFER_MSG; i++){
         msg->buffer[i] = 0;
     }
     return SUCCESS;
 }
 
 int message_create(message_t* msg, const char* str, uint32_t len) {
-    if(len > MAX_BUFFER) {
+    if(len > MAX_BUFFER_MSG) {
         return ERROR;
     }
-    strncpy(msg->buffer, str, len);
+    for (int i = 0; i < len; i++){
+        msg->buffer[i] = str[i];
+    }
     msg->len_msg = len;
     return SUCCESS;
 }
 
 int message_append_character(message_t* msg, char character) {
-    if(msg->len_msg >= MAX_BUFFER) {
+    if(msg->len_msg >= MAX_BUFFER_MSG) {
         return ERROR;
     }
     msg->buffer[msg->len_msg] = character;
     msg->len_msg++;
+    return SUCCESS;
+}
+
+int message_print(message_t* msg) {
+    for (int i = 0; i < msg->len_msg; i++) {
+        printf("%c", msg->buffer[i]);
+    }
     return SUCCESS;
 }
 
@@ -72,12 +81,12 @@ int message_get_nfirst(message_t* msg, char* buffer, int n) {
 }
 
 int message_append_string(message_t* msg, char* str, int len) {
-    if (msg->len_msg + len > MAX_BUFFER) {
+    if (msg->len_msg + len > MAX_BUFFER_MSG) {
         return ERROR;
     }
     for (int i = msg->len_msg; i < msg->len_msg + len; i++) {
         msg->buffer[i] = str[i - msg->len_msg];
     }
     msg->len_msg = msg->len_msg + len;
-    return SUCCESS; 
+    return SUCCESS;
 }

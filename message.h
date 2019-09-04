@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define MAX_BUFFER 708
+#define MAX_BUFFER_MSG 723
 
 typedef struct message {
-    char buffer[MAX_BUFFER];
+    char buffer[MAX_BUFFER_MSG];
     uint32_t len_msg;
 } message_t;
 
@@ -28,6 +28,8 @@ int message_concat(message_t* frt, message_t* scd);
 int message_get_nfirst(message_t* msg, char* buffer, int n);
 
 int message_append_string(message_t* msg, char* str, int len);
+
+int message_print(message_t* msg);
 
 char* message_get(message_t* msg);
 

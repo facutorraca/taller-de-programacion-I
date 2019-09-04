@@ -16,6 +16,7 @@ int client_start_to_recv(client_t* client, message_t* msg, uint32_t length_msg) 
         bytes_recv = socket_receive(&client->c_socket, &buffer[total_bytes], MAX_BUFFER - total_bytes);
         message_append_string(msg, &buffer[total_bytes], bytes_recv);
         total_bytes = total_bytes + bytes_recv;
+        printf("%i\n", bytes_recv);
     } while (message_get_length(msg) != length_msg);
     return SUCCESS;
 }
@@ -23,7 +24,7 @@ int client_start_to_recv(client_t* client, message_t* msg, uint32_t length_msg) 
 int client_start_to_send(client_t* client, message_t* msg) {
     int bytes_sent = 0, total_bytes = 0;
     do {
-        bytes_sent = socket_send(&client->c_socket, msg->buffer, message_get_length(msg));
+        bytes_sent = socket_send(&client->c_socket, &msg->buffer[total_bytes], message_get_length(msg) - total_bytes);
         total_bytes = bytes_sent + total_bytes;
     } while (msg->len_msg != total_bytes);
     return SUCCESS;

@@ -14,24 +14,6 @@
 #define SUCCESS 0
 #define ERROR 1
 
-//DE PRUEBA!
-int show_msg(message_t* msg) {
-    if(msg->len_msg == 703) {
-        for (int i = 0; i < 19; i++) {
-            for (int j = 0; j < 37; j++) {
-                printf("%c",msg->buffer[(i*36+j)]);
-            }
-            printf("\n");
-        }
-    }
-    else {
-        for (int j = 0; j < msg->len_msg; j++) {
-            printf("%c",msg->buffer[j]);
-        }
-    }
-    return SUCCESS;
-}
-
 int sudoku_client_put_instruction(message_t* msg, const char* instruction) {
     message_append_character(msg, 'P');
     message_append_character(msg, instruction[4]);
@@ -65,7 +47,6 @@ int sudoku_client_start_to_recv(client_t* client, message_t* msg) {
 
     message_init(msg); //Restart the message to receive the new one
     client_start_to_recv(client, msg, len_next_message);
-    show_msg(msg);
     return SUCCESS;
 }
 
@@ -84,6 +65,7 @@ int sudoku_client_start_connection(client_t* client) {
         sudoku_client_start_to_send(client, &msg);
         message_init(&msg); //Restart the message
         sudoku_client_start_to_recv(client, &msg);
+        interface_print_message(&msg);
     }
     return SUCCESS;
 }

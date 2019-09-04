@@ -22,7 +22,7 @@ int server_start_to_recv(server_t* server, message_t* msg, int (*control_recv)(m
 int server_start_to_send(server_t* server, message_t* msg) {
     int bytes_sent = 0, total_bytes = 0;
     do {
-        bytes_sent = socket_send(&server->s_socket, msg->buffer, msg->len_msg);
+        bytes_sent = socket_send(&server->s_socket, &msg->buffer[total_bytes], message_get_length(msg) - total_bytes);
         total_bytes = bytes_sent + total_bytes;
     } while (msg->len_msg != total_bytes);
     return SUCCESS;
