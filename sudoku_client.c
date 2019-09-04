@@ -51,22 +51,31 @@ int sudoku_client_start_to_recv(client_t* client, message_t* msg) {
 }
 
 int sudoku_client_start_to_send(client_t* client, message_t* msg) {
-    char buffer_ins[MAX_BUFFER_INS];
-    interface_get_new_instruction(buffer_ins, MAX_BUFFER_INS);
-    sudoku_client_process_send_message(msg, buffer_ins);
     client_start_to_send(client, msg);
     return SUCCESS;
 }
 
+int sudoku_client_close(client_t* client) {
+    client_release(client);
+    return SUCCESS;
+}
+
 int sudoku_client_start_connection(client_t* client) {
-    message_t msg; //Message to communicate with server
-    while (true) {
+    char inst[MAX_BUFFER_INS] = {0};
+    interface_get_new_instruction(inst, MAX_BUFFER_INS);
+
+    message_t msg;
+    while (strcmp("exit\n",inst) != 0) {
         message_init(&msg); //Initialize new message
+        sudoku_client_process_send_message(&msg, inst);
         sudoku_client_start_to_send(client, &msg);
         message_init(&msg); //Restart the message
         sudoku_client_start_to_recv(client, &msg);
         interface_print_message(&msg);
+        interface_get_new_instruction(inst, MAX_BUFFER_INS);
     }
+
+    sudoku_client_close(client);
     return SUCCESS;
 }
 
