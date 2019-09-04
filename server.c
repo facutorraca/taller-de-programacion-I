@@ -43,3 +43,9 @@ int server_init(server_t* server, const char* port) {
     server->port = port;
     return SUCCESS;
 }
+
+int server_release(server_t* server) {
+    socket_release(&server->s_socket);
+    socket_release(&server->acceptor);
+    return SUCCESS;
+}

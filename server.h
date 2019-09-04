@@ -22,4 +22,6 @@ int server_start_to_listen(server_t* server);
 
 int server_init(server_t* server, const char* port);
 
+int server_release(server_t* server);
+
 #endif

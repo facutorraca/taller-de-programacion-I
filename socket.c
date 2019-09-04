@@ -80,3 +80,7 @@ int socket_receive(socket_t* self, char* buffer, size_t length) {
     // Return total bytes received
     return recv(self->fd, (void*) buffer, length, 0 /*flags*/);
 }
+
+int socket_release(socket_t* socket) {
+    return close(socket->fd);
+}

@@ -16,7 +16,6 @@ int client_start_to_recv(client_t* client, message_t* msg, uint32_t length_msg) 
         bytes_recv = socket_receive(&client->c_socket, &buffer[total_bytes], MAX_BUFFER - total_bytes);
         message_append_string(msg, &buffer[total_bytes], bytes_recv);
         total_bytes = total_bytes + bytes_recv;
-        printf("%i\n", bytes_recv);
     } while (message_get_length(msg) != length_msg);
     return SUCCESS;
 }
@@ -40,4 +39,8 @@ int client_init(client_t* client, const char* host, const char* port) {
     client->host = host;
     client->port = port;
     return SUCCESS;
+}
+
+int client_release(client_t* client) {
+    return socket_release(&client->c_socket);
 }
