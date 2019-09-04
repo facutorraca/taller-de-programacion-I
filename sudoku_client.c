@@ -16,32 +16,18 @@
 
 //DE PRUEBA!
 int show_msg(message_t* msg) {
-    if(msg->len_msg == 707) {
+    if(msg->len_msg == 703) {
         for (int i = 0; i < 19; i++) {
             for (int j = 0; j < 37; j++) {
-                printf("%c",msg->buffer[(i*36+j)+4]);
+                printf("%c",msg->buffer[(i*36+j)]);
             }
             printf("\n");
         }
     }
     else {
-        for (int j = 0; j < msg->len_msg - 4; j++) {
-            printf("%c",msg->buffer[j + 4]);
+        for (int j = 0; j < msg->len_msg; j++) {
+            printf("%c",msg->buffer[j]);
         }
-    }
-    return SUCCESS;
-}
-
-int control_recv_client(message_t* msg) {
-    if (message_get_length(msg) < 4) {
-        return ERROR;
-    }
-    char array_with_len[4];
-    message_get_nfirst(msg, array_with_len, 4);
-
-    uint32_t len = ntohl(array_to_uint(array_with_len));
-    if (message_get_length(msg) < len + 4) {
-        return ERROR;
     }
     return SUCCESS;
 }
@@ -66,8 +52,19 @@ int sudoku_client_process_send_message(message_t* msg, const char* instruction) 
     }
 }
 
+uint32_t process_length_message(message_t* msg) {
+    char array_with_len[4];
+    message_get_nfirst(msg, array_with_len, 4);
+    return ntohl(array_to_uint(array_with_len));
+    return SUCCESS;
+}
+
 int sudoku_client_start_to_recv(client_t* client, message_t* msg) {
-    client_start_to_recv(client, msg, control_recv_client);
+    client_start_to_recv(client, msg, 4);
+    uint32_t len_next_message = process_length_message(msg);
+
+    message_init(msg); //Restart the message to receive the new one
+    client_start_to_recv(client, msg, len_next_message);
     show_msg(msg);
     return SUCCESS;
 }

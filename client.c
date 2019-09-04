@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 #include "client.h"
@@ -8,13 +9,13 @@
 
 int control_recv(message_t* msg);
 
-int client_start_to_recv(client_t* client, message_t* msg, int (*control_recv)(message_t*)) {
+int client_start_to_recv(client_t* client, message_t* msg, uint32_t length_msg) {
     char byte; //The message is capted byte by byte
     do {
         if(socket_receive(&client->c_socket, &byte, 1) == 1) {
             message_append_character(msg, byte);
         }
-    } while (control_recv(msg) == ERROR);
+    } while (message_get_length(msg) != length_msg);
     return SUCCESS;
 }
 

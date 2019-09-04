@@ -63,18 +63,13 @@ int sudoku_server_get_instruction(sudoku_t* sudoku, message_t* msg) {
     return SUCCESS;
 }
 
-int sudoku_server_process_send_message(message_t* msg, server_t* server) {
+int sudoku_server_process_length_message(message_t* msg, message_t* length_msg) {
     uint32_t len = htonl(message_get_length(msg));
 
     char array_with_len[4];
     uint_to_array(array_with_len, len);
 
-    message_t msg_with_len;
-    message_create(&msg_with_len, array_with_len, 4);
-    message_concat(&msg_with_len, msg);
-
-    //The message now is a message with len
-    *msg = msg_with_len;
+    message_create(length_msg, array_with_len, 4);
     return SUCCESS;
 }
 
@@ -95,7 +90,9 @@ int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
 }
 
 int sudoku_server_start_to_send(sudoku_server_t* sudoku_server, message_t* msg) {
-    sudoku_server_process_send_message(msg, &sudoku_server->server);
+    message_t length_msg;
+    sudoku_server_process_length_message(msg, &length_msg);
+    server_start_to_send(&sudoku_server->server, &length_msg);
     server_start_to_send(&sudoku_server->server, msg);
     return SUCCESS;
 }
