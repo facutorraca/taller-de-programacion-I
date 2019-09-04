@@ -84,6 +84,9 @@ int message_append_string(message_t* msg, char* str, int len) {
     if (msg->len_msg + len > MAX_BUFFER_MSG) {
         return ERROR;
     }
+    if (len == 0) {
+        return ERROR;
+    }
     for (int i = msg->len_msg; i < msg->len_msg + len; i++) {
         msg->buffer[i] = str[i - msg->len_msg];
     }

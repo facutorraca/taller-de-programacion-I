@@ -24,8 +24,8 @@ int control_recv_server(message_t* msg) {
 }
 
 int sudoku_server_get_board_to_send(sudoku_t* sudoku, message_t* msg) {
-    char board_numbers[81];
-    char board_design[722];
+    char board_numbers[81] = {0};
+    char board_design[722] = {0};
     sudoku_get_board_numbers(sudoku, board_numbers);
     interface_get_board_design(board_design, board_numbers);
     message_create(msg, board_design, 722);
