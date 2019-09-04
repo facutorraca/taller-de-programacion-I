@@ -27,6 +27,8 @@ int message_concat(message_t* frt, message_t* scd);
 
 int message_get_nfirst(message_t* msg, char* buffer, int n);
 
+int message_append_string(message_t* msg, char* str, int len);
+
 char* message_get(message_t* msg);
 
 #endif

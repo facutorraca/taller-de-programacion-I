@@ -6,6 +6,7 @@
 
 #define ERROR 1
 #define SUCCESS 0
+#define MAX_BUFFER 708
 
 typedef struct server {
     const char* port;

@@ -9,11 +9,12 @@
 int control_recv(message_t* msg);
 
 int server_start_to_recv(server_t* server, message_t* msg, int (*control_recv)(message_t*) ) {
-    char byte; //The message is capted byte by byte
+    char buffer[MAX_BUFFER];
+    int total_bytes = 0, bytes_recv = 0;
     do {
-        if(socket_receive(&server->s_socket, &byte, 1) == 1) {
-            message_append_character(msg, byte);
-        }
+        bytes_recv = socket_receive(&server->s_socket, &buffer[total_bytes], MAX_BUFFER - total_bytes);
+        message_append_string(msg, &buffer[total_bytes], bytes_recv);
+        total_bytes = total_bytes + bytes_recv;
     } while (control_recv(msg) == ERROR);
     return SUCCESS;
 }
