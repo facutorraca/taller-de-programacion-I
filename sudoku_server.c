@@ -140,8 +140,6 @@ int sudoku_server_start(const char* port) {
     sudoku_server_init(&sudoku_server, port);
 
     server_start_to_listen(&sudoku_server.server);
-    interface_conection_success();
-
     sudoku_server_start_connection(&sudoku_server);
     return SUCCESS;
 }

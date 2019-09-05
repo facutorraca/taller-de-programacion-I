@@ -1,6 +1,7 @@
 #include "sudoku.h"
 #include "board.h"
 #include "stdio.h"
+#include <stdbool.h>
 
 #define SUCCESS 0
 #define ERROR 1
@@ -34,4 +35,14 @@ int sudoku_verify(sudoku_t* sudoku) {
         return ERROR;
     }
     return SUCCESS;
+}
+
+bool sudoku_number_is_valid(int number) {
+    return number >= 1 && number <= 9;
+}
+
+bool sudoku_position_is_valid(int row, int col) {
+    bool row_is_correct = (row >= 1 && row <= 9);
+    bool col_is_correct = (col >= 1 && col <= 9);
+    return row_is_correct && col_is_correct;
 }
