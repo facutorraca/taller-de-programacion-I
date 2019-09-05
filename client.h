@@ -24,5 +24,4 @@ int client_init(client_t* client, const char* host, const char* port);
 
 int client_release(client_t* client);
 
-
 #endif

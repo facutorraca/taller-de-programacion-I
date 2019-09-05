@@ -32,3 +32,9 @@ int parser_process_file(parser_t* parser, char* buffer) {
     }
     return SUCCESS;
 }
+
+int parser_release(parser_t* parser) {
+    fclose(parser->file);
+    parser->file = NULL;
+    return SUCCESS;
+}

@@ -39,10 +39,9 @@ int interface_get_new_instruction(char* buffer, int len_buf) {
 int interface_get_board_design(char* buffer, char* numbers) {
     int n_pos = 0; //Position of the current number
     char line[MAX_COL] = {0};
-    char board_piece;
     for (int i = 0; i < MAX_ROW; i++) {
         for (int j = 0; j < MAX_COL; j++) {
-            board_piece = interface_get_board_char(i, j, numbers[n_pos]);
+            char board_piece = interface_get_board_char(i, j, numbers[n_pos]);
             if(board_piece == numbers[n_pos]) {
                 n_pos++;
             }

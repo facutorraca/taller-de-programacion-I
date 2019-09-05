@@ -12,4 +12,6 @@ int parser_init(parser_t* parser, const char* filename);
 
 int parser_process_file(parser_t* parser, char* buffer);
 
+int parser_release(parser_t* parser);
+
 #endif

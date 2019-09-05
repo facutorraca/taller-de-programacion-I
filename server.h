@@ -20,6 +20,8 @@ int server_start_to_send(server_t* server, message_t* msg);
 
 int server_start_to_listen(server_t* server);
 
+int server_release(server_t* server);
+
 int server_init(server_t* server, const char* port);
 
 int server_release(server_t* server);

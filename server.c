@@ -16,7 +16,7 @@ int server_start_to_recv(server_t* server, message_t* msg, int (*control_recv)(m
         message_append_string(msg, &buffer[total_bytes], bytes_recv);
         total_bytes = total_bytes + bytes_recv;
     } while (control_recv(msg) == ERROR);
-    return SUCCESS;
+    return total_bytes;
 }
 
 int server_start_to_send(server_t* server, message_t* msg) {
@@ -25,7 +25,7 @@ int server_start_to_send(server_t* server, message_t* msg) {
         bytes_sent = socket_send(&server->s_socket, &msg->buffer[total_bytes], message_get_length(msg) - total_bytes);
         total_bytes = bytes_sent + total_bytes;
     } while (msg->len_msg != total_bytes);
-    return SUCCESS;
+    return total_bytes;
 }
 
 int server_start_to_listen(server_t* server) {

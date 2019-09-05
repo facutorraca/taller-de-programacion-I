@@ -13,6 +13,7 @@ int board_get_square_values(char* numbers) {
     parser_t parser;
     parser_init(&parser, "board.txt");
     parser_process_file(&parser, numbers);
+    parser_release(&parser);
     return SUCCESS;
 }
 

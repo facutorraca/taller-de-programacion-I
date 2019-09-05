@@ -11,7 +11,8 @@
 
 int control_recv_server(message_t* msg) {
     if(message_get_length(msg) == 0) {
-        return ERROR;
+        //server rear 0 bytes so socket is closes
+        return SUCCESS;
     }
     char frt = message_get_first_character(msg);
     if(frt == 'G' || frt == 'V' || frt == 'R') {
@@ -98,18 +99,27 @@ int sudoku_server_start_to_send(sudoku_server_t* sudoku_server, message_t* msg) 
 }
 
 int sudoku_server_start_to_recv(sudoku_server_t* sudoku_server, message_t* msg) {
-    server_start_to_recv(&sudoku_server->server, msg, control_recv_server);
+    if (server_start_to_recv(&sudoku_server->server, msg, control_recv_server) == 0) {
+        return ERROR;
+    }
     sudoku_server_process_recv_message(msg, &sudoku_server->sudoku);
     return SUCCESS;
 }
 
 int sudoku_server_start_connection(sudoku_server_t* sudoku_server) {
     message_t msg; //Message to communicate with client
-    while (true) {
+
+    bool connected = true;
+    while (connected) {
         message_init(&msg);
-        sudoku_server_start_to_recv(sudoku_server, &msg);
-        sudoku_server_start_to_send(sudoku_server, &msg);
+        if (sudoku_server_start_to_recv(sudoku_server, &msg) == ERROR){
+            connected = false;
+        }
+        if (connected) {
+            sudoku_server_start_to_send(sudoku_server, &msg);
+        }
     }
+    server_release(&sudoku_server->server);
     return SUCCESS;
 }
 

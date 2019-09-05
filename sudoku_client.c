@@ -69,6 +69,7 @@ int sudoku_client_start_connection(client_t* client) {
         message_init(&msg); //Initialize new message
         sudoku_client_process_send_message(&msg, inst);
         sudoku_client_start_to_send(client, &msg);
+
         message_init(&msg); //Restart the message
         sudoku_client_start_to_recv(client, &msg);
         interface_print_message(&msg);
