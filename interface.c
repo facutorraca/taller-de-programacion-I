@@ -11,15 +11,45 @@
 #define MAX_COL 37
 
 void print_no_valid_command(){
-    printf("El comando instroducido no es valido\n");
+    fprintf(stderr, "El comando instroducido no es valido\n");
 }
 
 void print_no_valid_position(){
-    printf("Error en los índices. Rango soportado: [1,9]\n");
+    fprintf(stderr, "Error en los índices. Rango soportado: [1,9]\n");
 }
 
 void print_no_valid_number() {
-    printf("Error en el valor ingresado. Rango soportado: [1,9]\n");
+    fprintf(stderr, "Error en el valor ingresado. Rango soportado: [1,9]\n");
+}
+
+void print_server_params_error() {
+    printf("Uso: ./tp server <puerto>\n");
+}
+
+void print_client_params_error() {
+    printf("Uso: ./tp client <host> <puerto>\n");
+}
+
+void print_unsupported_mode_error() {
+    printf("Modo no soportado, el primer parámetro debe ser server o client\n");
+}
+
+bool verify_server_parameters(int argc, char const *argv[]) {
+    //Faltan verificar mas cosas creo
+    if (argc != 3) {
+        print_server_params_error();
+        return false;
+    }
+    return true;
+}
+
+bool verify_client_parameters(int argc, char const *argv[]) {
+    //Faltan verificar mas cosas creo
+    if (argc != 4) {
+        print_client_params_error();
+        return false;
+    }
+    return true;
 }
 
 int verify_put_inst(char* s1, char* s2, int i1, int i2, int i3) {
