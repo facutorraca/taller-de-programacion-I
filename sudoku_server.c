@@ -35,9 +35,13 @@ int sudoku_server_get_board_to_send(sudoku_t* sudoku, message_t* msg) {
 
 int sudoku_server_put_instruction(sudoku_t* sudoku, message_t* msg) {
     char* msg_buf = message_get(msg);
-    sudoku_put_number(sudoku, msg_buf[1], msg_buf[2], msg_buf[3]);
-    message_init(msg); //Restart the message
-    sudoku_server_get_board_to_send(sudoku, msg);
+    if (sudoku_put_number(sudoku, msg_buf[1], msg_buf[2], msg_buf[3]) == SUCCESS) {
+        message_init(msg); //Restart the message
+        sudoku_server_get_board_to_send(sudoku, msg);
+    } else {
+        message_init(msg); //Restart the message
+        message_create(msg, "La celda indicada no es modificable\n", 36);
+    }
     return SUCCESS;
 }
 
