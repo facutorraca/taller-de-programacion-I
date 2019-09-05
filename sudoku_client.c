@@ -62,10 +62,10 @@ int sudoku_client_close(client_t* client) {
 
 int sudoku_client_start_connection(client_t* client) {
     char inst[MAX_BUFFER_INS] = {0};
-    interface_get_new_instruction(inst, MAX_BUFFER_INS);
+    int get_inst_flag = interface_get_new_instruction(inst, MAX_BUFFER_INS);
 
     message_t msg;
-    while (strcmp("exit\n",inst) != 0) {
+    while (strcmp("exit\n",inst) != 0 && get_inst_flag == SUCCESS) {
         message_init(&msg); //Initialize new message
         sudoku_client_process_send_message(&msg, inst);
         sudoku_client_start_to_send(client, &msg);
@@ -73,7 +73,7 @@ int sudoku_client_start_connection(client_t* client) {
         message_init(&msg); //Restart the message
         sudoku_client_start_to_recv(client, &msg);
         interface_print_message(&msg);
-        interface_get_new_instruction(inst, MAX_BUFFER_INS);
+        get_inst_flag = interface_get_new_instruction(inst, MAX_BUFFER_INS);
     }
 
     sudoku_client_close(client);
