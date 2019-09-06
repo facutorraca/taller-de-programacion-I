@@ -16,4 +16,3 @@ uint32_t array_to_uint(char* array) {
     uint32_t uint_d = array[3];
     return uint_a | uint_b | uint_c | uint_d;
 }
-//ntohl((msg->buffer[0] <<  24) | (msg->buffer[1] << 16) | (msg->buffer[2] << 8) | msg->buffer[3]);

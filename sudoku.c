@@ -7,13 +7,11 @@
 #define ERROR 1
 
 int sudoku_init(sudoku_t* sudoku) {
-    board_init(&sudoku->board);
-    return SUCCESS;
+    return board_init(&sudoku->board);
 }
 
 int sudoku_get_board_numbers(sudoku_t* sudoku, char* buffer) {
-    board_get_numbers(&sudoku->board, buffer);
-    return SUCCESS;
+    return board_get_numbers(&sudoku->board, buffer);
 }
 
 int sudoku_put_number(sudoku_t* sudoku, char num, char row, char col) {

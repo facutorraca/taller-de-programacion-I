@@ -2,7 +2,6 @@
 #include <string.h>
 #include "message.h"
 #include "sudoku.h"
-#include "verifier.h"
 #include <stdbool.h>
 
 #define SUCCESS 0

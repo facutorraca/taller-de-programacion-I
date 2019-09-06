@@ -41,10 +41,9 @@ int board_complete_squares(board_t* board) {
     char numbers[CANT_SQUARES];
     board_get_square_values(numbers);
 
-    int i;
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
-            i = get_line_pos(row, col);
+            int i = get_line_pos(row, col);
             square_init(&board->square[i], numbers[i]);
             square_set_box(&board->square[i], row, col);
         }
@@ -76,7 +75,7 @@ int cmp_by_square(const void *sqr_a, const void *sqr_b) {
     return box_a - box_b;
 }
 
-bool board_verify(char* numbers) {
+bool line_is_correct(char* numbers) {
     qsort(numbers, 9, sizeof(char), cmp_by_number);
     for (int i = 1; i < 9; i++) {
         if (numbers[i-1] == numbers[i] && numbers[i] != '0') {
@@ -90,9 +89,10 @@ int board_verify_row(board_t* board) {
     char line[9];
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
-            line[col] = square_get_number(&board->square[get_line_pos(row, col)]);
+            int pos = get_line_pos(row, col);
+            line[col] = square_get_number(&board->square[pos]);
         }
-        if (!board_verify(line)) {
+        if (!line_is_correct(line)) {
             return ERROR;
         }
     }
@@ -103,9 +103,10 @@ int board_verify_col(board_t* board) {
     char line[9];
     for (int col = 0; col < 9; col++) {
         for (int row = 0; row < 9; row++) {
-            line[row] = square_get_number(&board->square[get_line_pos(row, col)]);
+            int pos = get_line_pos(row, col);
+            line[row] = square_get_number(&board->square[pos]);
         }
-        if (!board_verify(line)) {
+        if (!line_is_correct(line)) {
             return ERROR;
         }
     }
@@ -127,9 +128,10 @@ int board_verify_box(board_t* board) {
     char box[9];
     for (int row = 0; row < 9; row++) {
         for (int col = 0; col < 9; col++) {
-            box[col] = square_get_number(&sqr_dup[get_line_pos(row, col)]);
+            int pos = get_line_pos(row, col);
+            box[col] = square_get_number(&sqr_dup[pos]);
         }
-        if (!board_verify(box)) {
+        if (!line_is_correct(box)) {
             return ERROR;
         }
     }
