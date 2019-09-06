@@ -85,3 +85,9 @@ int socket_receive(socket_t* self, char* buffer, size_t length) {
 int socket_release(socket_t* socket) {
     return close(socket->fd);
 }
+
+int socket_setsockopt(socket_t* socket) {
+    int optval = 1;
+    setsockopt(socket->fd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+    return SUCCESS;
+}

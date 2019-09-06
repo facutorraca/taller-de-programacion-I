@@ -9,14 +9,14 @@
 
 int message_init(message_t* msg) {
     msg->len_msg = 0;
-    for (int i = 0; i < MAX_BUFFER_MSG; i++){
+    for (int i = 0; i < MAX_LEN_MSG; i++){
         msg->buffer[i] = 0;
     }
     return SUCCESS;
 }
 
 int message_create(message_t* msg, const char* str, uint32_t len) {
-    if(len > MAX_BUFFER_MSG) {
+    if(len > MAX_LEN_MSG) {
         return ERROR;
     }
     for (int i = 0; i < len; i++){
@@ -27,7 +27,7 @@ int message_create(message_t* msg, const char* str, uint32_t len) {
 }
 
 int message_append_character(message_t* msg, char character) {
-    if(msg->len_msg >= MAX_BUFFER_MSG) {
+    if(msg->len_msg >= MAX_LEN_MSG) {
         return ERROR;
     }
     msg->buffer[msg->len_msg] = character;
@@ -81,7 +81,7 @@ int message_get_nfirst(message_t* msg, char* buffer, int n) {
 }
 
 int message_append_string(message_t* msg, char* str, int len) {
-    if (msg->len_msg + len > MAX_BUFFER_MSG) {
+    if (msg->len_msg + len > MAX_LEN_MSG) {
         return ERROR;
     }
     if (len == 0) {

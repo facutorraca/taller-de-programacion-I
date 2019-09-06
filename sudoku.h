@@ -10,7 +10,7 @@ typedef struct sudoku {
 
 int sudoku_init(sudoku_t* sudoku);
 
-int sudoku_get_board_numbers(sudoku_t* sudoku, char* buffer);
+char* sudoku_get_board_drawing(sudoku_t* sudoku);
 
 int sudoku_put_number(sudoku_t* sudoku, char num, char row, char col);
 

@@ -33,6 +33,7 @@ int server_send(server_t* server, message_t* msg) {
 }
 
 int server_listen(server_t* server) {
+    socket_setsockopt(&server->acceptor);
     socket_bind(&server->acceptor, server->port);
     socket_listen(&server->acceptor);
     // Now process is in sleep mode waiting
@@ -43,6 +44,7 @@ int server_listen(server_t* server) {
 int server_init(server_t* server, const char* port) {
     socket_init(&server->s_socket);
     socket_init(&server->acceptor);
+
     server->port = port;
     return SUCCESS;
 }
