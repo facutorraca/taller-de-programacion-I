@@ -116,7 +116,7 @@ int cmp_by_square(const void *sqr_a, const void *sqr_b) {
 bool line_is_correct(char* numbers) {
     qsort(numbers, 9, sizeof(char), cmp_by_number);
     for (int i = 1; i < 9; i++) {
-        if (numbers[i-1] == numbers[i] && numbers[i] != '0') {
+        if (numbers[i-1] == numbers[i] && numbers[i] != ' ') {
             return false;
         }
     }
