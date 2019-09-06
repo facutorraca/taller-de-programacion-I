@@ -10,6 +10,7 @@
 #define MAX_ROW 19
 #define MAX_COL 37
 
+//arreglar
 void print_no_valid_command(){
     fprintf(stderr, "El comando instroducido no es valido\n");
 }

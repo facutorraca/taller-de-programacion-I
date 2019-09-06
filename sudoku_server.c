@@ -9,35 +9,41 @@
 #include <stdbool.h>
 #include <arpa/inet.h>
 
+#define SIZE_BOARD 722
+#define NUM_NUMBERS 81
+
 int control_recv_server(message_t* msg) {
-    if(message_get_length(msg) == 0) {
-        //server rear 0 bytes so socket is closes
+    if (message_get_length(msg) == 0) {
+        //server read 0 bytes so socket is closed
         return SUCCESS;
     }
     char frt = message_get_first_character(msg);
-    if(frt == 'G' || frt == 'V' || frt == 'R') {
+    if (frt == 'G' || frt == 'V' || frt == 'R') {
         return SUCCESS;
     }
-    if(frt == 'P' && message_get_length(msg) == 4){
+    if (frt == 'P' && message_get_length(msg) == 4){
         return SUCCESS;
     }
     return ERROR;
 }
 
-int sudoku_server_get_board_to_send(sudoku_t* sudoku, message_t* msg) {
-    char board_numbers[81] = {0};
-    char board_design[722] = {0};
+int prepare_message_with_board(sudoku_t* sudoku, message_t* msg) {
+    char board_numbers[NUM_NUMBERS];
+    char board_drawing[SIZE_BOARD];
+    memset(board_numbers, 0, NUM_NUMBERS * sizeof(char));
+    memset(board_drawing, 0, SIZE_BOARD * sizeof(char));
+
     sudoku_get_board_numbers(sudoku, board_numbers);
-    interface_get_board_design(board_design, board_numbers);
-    message_create(msg, board_design, 722);
+    interface_get_board_design(board_drawing, board_numbers);
+    message_create(msg, board_drawing, SIZE_BOARD);
     return SUCCESS;
 }
 
-int sudoku_server_put_instruction(sudoku_t* sudoku, message_t* msg) {
+int process_put_instruction(sudoku_t* sudoku, message_t* msg) {
     char* msg_buf = message_get(msg);
     if (sudoku_put_number(sudoku, msg_buf[3], msg_buf[1], msg_buf[2]) == SUCCESS) {
         message_init(msg); //Restart the message
-        sudoku_server_get_board_to_send(sudoku, msg);
+        prepare_message_with_board(sudoku, msg);
     } else {
         message_init(msg); //Restart the message
         message_create(msg, "La celda indicada no es modificable\n", 36);
@@ -45,16 +51,16 @@ int sudoku_server_put_instruction(sudoku_t* sudoku, message_t* msg) {
     return SUCCESS;
 }
 
-int sudoku_server_rst_instruction(sudoku_t* sudoku, message_t* msg) {
+int process_rst_instruction(sudoku_t* sudoku, message_t* msg) {
     message_init(msg); //Restart the message
     sudoku_reset(sudoku);
-    sudoku_server_get_board_to_send(sudoku, msg);
+    prepare_message_with_board(sudoku, msg);
     return SUCCESS;
 }
 
-int sudoku_server_vrf_instruction(sudoku_t* sudoku, message_t* msg) {
-    message_init(msg);
-    if(sudoku_verify(sudoku) == SUCCESS) {
+int process_vrf_instruction(sudoku_t* sudoku, message_t* msg) {
+    message_init(msg); //Restart the message
+    if (sudoku_verify(sudoku) == SUCCESS) {
         message_create(msg, "OK\n", 3);
     } else {
         message_create(msg, "ERROR\n", 6);
@@ -62,51 +68,51 @@ int sudoku_server_vrf_instruction(sudoku_t* sudoku, message_t* msg) {
     return SUCCESS;
 }
 
-int sudoku_server_get_instruction(sudoku_t* sudoku, message_t* msg) {
+int process_get_instruction(sudoku_t* sudoku, message_t* msg) {
     message_init(msg); //Restart the message
-    sudoku_server_get_board_to_send(sudoku, msg);
+    prepare_message_with_board(sudoku, msg);
     return SUCCESS;
 }
 
-int sudoku_server_process_length_message(message_t* msg, message_t* length_msg) {
-    uint32_t len = htonl(message_get_length(msg));
+static int process_length_message(message_t* msg, message_t* length_msg) {
+    uint32_t length = htonl(message_get_length(msg));
 
-    char array_with_len[4];
-    uint_to_array(array_with_len, len);
+    char array_with_length[4];
+    uint_to_array(array_with_length, length);
 
-    message_create(length_msg, array_with_len, 4);
+    message_create(length_msg, array_with_length, 4);
     return SUCCESS;
 }
 
-int sudoku_server_process_recv_message(message_t* msg, sudoku_t* sudoku) {
+static int process_recv_message(message_t* msg, sudoku_t* sudoku) {
     if (message_get_first_character(msg) == 'G') {
-        sudoku_server_get_instruction(sudoku, msg);
+        process_get_instruction(sudoku, msg);
     }
     if (message_get_first_character(msg) == 'V') {
-        sudoku_server_vrf_instruction(sudoku, msg);
+        process_vrf_instruction(sudoku, msg);
     }
     if (message_get_first_character(msg) == 'R') {
-        sudoku_server_rst_instruction(sudoku, msg);
+        process_rst_instruction(sudoku, msg);
     }
     if (message_get_first_character(msg) == 'P') {
-        sudoku_server_put_instruction(sudoku, msg);
+        process_put_instruction(sudoku, msg);
     }
     return SUCCESS;
 }
 
-int sudoku_server_start_to_send(sudoku_server_t* sudoku_server, message_t* msg) {
-    message_t length_msg;
-    sudoku_server_process_length_message(msg, &length_msg);
+static int start_to_send(sudoku_server_t* sudoku_server, message_t* msg) {
+    message_t length_msg; //Msg with length of next message
+    process_length_message(msg, &length_msg);
     server_start_to_send(&sudoku_server->server, &length_msg);
     server_start_to_send(&sudoku_server->server, msg);
     return SUCCESS;
 }
 
-int sudoku_server_start_to_recv(sudoku_server_t* sudoku_server, message_t* msg) {
+static int start_to_recv(sudoku_server_t* sudoku_server, message_t* msg) {
     if (server_start_to_recv(&sudoku_server->server, msg, control_recv_server) == 0) {
         return ERROR;
     }
-    sudoku_server_process_recv_message(msg, &sudoku_server->sudoku);
+    process_recv_message(msg, &sudoku_server->sudoku);
     return SUCCESS;
 }
 
@@ -116,11 +122,11 @@ int sudoku_server_start_connection(sudoku_server_t* sudoku_server) {
     bool connected = true;
     while (connected) {
         message_init(&msg);
-        if (sudoku_server_start_to_recv(sudoku_server, &msg) == ERROR){
+        if (start_to_recv(sudoku_server, &msg) == ERROR){
             connected = false;
         }
         if (connected) {
-            sudoku_server_start_to_send(sudoku_server, &msg);
+            start_to_send(sudoku_server, &msg);
         }
     }
     server_release(&sudoku_server->server);
