@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <netdb.h>
+#include <stdint.h>
 
 #define ERROR 1
 #define SUCCESS 0
@@ -71,7 +72,7 @@ int socket_accept(socket_t* acceptor, socket_t* s_socket, const char* service) {
     return SUCCESS;
 }
 
-int socket_send(socket_t* self, const char* buffer, size_t length) {
+int socket_send(socket_t* self, uint8_t* buffer, size_t length) {
     // Return total bytes sent
     return send(self->fd, (void*) buffer, length, 0 /*flags*/);
 }

@@ -14,23 +14,23 @@
 #define SUCCESS 0
 #define ERROR 1
 
-int sudoku_client_put_instruction(message_t* msg, const char* instruction) {
+int sudoku_client_put_instruction(message_t* msg, char row, char col, char num) {
     message_append_character(msg, 'P');
-    message_append_character(msg, instruction[4]);
-    message_append_character(msg, instruction[9]);
-    message_append_character(msg, instruction[11]);
+    message_append_character(msg, row);
+    message_append_character(msg, col);
+    message_append_character(msg, num);
     return SUCCESS;
 }
 
-int sudoku_client_process_send_message(message_t* msg, const char* instruction) {
-    if (strcmp(instruction, "get\n") == 0) {
+int sudoku_client_process_send_message(message_t* msg, const char* inst) {
+    if (strcmp(inst, "get\n") == 0) {
         return message_append_character(msg, 'G');
-    } else if (strcmp(instruction, "verify\n") == 0) {
+    } else if (strcmp(inst, "verify\n") == 0) {
         return message_append_character(msg, 'V');
-    } else if (strcmp(instruction, "reset\n") == 0) {
+    } else if (strcmp(inst, "reset\n") == 0) {
         return message_append_character(msg, 'R');
     } else {   /* put instruction case */
-        return sudoku_client_put_instruction(msg, instruction);
+        return sudoku_client_put_instruction(msg, inst[9], inst[11], inst[4]);
     }
 }
 

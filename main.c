@@ -21,6 +21,5 @@ int main(int argc, char const *argv[]) {
     } else {
         print_unsupported_mode_error();
     }
-
     return ERROR;
 }

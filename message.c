@@ -37,7 +37,7 @@ int message_append_character(message_t* msg, char character) {
 
 int message_print(message_t* msg) {
     for (int i = 0; i < msg->len_msg; i++) {
-        printf("%c", msg->buffer[i]);
+        fprintf(stdout, "%c", msg->buffer[i]);
     }
     return SUCCESS;
 }

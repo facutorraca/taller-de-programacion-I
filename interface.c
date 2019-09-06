@@ -23,15 +23,23 @@ void print_no_valid_number() {
 }
 
 void print_server_params_error() {
-    printf("Uso: ./tp server <puerto>\n");
+    fprintf(stderr, "Uso: ./tp server <puerto>\n");
 }
 
 void print_client_params_error() {
-    printf("Uso: ./tp client <host> <puerto>\n");
+    fprintf(stderr, "Uso: ./tp client <host> <puerto>\n");
 }
 
 void print_unsupported_mode_error() {
-    printf("Modo no soportado, el primer parámetro debe ser server o client\n");
+    fprintf(stderr,"Modo no soportado, el primer parámetro debe ser server o client\n");
+}
+
+void print_listening_error() {
+    fprintf(stderr,"Error en LISTEN\n");
+}
+
+void print_binding_error() {
+    fprintf(stderr,"Error en BIND\n");
 }
 
 bool verify_server_parameters(int argc, char const *argv[]) {

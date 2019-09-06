@@ -2,6 +2,7 @@
 #define _SOCKET_H_
 
 #include <stdlib.h>
+#include <stdint.h>
 
 typedef struct socket {
     int fd;
@@ -13,7 +14,7 @@ int socket_bind(socket_t* self, const char* service);
 
 int socket_connect(socket_t* self, const char* host, const char* service);
 
-int socket_send(socket_t* self, const char* buffer, size_t length);
+int socket_send(socket_t* self, uint8_t* buffer, size_t length);
 
 int socket_receive(socket_t* self, char* buffer, size_t length);
 

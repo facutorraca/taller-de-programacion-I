@@ -18,4 +18,8 @@ bool verify_client_parameters(int argc, char const *argv[]);
 
 void print_unsupported_mode_error();
 
+void print_listening_error();
+
+void print_binding_error();
+
 #endif
