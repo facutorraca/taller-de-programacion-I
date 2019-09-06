@@ -24,6 +24,4 @@ int socket_listen(socket_t* self);
 
 int socket_release(socket_t* self);
 
-int socket_setsockopt(socket_t* socket);
-
 #endif
