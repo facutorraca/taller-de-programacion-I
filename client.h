@@ -14,9 +14,9 @@ typedef struct client {
     socket_t c_socket;
 } client_t;
 
-int client_start_to_recv(client_t* client, message_t* msg, uint32_t length_msg);
+int client_recv(client_t* client, message_t* msg, uint32_t length_msg);
 
-int client_start_to_send(client_t* server, message_t* msg);
+int client_send(client_t* server, message_t* msg);
 
 int client_connect_with_server(client_t* client);
 

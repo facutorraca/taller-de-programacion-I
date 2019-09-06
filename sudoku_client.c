@@ -38,24 +38,24 @@ static int process_send_message(message_t* msg, const char* inst) {
 
 static uint32_t process_length_message(message_t* msg) {
     char array_with_length[4];
-    memset(inst, 0, 4 * sizeof(char));
+    memset(array_with_length, 0, 4 * sizeof(char));
 
     message_get_nfirst(msg, array_with_length, 4);
-    return ntohl(array_to_uint(array_with_len));
+    return ntohl(array_to_uint(array_with_length));
 }
 
 static int start_to_recv(client_t* client, message_t* msg) {
-    client_start_to_recv(client, msg, 4);
+    client_recv(client, msg, 4);
     uint32_t length_next_message = process_length_message(msg);
 
     message_init(msg); //Restart the message to receive the new one
-    client_start_to_recv(client, msg, length_next_message);
+    client_recv(client, msg, length_next_message);
     return SUCCESS;
 }
 
 static int start_to_send(client_t* client, message_t* msg, char* inst) {
     process_send_message(msg, inst);
-    client_start_to_send(client, msg);
+    client_send(client, msg);
     return SUCCESS;
 }
 
@@ -74,10 +74,10 @@ int sudoku_client_start_connection(client_t* client) {
     message_t msg;
     while (get_new_instuction(inst) != ERROR && !is_exit_instruction(inst)) {
         message_init(&msg); //Initialize new message
-        sudoku_client_start_to_send(client, &msg, inst);
+        start_to_send(client, &msg, inst);
 
         message_init(&msg); //Restart the message
-        sudoku_client_start_to_recv(client, &msg);
+        start_to_recv(client, &msg);
         interface_print_message(&msg);
     }
 

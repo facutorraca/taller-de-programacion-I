@@ -103,13 +103,13 @@ static int process_recv_message(message_t* msg, sudoku_t* sudoku) {
 static int start_to_send(sudoku_server_t* sudoku_server, message_t* msg) {
     message_t length_msg; //Msg with length of next message
     process_length_message(msg, &length_msg);
-    server_start_to_send(&sudoku_server->server, &length_msg);
-    server_start_to_send(&sudoku_server->server, msg);
+    server_send(&sudoku_server->server, &length_msg);
+    server_send(&sudoku_server->server, msg);
     return SUCCESS;
 }
 
 static int start_to_recv(sudoku_server_t* sudoku_server, message_t* msg) {
-    if (server_start_to_recv(&sudoku_server->server, msg, control_recv_server) == 0) {
+    if (server_recv(&sudoku_server->server, msg, control_recv_server) == 0) {
         return ERROR;
     }
     process_recv_message(msg, &sudoku_server->sudoku);
@@ -149,7 +149,7 @@ int sudoku_server_start(const char* port) {
     sudoku_server_t sudoku_server;
     sudoku_server_init(&sudoku_server, port);
 
-    server_start_to_listen(&sudoku_server.server);
+    server_listen(&sudoku_server.server);
     sudoku_server_start_connection(&sudoku_server);
     return SUCCESS;
 }

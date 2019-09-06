@@ -9,23 +9,26 @@
 
 int control_recv(message_t* msg);
 
-int client_start_to_recv(client_t* client, message_t* msg, uint32_t length_msg) {
+int client_recv(client_t* client, message_t* msg, uint32_t length_msg) {
     char buffer[MAX_BUFFER];
-    int total_bytes = 0, bytes_recv = 0;
+    int total_bytes = 0, bytes_recv = 0, rem_bytes;
     do {
-        bytes_recv = socket_receive(&client->c_socket, &buffer[total_bytes], MAX_BUFFER - total_bytes);
+        rem_bytes = MAX_BUFFER - total_bytes;
+        bytes_recv = socket_receive(&client->c_socket, &buffer[total_bytes], rem_bytes);
         message_append_string(msg, &buffer[total_bytes], bytes_recv);
         total_bytes = total_bytes + bytes_recv;
     } while (message_get_length(msg) != length_msg);
-    return SUCCESS;
+    return total_bytes;
 }
 
-int client_start_to_send(client_t* client, message_t* msg) {
-    int bytes_sent = 0, total_bytes = 0;
+int client_send(client_t* client, message_t* msg) {
+    char* msg_buf = message_get(msg);
+    int bytes_sent = 0, total_bytes = 0, rem_bytes;
     do {
-        bytes_sent = socket_send(&client->c_socket, (uint8_t*)&msg->buffer[total_bytes], message_get_length(msg) - total_bytes);
+        rem_bytes = message_get_length(msg) - total_bytes;
+        bytes_sent = socket_send(&client->c_socket, (uint8_t*)&msg_buf[total_bytes], rem_bytes);
         total_bytes = bytes_sent + total_bytes;
-    } while (msg->len_msg != total_bytes);
+    } while (message_get_length(msg) != total_bytes);
     return SUCCESS;
 }
 
