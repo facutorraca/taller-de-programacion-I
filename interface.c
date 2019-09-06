@@ -102,7 +102,7 @@ int verify_instuction(const char* inst) {
     return find_inst_error(s1, s2, i1, i2, i3, num_args);
 }
 
-char interface_get_board_char(int row, int col, char next_number) {
+char interface_get_board_char(int row, int col) {
     if (col == 0 || col == 12 || col == 24 || col == 36) {
         return 'U';
     }
@@ -119,7 +119,7 @@ char interface_get_board_char(int row, int col, char next_number) {
         return '-';
     }
     if (col % 2 == 0 /*U and = cases are contemplated above*/) {
-        return next_number;
+        return 'X';
     }
     return ' ';
 }
@@ -137,19 +137,11 @@ int interface_get_new_instruction(char* buffer, int len_buf) {
     return SUCCESS;
 }
 
-int interface_get_board_design(char* buffer, char* numbers) {
-    int n_pos = 0; //Position of the current number
+int interface_get_board_drawing(char* buffer) {
     char line[MAX_COL] = {0};
     for (int i = 0; i < MAX_ROW; i++) {
         for (int j = 0; j < MAX_COL; j++) {
-            char board_piece = interface_get_board_char(i, j, numbers[n_pos]);
-            if(board_piece == numbers[n_pos]) {
-                n_pos++;
-            }
-            if(board_piece == '0') {
-                board_piece = ' ';
-            }
-            line[j] = board_piece;
+            line[j] = interface_get_board_char(i, j);
         }
         strncat(buffer, line, MAX_COL);
         strncat(buffer, "\n", 1);

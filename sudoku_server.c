@@ -28,13 +28,7 @@ int control_recv_server(message_t* msg) {
 }
 
 int prepare_message_with_board(sudoku_t* sudoku, message_t* msg) {
-    char board_numbers[NUM_NUMBERS];
-    char board_drawing[SIZE_BOARD];
-    memset(board_numbers, 0, NUM_NUMBERS * sizeof(char));
-    memset(board_drawing, 0, SIZE_BOARD * sizeof(char));
-
-    sudoku_get_board_numbers(sudoku, board_numbers);
-    interface_get_board_design(board_drawing, board_numbers);
+    char* board_drawing = sudoku_get_board_drawing(sudoku);
     message_create(msg, board_drawing, SIZE_BOARD);
     return SUCCESS;
 }
