@@ -8,10 +8,11 @@ int get_box_number(int row, int col) {
 }
 
 int square_init(square_t* square, char number) {
-    square->number = number;
     if (number != '0') {
+        square->number = number;
         square->fixed = true;
     } else {
+        square->number = ' ';
         square->fixed = false;
     }
     return SUCCESS;
@@ -19,7 +20,7 @@ int square_init(square_t* square, char number) {
 
 int square_reset(square_t* square) {
     if (!square->fixed) {
-        square->number = '0';
+        square->number = ' ';
     }
     return SUCCESS;
 }

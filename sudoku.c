@@ -10,8 +10,8 @@ int sudoku_init(sudoku_t* sudoku) {
     return board_init(&sudoku->board);
 }
 
-int sudoku_get_board_numbers(sudoku_t* sudoku, char* buffer) {
-    return board_get_numbers(&sudoku->board, buffer);
+char* sudoku_get_board_drawing(sudoku_t* sudoku) {
+    return board_get_drawing(&sudoku->board);
 }
 
 int sudoku_put_number(sudoku_t* sudoku, char num, char row, char col) {

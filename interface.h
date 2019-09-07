@@ -6,7 +6,7 @@
 
 int interface_get_new_instruction(char* buffer, int len_buf);
 
-int interface_get_board_design(char* buffer, char* numbers);
+int interface_get_board_drawing(char* buffer);
 
 int interface_conection_success();
 

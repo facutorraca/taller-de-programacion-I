@@ -88,6 +88,8 @@ int sudoku_client_start_connection(client_t* client) {
 int sudoku_client_start(const char* host, const char* port) {
     client_t client;
     client_init(&client, host, port);
+
+
     client_connect_with_server(&client);
 
     sudoku_client_start_connection(&client);

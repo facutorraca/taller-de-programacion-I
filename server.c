@@ -1,3 +1,7 @@
+
+
+#define _POSIX_C_SOURCE 200112L
+
 #include "server.h"
 #include "socket.h"
 #include "message.h"
@@ -6,6 +10,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+
+#define MAX_BUFFER 722
 
 int control_recv(message_t* msg);
 
@@ -33,7 +43,6 @@ int server_send(server_t* server, message_t* msg) {
 }
 
 int server_listen(server_t* server) {
-    socket_setsockopt(&server->acceptor);
     socket_bind(&server->acceptor, server->port);
     socket_listen(&server->acceptor);
     // Now process is in sleep mode waiting
