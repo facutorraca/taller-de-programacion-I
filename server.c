@@ -24,11 +24,11 @@ int server_recv(server_t* server, message_t* msg, int (*control_recv)(message_t*
 int server_send(server_t* server, message_t* msg) {
     char* msg_buf = message_get(msg);
     int bytes_sent = 0, total_bytes = 0, rem_bytes;
-    do {
+    while (message_get_length(msg) != total_bytes) {
         rem_bytes = message_get_length(msg) - total_bytes;
         bytes_sent = socket_send(&server->s_socket, (uint8_t*)&msg_buf[total_bytes], rem_bytes);
         total_bytes = bytes_sent + total_bytes;
-    } while (message_get_length(msg) != total_bytes);
+    }
     return total_bytes;
 }
 
