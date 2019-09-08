@@ -31,7 +31,8 @@ void print_client_params_error() {
 }
 
 void print_unsupported_mode_error() {
-    fprintf(stderr,"Modo no soportado, el primer parámetro debe ser server o client\n");
+    fprintf(stderr,"Modo no soportado, el primer parámetro " 
+                    "debe ser server o client\n");
 }
 
 void print_listening_error() {
@@ -60,17 +61,17 @@ bool verify_client_parameters(int argc, char const *argv[]) {
     return true;
 }
 
-char interface_get_board_char(int row, int col) {
+char get_board_char(int row, int col) {
     if (col == 0 || col == 12 || col == 24 || col == 36) {
         return 'U';
     }
     if (row == 0 || row == 6 || row == 12 || row == 18) {
         return '=';
     }
-    if (col % 4 == 0 && row % 2 == 1 ) {
+    if (col % 4 == 0 && row % 2 == 1) {
         return '|';
     }
-    if (col % 4 == 0 && row % 2 == 0 ) {
+    if (col % 4 == 0 && row % 2 == 0) {
         return '+';
     }
     if (row % 2 == 0) {
@@ -82,11 +83,11 @@ char interface_get_board_char(int row, int col) {
     return ' ';
 }
 
-int interface_get_board_drawing(char* buffer) {
+int get_board_drawing(char* buffer) {
     char line[MAX_COL] = {0};
     for (int i = 0; i < MAX_ROW; i++) {
         for (int j = 0; j < MAX_COL; j++) {
-            line[j] = interface_get_board_char(i, j);
+            line[j] = get_board_char(i, j);
         }
         strncat(buffer, line, MAX_COL);
         strncat(buffer, "\n", 1);

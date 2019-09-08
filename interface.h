@@ -8,7 +8,7 @@
 
 
 
-int interface_get_board_drawing(char* buffer);
+int get_board_drawing(char* buffer);
 
 bool verify_server_parameters(int argc, char const *argv[]);
 

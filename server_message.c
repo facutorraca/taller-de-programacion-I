@@ -40,18 +40,6 @@ int reset_messages(server_message_t* self) {
     return SUCCESS;
 }
 
-int server_message_init(server_message_t* self) {
-    message_init(&self->message);
-    message_init(&self->len_msg);
-    self->server = NULL;
-    return SUCCESS;
-}
-
-int server_message_set_server(server_message_t* self, server_t* server) {
-    self->server = server;
-    return SUCCESS;
-}
-
 int server_message_recv(server_message_t* self) {
     reset_messages(self);
     if (!self->server) {
@@ -64,6 +52,9 @@ int server_message_recv(server_message_t* self) {
 }
 
 int server_message_send(server_message_t* self) {
+    if (!self->server) {
+        return ERROR;
+    }
     calculate_length_message(self);
     server_send(self->server, &self->len_msg);
     server_send(self->server, &self->message);
@@ -73,5 +64,17 @@ int server_message_send(server_message_t* self) {
 int server_message_create_answer(server_message_t* self, sudoku_t* sudoku) {
     answer_server_create(&self->message, sudoku);
     //calculate_length_message
+    return SUCCESS;
+}
+
+int server_message_set_server(server_message_t* self, server_t* server) {
+    self->server = server;
+    return SUCCESS;
+}
+
+int server_message_init(server_message_t* self) {
+    message_init(&self->message);
+    message_init(&self->len_msg);
+    self->server = NULL;
     return SUCCESS;
 }

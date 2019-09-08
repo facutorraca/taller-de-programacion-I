@@ -12,8 +12,11 @@ int prepare_message_with_board(sudoku_t* sudoku, message_t* msg) {
 }
 
 int create_answer_for_put(sudoku_t* sudoku, message_t* msg) {
-    char* msg_buf = message_get(msg);
-    if (sudoku_put_number(sudoku, msg_buf[3], msg_buf[1], msg_buf[2]) == SUCCESS) {
+    char* msg_cont = message_get(msg);
+    if (sudoku_put_number(sudoku,
+                          msg_cont[3],
+                          msg_cont[1],
+                          msg_cont[2]) == SUCCESS) {
         message_init(msg); //Restart the message
         prepare_message_with_board(sudoku, msg);
     } else {

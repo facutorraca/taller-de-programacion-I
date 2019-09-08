@@ -18,19 +18,8 @@ static uint32_t calculate_length_message(message_t* msg) {
     return ntohl(array_to_uint(array_with_length));
 }
 
-int client_message_init(client_message_t* self) {
-    message_init(&self->message);
-    self->client = NULL;
-    return SUCCESS;
-}
-
-int client_message_set_client(client_message_t* self, client_t* client) {
-    self->client = client;
-    return SUCCESS;
-}
-
 int client_message_send(client_message_t* self) {
-    if(!self->client) {
+    if (!self->client) {
         return ERROR;
     }
     client_send(self->client, &self->message);
@@ -51,7 +40,19 @@ int client_message_show(client_message_t* self) {
     return message_print(&self->message);
 }
 
-int client_message_create_question(client_message_t* self, instruction_t* instruction) {
+int client_message_create_question(client_message_t* self,
+                                   instruction_t* instruction) {
     message_init(&self->message); //Restart the message to receive the new one
     return question_client_create(&self->message, instruction);
+}
+
+int client_message_set_client(client_message_t* self, client_t* client) {
+    self->client = client;
+    return SUCCESS;
+}
+
+int client_message_init(client_message_t* self) {
+    message_init(&self->message);
+    self->client = NULL;
+    return SUCCESS;
 }

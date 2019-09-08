@@ -13,6 +13,6 @@ typedef struct sudoku_client {
     instruction_t instruction;
 } sudoku_client_t;
 
-int sudoku_client_start(const char* host, const char* port);
+int sudoku_run_as_client(const char* host, const char* port);
 
 #endif

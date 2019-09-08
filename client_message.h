@@ -20,6 +20,7 @@ int client_message_send(client_message_t* self);
 
 int client_message_show(client_message_t* self);
 
-int client_message_create_question(client_message_t* self, instruction_t* instruction);
+int client_message_create_question(client_message_t* self,
+                                   instruction_t* instruction);
 
 #endif

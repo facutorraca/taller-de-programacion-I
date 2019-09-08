@@ -16,7 +16,7 @@ int message_init(message_t* msg) {
 }
 
 int message_create(message_t* msg, const char* str, uint32_t len) {
-    if(len > MAX_LEN_MSG) {
+    if (len > MAX_LEN_MSG) {
         return ERROR;
     }
     for (int i = 0; i < len; i++){
@@ -27,7 +27,7 @@ int message_create(message_t* msg, const char* str, uint32_t len) {
 }
 
 int message_append_character(message_t* msg, char character) {
-    if(msg->len_msg >= MAX_LEN_MSG) {
+    if (msg->len_msg >= MAX_LEN_MSG) {
         return ERROR;
     }
     msg->buffer[msg->len_msg] = character;
@@ -62,19 +62,11 @@ int message_copy_in_buffer(message_t* msg, char* buffer, int len_buff) {
     return SUCCESS;
 }
 
-int message_concat(message_t* frt, message_t* scd) {
-    for (int i = 0; i < scd->len_msg; i++) {
-        frt->buffer[i + frt->len_msg] = scd->buffer[i];
-    }
-    frt->len_msg = frt->len_msg + scd->len_msg;
-    return SUCCESS;
-}
-
 int message_get_nfirst(message_t* msg, char* buffer, int n) {
-    if(msg->len_msg > n) {
+    if (msg->len_msg > n) {
         return ERROR;
     }
-    for(int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         buffer[i] = msg->buffer[i];
     }
     return SUCCESS;

@@ -1,10 +1,13 @@
 #include "instruction.h"
 #include "interface.h"
-#include "sudoku.h"
+#include "rules.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include "sudoku.h"
+
+#define ERROR 1
+#define SUCCESS 0
 
 bool instruction_is_get(instruction_t* self) {
     return strcmp(self->instuction, "get\n") == 0;
@@ -39,24 +42,26 @@ bool put_inst_has_error(char* s1, char* s2, int i1, int i2, int i3) {
         print_invalid_command_error();
         return true;
     }
-    if(!sudoku_position_is_valid(i2, i3)) {
+    if (!position_is_valid(i2, i3)) {
         print_invalid_position_error();
         return true;
     }
-    if(!sudoku_number_is_valid(i1)) {
+    if (!number_is_valid(i1)) {
         print_invalid_number_error();
         return true;
     }
     return false;
 }
 
-bool instruction_has_error(char* s1, char* s2, int i1, int i2, int i3, int args) {
+bool instruction_has_error(char* s1, char* s2,
+                           int i1, int i2, int i3,
+                           int args) {
     if (args == 1) {
         bool is_get = (strcmp(s1, "get") == 0);
         bool is_rst = (strcmp(s1, "reset") == 0);
         bool is_vrf = (strcmp(s1, "verify") == 0);
         bool is_ext = (strcmp(s1, "exit") == 0);
-        if(!is_get && !is_rst && !is_vrf && !is_ext) {
+        if (!is_get && !is_rst && !is_vrf && !is_ext) {
             print_invalid_command_error();
             return true;
         }
@@ -81,10 +86,10 @@ int instruction_get_new(instruction_t* self) {
 
     bool instruction_is_valid = false;
     while (!instruction_is_valid) {
-        if(!fgets(self->instuction, MAX_LEN_INS, stdin)) {
+        if (!fgets(self->instuction, MAX_LEN_INS, stdin)) {
             return ERROR;
         }
-        if(instruction_is_correct(self->instuction)) {
+        if (instruction_is_correct(self->instuction)) {
             instruction_is_valid = true;
         }
     }
