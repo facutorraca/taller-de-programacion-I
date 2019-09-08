@@ -1,9 +1,14 @@
+#define _POSIX_C_SOURCE 200112L
+
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 #include "message.h"
 #include "sudoku.h"
 #include "utils.h"
 #include <stdbool.h>
+#include <netdb.h>
+
 
 #define MAX_BOARD_ROW 19
 #define MAX_BOARD_COL 37
@@ -33,12 +38,12 @@ void print_unsupported_mode_error() {
                     "debe ser server o client\n");
 }
 
-void print_listening_error() {
-    fprintf(stderr,"Error en LISTEN\n");
+void print_getaddrinfo_error(int errcode) {
+    fprintf(stderr,"Error en GETADDRINFO: %s\n", gai_strerror(errcode));
 }
 
-void print_binding_error() {
-    fprintf(stderr,"Error en BIND\n");
+void print_socket_error(char* func_error) {
+    fprintf(stderr,"Error en %s: %s\n", func_error, strerror(errno));
 }
 
 bool verify_server_parameters(int argc, char const *argv[]) {

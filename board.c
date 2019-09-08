@@ -109,8 +109,17 @@ int board_verify_box(board_t* board) {
 
 int get_square_values(char* numbers) {
     parser_t parser;
-    parser_init(&parser, "board.txt");
-    parser_process_file(&parser, numbers);
+    parser_init(&parser);
+    parser_set_file(&parser, "board.txt");
+    parser_set_delimiter(&parser, " ");
+    parser_set_delimiter(&parser, "\n");
+
+    int i = 0;
+    char number[1];
+    while (parser_get_next_word(&parser, number) == SUCCESS) {
+        numbers[i] = (char)number[0];
+        i++;
+    }
     parser_release(&parser);
     return SUCCESS;
 }

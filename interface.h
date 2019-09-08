@@ -24,9 +24,8 @@ void print_client_params_error();
 
 void print_unsupported_mode_error();
 
-void print_listening_error();
+void print_getaddrinfo_error(int errcode);
 
-void print_binding_error();
-
+void print_socket_error(char* func_error);
 
 #endif
