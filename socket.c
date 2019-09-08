@@ -57,11 +57,11 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
     struct addrinfo *result;  //Pointer to the result list
     socket_getaddrinfo(&result, service, 0);
 
+    self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     while (result) {
         self->fd = socket(result->ai_family,
                           result->ai_socktype,
                           result->ai_protocol);
-
         if (connect(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
             freeaddrinfo(result);
             return SUCCESS;
@@ -91,10 +91,4 @@ int socket_receive(socket_t* self, char* buffer, size_t length) {
 
 int socket_release(socket_t* socket) {
     return close(socket->fd);
-}
-
-int socket_setsockopt(socket_t* socket) {
-    int optval = 1;
-    setsockopt(socket->fd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
-    return SUCCESS;
 }

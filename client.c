@@ -1,3 +1,6 @@
+
+#define _POSIX_C_SOURCE 200112L
+
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -9,6 +12,12 @@
 #include "utils.h"
 
 #define MAX_BUFFER 723
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+
+#define MAX_BUFFER 722
 
 int control_recv(message_t* msg);
 

@@ -1,3 +1,7 @@
+
+
+#define _POSIX_C_SOURCE 200112L
+
 #include "server.h"
 #include "socket.h"
 #include "utils.h"
@@ -42,7 +46,6 @@ int server_send(server_t* server, message_t* msg) {
 }
 
 int server_listen(server_t* server) {
-    socket_setsockopt(&server->acceptor);
     socket_bind(&server->acceptor, server->port);
     socket_listen(&server->acceptor);
     // Now process is in sleep mode waiting
