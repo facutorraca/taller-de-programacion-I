@@ -6,6 +6,7 @@
 
 #define ERROR 1
 #define SUCCESS 0
+#define MAX_LEN_MSG 722
 
 int message_init(message_t* msg) {
     msg->len_msg = 0;
