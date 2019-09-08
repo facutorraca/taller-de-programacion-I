@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-
+#define MAX_LEN_MSG 722
 
 typedef struct message {
-    char buffer[722];
+    char buffer[MAX_LEN_MSG];
     uint32_t len_msg;
 } message_t;
 

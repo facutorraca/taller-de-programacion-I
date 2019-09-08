@@ -1,5 +1,4 @@
 
-
 #define _POSIX_C_SOURCE 200112L
 
 #include "server.h"
@@ -12,7 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#define MAX_BUFFER 723
+#define MAX_BUFFER 722
 
 int control_recv(message_t* msg);
 
