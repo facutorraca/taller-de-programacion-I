@@ -1,11 +1,9 @@
 #include "message.h"
+#include "utils.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
-
-#define ERROR 1
-#define SUCCESS 0
 
 int message_init(message_t* msg) {
     msg->len_msg = 0;

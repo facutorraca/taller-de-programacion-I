@@ -1,13 +1,11 @@
 #include "instruction.h"
 #include "interface.h"
 #include "rules.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include "sudoku.h"
-
-#define ERROR 1
-#define SUCCESS 0
 
 bool instruction_is_get(instruction_t* self) {
     return strcmp(self->instuction, "get\n") == 0;
@@ -75,7 +73,7 @@ bool instruction_has_error(char* s1, char* s2,
 }
 
 int instruction_is_correct(const char* inst) {
-    char s1[10], s2[10];
+    char s1[MAX_LEN_INS], s2[MAX_LEN_INS];
     int i1 = 0, i2 = 0, i3 = 0;
     int num_args = sscanf(inst,"%s %i %s %i,%i", s1, &i1, s2, &i2, &i3);
     return !(instruction_has_error(s1, s2, i1, i2, i3, num_args));

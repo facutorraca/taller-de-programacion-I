@@ -6,6 +6,9 @@
 #include "client.h"
 #include "socket.h"
 #include "message.h"
+#include "utils.h"
+
+#define MAX_BUFFER 723
 
 int control_recv(message_t* msg);
 

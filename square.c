@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include "square.h"
+#include "utils.h"
 
 int get_box_number(int row, int col) {
     int box_row = row / 3;

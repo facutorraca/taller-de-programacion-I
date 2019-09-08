@@ -1,11 +1,9 @@
 #include "sudoku.h"
+#include "utils.h"
 #include "board.h"
 #include "stdio.h"
 #include <stdbool.h>
 #include <stdlib.h>
-
-#define SUCCESS 0
-#define ERROR 1
 
 int sudoku_init(sudoku_t* sudoku) {
     return board_init(&sudoku->board);

@@ -2,10 +2,8 @@
 #include "server_message.h"
 #include "sudoku.h"
 #include "server.h"
+#include "utils.h"
 #include <stdbool.h>
-
-#define ERROR 1
-#define SUCCESS 0
 
 int sudoku_server_start_connection(sudoku_server_t* self, server_t* server) {
     bool connected = true;

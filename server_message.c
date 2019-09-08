@@ -6,16 +6,15 @@
 #include "utils.h"
 #include <arpa/inet.h>
 
-#define ERROR 1
-#define SUCCESS 0
+#define BYTES_LEN 4
 
 static int calculate_length_message(server_message_t* self) {
     uint32_t length = htonl(message_get_length(&self->message));
 
-    char array_with_length[4];
+    char array_with_length[BYTES_LEN];
     uint_to_array(array_with_length, length);
 
-    message_create(&self->len_msg, array_with_length, 4);
+    message_create(&self->len_msg, array_with_length, BYTES_LEN);
     return SUCCESS;
 }
 

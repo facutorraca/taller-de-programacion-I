@@ -4,10 +4,6 @@
 #include "socket.h"
 #include "message.h"
 
-#define ERROR 1
-#define SUCCESS 0
-#define MAX_BUFFER 723
-
 typedef struct client {
     const char* host;
     const char* port;

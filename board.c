@@ -9,10 +9,6 @@
 #include "interface.h"
 #include "rules.h"
 
-#define SUCCESS 0
-#define ERROR 1
-
-
 char* board_get_drawing(board_t* board) {
     return board->drawing;
 }
@@ -34,7 +30,7 @@ int get_line_pos(int row, int col) {
 
 int update_drawing(board_t* board) {
     int pos_nbr;
-    for (int i = 0; i < 81; i++) {
+    for (int i = 0; i < NUM_SQUARES; i++) {
         pos_nbr = board->pos_nbr[i];
         board->drawing[pos_nbr] = square_get_number(&board->square[i]);
     }
@@ -133,7 +129,7 @@ int complete_squares(board_t* board, const char* numbers) {
 int complete_drawing(board_t* board, const char* numbers) {
     get_board_drawing(board->drawing);
     int pos_cur_nbr = 0;
-    for (int i = 0; i < 722; i++) {
+    for (int i = 0; i < SIZE_BOARD; i++) {
         if (board->drawing[i] == 'X') {
             board->drawing[i] = square_get_number(&board->square[pos_cur_nbr]);
             board->pos_nbr[pos_cur_nbr] = i;
@@ -145,9 +141,9 @@ int complete_drawing(board_t* board, const char* numbers) {
 
 int board_init(board_t* board) {
     char numbers[NUM_SQUARES];
-    memset(numbers, 0, 81 * sizeof(char));
-    memset(board->drawing, 0, 722 * sizeof(char));
-    memset(board->pos_nbr, 0, 81 * sizeof(int));
+    memset(numbers, 0, NUM_SQUARES * sizeof(char));
+    memset(board->drawing, 0, SIZE_BOARD * sizeof(char));
+    memset(board->pos_nbr, 0, NUM_SQUARES * sizeof(int));
 
     get_square_values(numbers);
 

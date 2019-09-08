@@ -1,6 +1,7 @@
 #define _POSIX_C_SOURCE 200112L
 
 #include "socket.h"
+#include "utils.h"
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <stdbool.h>
@@ -9,8 +10,6 @@
 #include <netdb.h>
 #include <stdint.h>
 
-#define ERROR 1
-#define SUCCESS 0
 #define MAX_PENDING_CONNECTIONS 10
 
 int socket_getaddrinfo(struct addrinfo** result,

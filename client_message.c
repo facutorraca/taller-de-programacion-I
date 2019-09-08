@@ -7,14 +7,13 @@
 #include <string.h>
 #include <arpa/inet.h>
 
-#define ERROR 1
-#define SUCCESS 0
+#define BYTES_LEN 4
 
 static uint32_t calculate_length_message(message_t* msg) {
-    char array_with_length[4];
-    memset(array_with_length, 0, 4 * sizeof(char));
+    char array_with_length[BYTES_LEN];
+    memset(array_with_length, 0, BYTES_LEN * sizeof(char));
 
-    message_get_nfirst(msg, array_with_length, 4);
+    message_get_nfirst(msg, array_with_length, BYTES_LEN);
     return ntohl(array_to_uint(array_with_length));
 }
 
@@ -28,7 +27,7 @@ int client_message_send(client_message_t* self) {
 }
 
 int client_message_recv(client_message_t* self) {
-    client_recv(self->client, &self->message, 4);
+    client_recv(self->client, &self->message, BYTES_LEN);
     uint32_t length_next_message = calculate_length_message(&self->message);
 
     message_init(&self->message); //Restart the message to receive the new one

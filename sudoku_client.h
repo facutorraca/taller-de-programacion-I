@@ -5,9 +5,6 @@
 #include "instruction.h"
 #include "client.h"
 
-#define SUCCESS 0
-#define ERROR 1
-
 typedef struct sudoku_client {
     client_message_t client_msg;
     instruction_t instruction;

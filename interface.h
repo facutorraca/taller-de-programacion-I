@@ -4,10 +4,6 @@
 #include "message.h"
 #include <stdbool.h>
 
-#define MAX_INST 20
-
-
-
 int get_board_drawing(char* buffer);
 
 bool verify_server_parameters(int argc, char const *argv[]);

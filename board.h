@@ -2,14 +2,15 @@
 #define _BOARD_H_
 
 #define NUM_SQUARES 81
+#define SIZE_BOARD 722
 
 #include <stdbool.h>
 #include "square.h"
 
 typedef struct board {
     square_t square[NUM_SQUARES];
-    char drawing[722];
-    int pos_nbr[81];
+    char drawing[SIZE_BOARD];
+    int pos_nbr[NUM_SQUARES];
 } board_t;
 
 int board_init(board_t* board);

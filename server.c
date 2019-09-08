@@ -1,11 +1,14 @@
 #include "server.h"
 #include "socket.h"
+#include "utils.h"
 #include "message.h"
 #include "interface.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
+#define MAX_BUFFER 723
 
 int control_recv(message_t* msg);
 

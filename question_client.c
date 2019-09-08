@@ -1,10 +1,9 @@
 #include "message.h"
 #include "instruction.h"
 #include "sudoku.h"
+#include "utils.h"
 #include <stdio.h>
 #include <string.h>
-
-#define MAX_QUEST 20
 
 int prepare_put_instruction(message_t* msg, instruction_t* inst) {
     message_append_character(msg, 'P');

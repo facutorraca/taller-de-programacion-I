@@ -5,9 +5,6 @@
 #include "sudoku.h"
 #include "server.h"
 
-#define ERROR 1
-#define SUCCESS 0
-
 typedef struct sudoku_server {
     server_message_t server_msg;
     sudoku_t sudoku;

@@ -1,9 +1,6 @@
 #ifndef _SQUARE_H_
 #define _SQUARE_H_
 
-#define SUCCESS 0
-#define ERROR 1
-
 typedef struct square {
     char number;
     bool fixed;

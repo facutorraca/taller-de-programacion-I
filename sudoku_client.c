@@ -2,9 +2,7 @@
 #include "client_message.h"
 #include "instruction.h"
 #include "client.h"
-
-#define ERROR 1
-#define SUCCESS 0
+#include "utils.h"
 
 int sudoku_client_start_connection(sudoku_client_t* self) {
     while (instruction_get_new(&self->instruction) == SUCCESS  &&

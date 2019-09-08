@@ -1,10 +1,9 @@
+#include "parser.h"
 #include <string.h>
 #include <stdio.h>
-#include "parser.h"
+#include "utils.h"
 
 #define MAX_LINE_LENGTH 19
-#define SUCCESS 0
-#define ERROR 1
 
 int parser_process_line(const char* line,
                         parser_t* parser,

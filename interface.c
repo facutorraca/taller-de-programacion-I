@@ -2,14 +2,12 @@
 #include <string.h>
 #include "message.h"
 #include "sudoku.h"
+#include "utils.h"
 #include <stdbool.h>
 
-#define SUCCESS 0
-#define ERROR 1
-#define MAX_ROW 19
-#define MAX_COL 37
+#define MAX_BOARD_ROW 19
+#define MAX_BOARD_COL 37
 
-//arreglar
 void print_invalid_command_error(){
     fprintf(stderr, "El comando introducido no es valido\n");
 }
@@ -31,7 +29,7 @@ void print_client_params_error() {
 }
 
 void print_unsupported_mode_error() {
-    fprintf(stderr,"Modo no soportado, el primer parámetro " 
+    fprintf(stderr,"Modo no soportado, el primer parámetro "
                     "debe ser server o client\n");
 }
 
@@ -44,7 +42,6 @@ void print_binding_error() {
 }
 
 bool verify_server_parameters(int argc, char const *argv[]) {
-    //Faltan verificar mas cosas creo
     if (argc != 3) {
         print_server_params_error();
         return false;
@@ -53,7 +50,6 @@ bool verify_server_parameters(int argc, char const *argv[]) {
 }
 
 bool verify_client_parameters(int argc, char const *argv[]) {
-    //Faltan verificar mas cosas creo
     if (argc != 4) {
         print_client_params_error();
         return false;
@@ -84,12 +80,12 @@ char get_board_char(int row, int col) {
 }
 
 int get_board_drawing(char* buffer) {
-    char line[MAX_COL] = {0};
-    for (int i = 0; i < MAX_ROW; i++) {
-        for (int j = 0; j < MAX_COL; j++) {
+    char line[MAX_BOARD_COL] = {0};
+    for (int i = 0; i < MAX_BOARD_ROW; i++) {
+        for (int j = 0; j < MAX_BOARD_COL; j++) {
             line[j] = get_board_char(i, j);
         }
-        strncat(buffer, line, MAX_COL);
+        strncat(buffer, line, MAX_BOARD_COL);
         strncat(buffer, "\n", 1);
     }
     return SUCCESS;
