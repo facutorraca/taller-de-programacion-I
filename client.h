@@ -4,9 +4,6 @@
 #include "socket.h"
 #include "message.h"
 
-#define ERROR 1
-#define SUCCESS 0
-
 typedef struct client {
     const char* host;
     const char* port;

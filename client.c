@@ -9,6 +9,9 @@
 #include "client.h"
 #include "socket.h"
 #include "message.h"
+#include "utils.h"
+
+#define MAX_BUFFER 723
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -23,7 +26,9 @@ int client_recv(client_t* client, message_t* msg, uint32_t length_msg) {
     int total_bytes = 0, bytes_recv = 0, rem_bytes;
     while (message_get_length(msg) != length_msg) {
         rem_bytes = length_msg - total_bytes;
-        bytes_recv = socket_receive(&client->c_socket, &buffer[total_bytes], rem_bytes);
+        bytes_recv = socket_receive(&client->c_socket,
+                                    &buffer[total_bytes],
+                                    rem_bytes);
         message_append_string(msg, &buffer[total_bytes], bytes_recv);
         total_bytes = total_bytes + bytes_recv;
     }
@@ -35,7 +40,9 @@ int client_send(client_t* client, message_t* msg) {
     int bytes_sent = 0, total_bytes = 0, rem_bytes;
     while (message_get_length(msg) != total_bytes) {
         rem_bytes = message_get_length(msg) - total_bytes;
-        bytes_sent = socket_send(&client->c_socket, (uint8_t*)&msg_buf[total_bytes], rem_bytes);
+        bytes_sent = socket_send(&client->c_socket,
+                                 (uint8_t*)&msg_buf[total_bytes],
+                                 rem_bytes);
         total_bytes = bytes_sent + total_bytes;
     }
     return SUCCESS;

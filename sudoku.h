@@ -18,8 +18,4 @@ int sudoku_reset(sudoku_t* sudoku);
 
 int sudoku_verify(sudoku_t* sudoku);
 
-bool sudoku_number_is_valid(int number);
-
-bool sudoku_position_is_valid(int row, int col);
-
 #endif

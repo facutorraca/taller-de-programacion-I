@@ -4,9 +4,6 @@
 #include "socket.h"
 #include "message.h"
 
-#define ERROR 1
-#define SUCCESS 0
-
 
 typedef struct server {
     const char* port;
@@ -14,7 +11,9 @@ typedef struct server {
     socket_t s_socket;
 } server_t;
 
-int server_recv(server_t* server, message_t* msg, int (*control_recv)(message_t*) );
+int server_recv(server_t* server,
+                message_t* msg,
+                int (*control_recv)(message_t* msg));
 
 int server_send(server_t* server, message_t* msg);
 

@@ -4,6 +4,7 @@
 
 #include "server.h"
 #include "socket.h"
+#include "utils.h"
 #include "message.h"
 #include "interface.h"
 #include <stdbool.h>
@@ -11,20 +12,20 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-
-#define MAX_BUFFER 722
+#define MAX_BUFFER 723
 
 int control_recv(message_t* msg);
 
-int server_recv(server_t* server, message_t* msg, int (*control_recv)(message_t*) ) {
+int server_recv(server_t* server,
+                message_t* msg,
+                int (*control_recv)(message_t* msg)) {
     char buffer[MAX_BUFFER];
     int total_bytes = 0, bytes_recv = 0, rem_bytes;
     do {
         rem_bytes = MAX_BUFFER - total_bytes;
-        bytes_recv = socket_receive(&server->s_socket, &buffer[total_bytes], rem_bytes);
+        bytes_recv = socket_receive(&server->s_socket,
+                                    &buffer[total_bytes],
+                                    rem_bytes);
         message_append_string(msg, &buffer[total_bytes], bytes_recv);
         total_bytes = total_bytes + bytes_recv;
     } while (control_recv(msg) == ERROR);
@@ -36,7 +37,9 @@ int server_send(server_t* server, message_t* msg) {
     int bytes_sent = 0, total_bytes = 0, rem_bytes;
     while (message_get_length(msg) != total_bytes) {
         rem_bytes = message_get_length(msg) - total_bytes;
-        bytes_sent = socket_send(&server->s_socket, (uint8_t*)&msg_buf[total_bytes], rem_bytes);
+        bytes_sent = socket_send(&server->s_socket,
+                                 (uint8_t*)&msg_buf[total_bytes],
+                                 rem_bytes);
         total_bytes = bytes_sent + total_bytes;
     }
     return total_bytes;

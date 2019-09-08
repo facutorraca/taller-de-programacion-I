@@ -5,106 +5,12 @@
 #include "board.h"
 #include "square.h"
 #include "parser.h"
+#include "utils.h"
 #include "interface.h"
+#include "rules.h"
 
-#define SUCCESS 0
-#define ERROR 1
-
-int board_get_square_values(char* numbers) {
-    parser_t parser;
-    parser_init(&parser, "board.txt");
-    parser_process_file(&parser, numbers);
-    parser_release(&parser);
-    return SUCCESS;
-}
-
-int board_get_position(char row, char col) {
-    return (((row - '0') - 1) * 9 + (col - '0')) - 1;
-}
-
-int get_line_pos(int row, int col) {
-    return (row * 9) + col;
-}
-
-int board_get_numbers(board_t* board, char* buffer) {
-    for (int i = 0; i < NUM_SQUARES; i++) {
-        buffer[i] = square_get_number(&board->square[i]);
-    }
-    return SUCCESS;
-}
-
-//arreglar
-bool is_a_number(char a) {
-    return a == ' ' || a == '0' || a == '1' || a == '2' || a == '3' ||
-           a == '4' || a == '5' || a == '6' || a == '7' || a == '8' ||
-           a == '9';
-}
-
-int board_update_drawing(board_t* board) {
-    for (int i = 0; i < 81; i++) {
-        board->drawing[board->pos_nbr[i]] = square_get_number(&board->square[i]);
-    }
-    return SUCCESS;
-}
-
-int board_put_number(board_t* board, char num, char row, char col) {
-    int pos = board_get_position(row, col);
-    if(square_put_number(&board->square[pos], num) == ERROR) {
-        return ERROR;
-    }
-    board_update_drawing(board);
-    return SUCCESS;
-}
-
-int board_complete_squares(board_t* board, const char* numbers) {
-    for (int row = 0; row < 9; row++) {
-        for (int col = 0; col < 9; col++) {
-            int i = get_line_pos(row, col);
-            square_init(&board->square[i], numbers[i]);
-            square_set_box(&board->square[i], row, col);
-        }
-    }
-    return SUCCESS;
-}
-
-int board_complete_drawing(board_t* board, const char* numbers) {
-    interface_get_board_drawing(board->drawing);
-    int pos_cur_nbr = 0;
-    for (int i = 0; i < 722; i++) {
-        if(board->drawing[i] == 'X') {
-            board->drawing[i] = square_get_number(&board->square[pos_cur_nbr]);
-            board->pos_nbr[pos_cur_nbr] = i;
-            pos_cur_nbr++;
-        }
-    }
-    return SUCCESS;
-}
-
-int board_reset(board_t* board) {
-    for (int i = 0; i < NUM_SQUARES; i++) {
-        square_reset(&board->square[i]);
-    }
-    board_update_drawing(board);
-    return SUCCESS;
-}
-
-int board_init(board_t* board) {
-    char numbers[NUM_SQUARES];
-    memset(numbers, 0, 81 * sizeof(char));
-    memset(board->drawing, 0, 722 * sizeof(char));
-    memset(board->pos_nbr, 0, 81 * sizeof(int));
-
-    board_get_square_values(numbers);
-
-    board_complete_squares(board, numbers);
-    board_complete_drawing(board, numbers);
-    return SUCCESS;
-}
-
-int cmp_by_number(const void *num_a, const void *num_b) {
-    int int_a = *(char*)num_a - '0';
-    int int_b = *(char*)num_b - '0';
-    return int_a - int_b;
+char* board_get_drawing(board_t* board) {
+    return board->drawing;
 }
 
 int cmp_by_square(const void *sqr_a, const void *sqr_b) {
@@ -113,14 +19,47 @@ int cmp_by_square(const void *sqr_a, const void *sqr_b) {
     return box_a - box_b;
 }
 
-bool line_is_correct(char* numbers) {
-    qsort(numbers, 9, sizeof(char), cmp_by_number);
-    for (int i = 1; i < 9; i++) {
-        if (numbers[i-1] == numbers[i] && numbers[i] != ' ') {
-            return false;
-        }
+int get_board_position(char row, char col) {
+    //Use for user input
+    return (char_to_int(row) - 1) * 9 + (char_to_int(col) - 1);
+}
+
+int get_line_pos(int row, int col) {
+    return (row * 9) + col;
+}
+
+int update_drawing(board_t* board) {
+    int pos_nbr;
+    for (int i = 0; i < NUM_SQUARES; i++) {
+        pos_nbr = board->pos_nbr[i];
+        board->drawing[pos_nbr] = square_get_number(&board->square[i]);
     }
-    return true;
+    return SUCCESS;
+}
+
+int board_put_number(board_t* board, char num, char row, char col) {
+    int pos = get_board_position(row, col);
+    if (square_put_number(&board->square[pos], num) == ERROR) {
+        return ERROR;
+    }
+    update_drawing(board);
+    return SUCCESS;
+}
+
+int board_reset(board_t* board) {
+    for (int i = 0; i < NUM_SQUARES; i++) {
+        square_reset(&board->square[i]);
+    }
+    update_drawing(board);
+    return SUCCESS;
+}
+
+int sort_square_by_box(board_t* board, square_t* sqr_dup) {
+    for (int i = 0; i < NUM_SQUARES; i++) {
+        sqr_dup[i] = board->square[i];
+    }
+    qsort(sqr_dup, 81, sizeof(square_t), cmp_by_square);
+    return SUCCESS;
 }
 
 int board_verify_row(board_t* board) {
@@ -151,17 +90,9 @@ int board_verify_col(board_t* board) {
     return SUCCESS;
 }
 
-int board_sort_square_by_box(board_t* board, square_t* sqr_dup) {
-    for (int i = 0; i < NUM_SQUARES; i++) {
-        sqr_dup[i] = board->square[i];
-    }
-    qsort(sqr_dup, 81, sizeof(square_t), cmp_by_square);
-    return SUCCESS;
-}
-
 int board_verify_box(board_t* board) {
     square_t sqr_dup[NUM_SQUARES];
-    board_sort_square_by_box(board, sqr_dup);
+    sort_square_by_box(board, sqr_dup);
 
     char box[9];
     for (int row = 0; row < 9; row++) {
@@ -176,6 +107,47 @@ int board_verify_box(board_t* board) {
     return SUCCESS;
 }
 
-char* board_get_drawing(board_t* board) {
-    return board->drawing;
+int get_square_values(char* numbers) {
+    parser_t parser;
+    parser_init(&parser, "board.txt");
+    parser_process_file(&parser, numbers);
+    parser_release(&parser);
+    return SUCCESS;
+}
+
+int complete_squares(board_t* board, const char* numbers) {
+    for (int row = 0; row < 9; row++) {
+        for (int col = 0; col < 9; col++) {
+            int i = get_line_pos(row, col);
+            square_init(&board->square[i], numbers[i]);
+            square_set_box(&board->square[i], row, col);
+        }
+    }
+    return SUCCESS;
+}
+
+int complete_drawing(board_t* board, const char* numbers) {
+    get_board_drawing(board->drawing);
+    int pos_cur_nbr = 0;
+    for (int i = 0; i < SIZE_BOARD; i++) {
+        if (board->drawing[i] == 'X') {
+            board->drawing[i] = square_get_number(&board->square[pos_cur_nbr]);
+            board->pos_nbr[pos_cur_nbr] = i;
+            pos_cur_nbr++;
+        }
+    }
+    return SUCCESS;
+}
+
+int board_init(board_t* board) {
+    char numbers[NUM_SQUARES];
+    memset(numbers, 0, NUM_SQUARES * sizeof(char));
+    memset(board->drawing, 0, SIZE_BOARD * sizeof(char));
+    memset(board->pos_nbr, 0, NUM_SQUARES * sizeof(int));
+
+    get_square_values(numbers);
+
+    complete_squares(board, numbers);
+    complete_drawing(board, numbers);
+    return SUCCESS;
 }

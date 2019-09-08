@@ -1,6 +1,7 @@
 #define _POSIX_C_SOURCE 200112L
 
 #include "socket.h"
+#include "utils.h"
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <stdbool.h>
@@ -9,14 +10,12 @@
 #include <netdb.h>
 #include <stdint.h>
 
-#include <stdio.h>
-
-#define ERROR 1
-#define SUCCESS 0
 #define MAX_PENDING_CONNECTIONS 10
 
-int socket_getaddrinfo(struct addrinfo** result, const char* service, int ai_flags) {
-    struct addrinfo hints; //Criteria for selecting the socket address structures
+int socket_getaddrinfo(struct addrinfo** result,
+                       const char* service,
+                       int ai_flags) {
+    struct addrinfo hints; //Criteria for selecting the socket addr structures
 
     memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = AF_INET;        //IPv4
@@ -35,7 +34,10 @@ int socket_bind(socket_t* self, const char* service) {
     socket_getaddrinfo(&result, service, AI_PASSIVE);
 
     while (result) {
-        self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+        self->fd = socket(result->ai_family,
+                          result->ai_socktype,
+                          result->ai_protocol);
+
         if (bind(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
             freeaddrinfo(result);
             return SUCCESS;
@@ -57,7 +59,9 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
 
     self->fd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     while (result) {
-
+        self->fd = socket(result->ai_family,
+                          result->ai_socktype,
+                          result->ai_protocol);
         if (connect(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
             freeaddrinfo(result);
             return SUCCESS;
