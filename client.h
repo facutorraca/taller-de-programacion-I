@@ -10,14 +10,27 @@ typedef struct client {
     socket_t c_socket;
 } client_t;
 
-int client_recv(client_t* client, message_t* msg, uint32_t length_msg);
+//Recibe un mensaje si es posible y lo guarda en msg.
+//PRE: self fue inicializado previamente. Msg fue inicializado
+//previamente. length_msg contiene la longitud del mensaje esperado
+int client_recv(client_t* self, message_t* msg, uint32_t length_msg);
 
-int client_send(client_t* server, message_t* msg);
+//Envia un mensaje si es posible.
+//PRE: self fue inicializado previamente. Msg contiene
+//el mensaje que quiere ser enviado
+int client_send(client_t* self, message_t* msg);
 
+//Conecta al cliente con un servidor si posible
+//PRE: self fue inicializado previamente.
 int client_connect_with_server(client_t* client);
 
-int client_init(client_t* client, const char* host, const char* port);
+//Inicializa una instacia de client
+//PRE: self apunta un sector válido de memoria. Host y port
+//son un servicio y puerto valido respectivamente
+int client_init(client_t* self, const char* host, const char* port);
 
-int client_release(client_t* client);
+//Inicializa una instacia de server
+//PRE: self apunta un sector válido de memoria
+int client_release(client_t* self);
 
 #endif

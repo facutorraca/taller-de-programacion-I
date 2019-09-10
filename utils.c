@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include <string.h>
+
 int uint_to_array(char* array, uint32_t uint) {
     array[0] = uint >> 24;
     array[1] = uint >> 16;
@@ -24,7 +26,6 @@ int char_to_int(char char_value) {
 }
 
 bool is_a_number(char a) {
-    return a == ' ' || a == '0' || a == '1' || a == '2' || a == '3' ||
-           a == '4' || a == '5' || a == '6' || a == '7' || a == '8' ||
-           a == '9';
+    return a == '0' || a == '1' || a == '2' || a == '3' || a == '4' ||
+           a == '5' || a == '6' || a == '7' || a == '8' || a == '9';
 }

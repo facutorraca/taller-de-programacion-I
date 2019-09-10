@@ -11,16 +11,30 @@ typedef struct server {
     socket_t s_socket;
 } server_t;
 
-int server_recv(server_t* server,
+//Recibe un mensaje si es posible y lo guarda en msg.
+//PRE: self fue inicializado previamente. Msg fue inicializado
+//previamente y control receive permite determinar cuando
+//el mensaje fue completamente leido.
+int server_recv(server_t* self,
                 message_t* msg,
                 int (*control_recv)(message_t* msg));
 
-int server_send(server_t* server, message_t* msg);
 
-int server_listen(server_t* server);
+//Envia un mensaje si es posible.
+//PRE: self fue inicializado previamente. Msg contiene
+//el mensaje que quiere ser enviado
+int server_send(server_t* self, message_t* msg);
 
-int server_release(server_t* server);
+//Pone al server en escuhca para acetar una conexion
+//PRE: self fue inicializado previamente.
+int server_listen(server_t* self);
 
-int server_init(server_t* server, const char* port);
+//Libera la instancia de server, liberando todos los recursos
+//PRE: self fue inicializado previamente.
+int server_release(server_t* self);
+
+//Inicializa una instacia de server
+//PRE: self apunta un sector válido de memoria
+int server_init(server_t* self, const char* port);
 
 #endif

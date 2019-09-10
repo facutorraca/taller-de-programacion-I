@@ -21,6 +21,13 @@ int sudoku_client_init(sudoku_client_t* self) {
     return SUCCESS;
 }
 
+int sudoku_client_release(sudoku_client_t* self, client_t* client) {
+    client_release(client);
+    client_message_release(&self->client_msg);
+    instruction_release(&self->instruction);
+    return SUCCESS;
+}
+
 int sudoku_run_as_client(const char* host, const char* port) {
     sudoku_client_t sudoku_client;
     sudoku_client_init(&sudoku_client);
@@ -31,6 +38,6 @@ int sudoku_run_as_client(const char* host, const char* port) {
     client_message_set_client(&sudoku_client.client_msg,&client);
 
     sudoku_client_start_connection(&sudoku_client);
-    client_release(&client);
+    sudoku_client_release(&sudoku_client, &client);
     return SUCCESS;
 }

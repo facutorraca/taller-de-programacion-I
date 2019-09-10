@@ -13,6 +13,6 @@ int char_to_int(char char_value);
 
 uint32_t array_to_uint(char* array);
 
-bool is_a_number(char a);
+bool is_a_number(const char a);
 
 #endif
