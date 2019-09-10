@@ -13,22 +13,39 @@ typedef struct board {
     int pos_nbr[NUM_SQUARES];
 } board_t;
 
-int board_init(board_t* board);
+//Inicializa una instacia de board con los numeros
+//enviados por parametro
+//PRE: self apunta un sector válido de memoria
+int board_init(board_t* self, char* numbers);
 
-int board_reset();
+//Resetea el tablero a su estado inicial
+//PRE: self fue inicializado mediante board_init
+int board_reset(board_t* self);
 
-int board_release();
+//Destruye la instancia del tablero
+//PRE: self fue inicializado mediante board_init
+int board_release(board_t* self);
 
-int board_get_numbers(board_t* board, char* buffer);
+//Coloca un numero en la posicion indicada si es posible
+//PRE: self fue inicializado mediante board_int row, col y num
+//pertenecen al intervalo [1,9]
+int board_put_number(board_t* self, char num, int row, int col);
 
-int board_put_number(board_t* board, char num, char row, char col);
+//Verifica si las columnas cumplen con las reglas
+//PRE: self fue inicializado mediante board_init
+int board_verify_col(board_t* self);
 
-int board_verify_col(board_t* board);
+//Verifica si las filas cumplen con las reglas
+//PRE: self fue inicializado mediante board_init
+int board_verify_row(board_t* self);
 
-int board_verify_row(board_t* board);
+//Verifica si los cuadrados cumplen con las reglas
+//PRE: self fue inicializado mediante board_init
+int board_verify_box(board_t* self);
 
-int board_verify_box(board_t* board);
-
-char* board_get_drawing(board_t* board);
+//Se obtiene un puntero al inico del vector
+//con el dibujo del tablero
+//PRE: self fue inicializado mediante board_init
+char* board_get_drawing(board_t* self);
 
 #endif

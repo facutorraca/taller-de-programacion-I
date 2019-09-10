@@ -3,6 +3,7 @@
 #include "question_client.h"
 #include "message.h"
 #include "client.h"
+#include "interface.h"
 #include "utils.h"
 #include <string.h>
 #include <arpa/inet.h>
@@ -36,7 +37,7 @@ int client_message_recv(client_message_t* self) {
 }
 
 int client_message_show(client_message_t* self) {
-    return message_print(&self->message);
+    return interface_print_message(&self->message);
 }
 
 int client_message_create_question(client_message_t* self,
@@ -52,6 +53,12 @@ int client_message_set_client(client_message_t* self, client_t* client) {
 
 int client_message_init(client_message_t* self) {
     message_init(&self->message);
+    self->client = NULL;
+    return SUCCESS;
+}
+
+int client_message_release(client_message_t* self) {
+    message_release(&self->message);
     self->client = NULL;
     return SUCCESS;
 }

@@ -77,3 +77,10 @@ int server_message_init(server_message_t* self) {
     self->server = NULL;
     return SUCCESS;
 }
+
+int server_message_release(server_message_t* self) {
+    message_release(&self->message);
+    message_release(&self->len_msg);
+    self->server = NULL;
+    return SUCCESS;
+}

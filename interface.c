@@ -46,6 +46,10 @@ void print_socket_error(char* func_error) {
     fprintf(stderr,"Error en %s: %s\n", func_error, strerror(errno));
 }
 
+int interface_print_message(message_t* msg) {
+    return message_print(msg);
+}
+
 bool verify_server_parameters(int argc, char const *argv[]) {
     if (argc != 3) {
         print_server_params_error();

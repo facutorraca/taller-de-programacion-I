@@ -11,26 +11,48 @@ typedef struct message {
     uint32_t len_msg;
 } message_t;
 
-int message_init(message_t* msg);
+//Inicializa una instancia de message
+//PRE: self apunta a una posicion valida de memoria
+int message_init(message_t* self);
 
-int message_create(message_t* msg, const char* str, uint32_t len);
+//Crea un mensjae con el string pasado
+//PRE: self fue inicializado previamente. El tamano del string
+//coince con el pasado por parametro
+int message_create(message_t* self, const char* str, uint32_t len);
 
-int message_append_character(message_t* msg, char character);
+//Agrega un caracter al final del mensaje
+//PRE: self fue inicializado previamente.
+int message_append_character(message_t* self, char character);
 
-uint32_t message_get_length(message_t* msg);
+//Devuelve la longitud del mensaje
+//PRE: self fue inicializado previamente.
+uint32_t message_get_length(message_t* self);
 
-char message_get_first_character(message_t* msg);
+//Devuelve el primer caracter del mensaje
+//PRE: self fue inicializado previamente.
+char message_get_first_character(message_t* self);
 
-int message_copy_in_buffer(message_t* msg, char* buffer, int len_buff);
+//Devulve en el buffer los primeros n caracteres del mensaje
+//PRE: self fue inicializado previamente. El tamano del buffer
+//coince con el pasado por parametro
+int message_get_nfirst(message_t* self, char* buffer, int n);
 
-int message_concat(message_t* frt, message_t* scd);
+//Apendea un string al final del mensaje
+//PRE: self fue inicializado previamente. El tamano del string
+//coince con el pasado por parametro
+int message_append_string(message_t* self, char* str, int len);
 
-int message_get_nfirst(message_t* msg, char* buffer, int n);
+//Imprimer el mensaje por STDOUT
+//PRE: self fue inicializado previamente.
+int message_print(message_t* self);
 
-int message_append_string(message_t* msg, char* str, int len);
+//Devuelve un puntero a la primera posicion del vector
+//que contiene el mensaje
+//PRE: self fue inicializado previamente.
+char* message_get(message_t* self);
 
-int message_print(message_t* msg);
-
-char* message_get(message_t* msg);
+//Destruye la instancia de message
+//PRE: self fue inicializado previamente
+int message_release(message_t* self);
 
 #endif

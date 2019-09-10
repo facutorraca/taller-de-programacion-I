@@ -20,7 +20,7 @@ uint32_t array_to_uint(char* array) {
 }
 
 int char_to_int(char char_value) {
-    return char_value - '0';
+    return (char_value - '0');
 }
 
 bool is_a_number(char a) {

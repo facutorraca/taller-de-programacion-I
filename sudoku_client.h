@@ -10,6 +10,7 @@ typedef struct sudoku_client {
     instruction_t instruction;
 } sudoku_client_t;
 
+//Inicia el juego en modo cliente
 int sudoku_run_as_client(const char* host, const char* port);
 
 #endif

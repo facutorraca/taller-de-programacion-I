@@ -5,81 +5,85 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-int message_init(message_t* msg) {
-    msg->len_msg = 0;
-    for (int i = 0; i < MAX_LEN_MSG; i++){
-        msg->buffer[i] = 0;
-    }
+int message_init(message_t* self) {
+    self->len_msg = 0;
+    memset(self->buffer, 0, MAX_LEN_MSG * sizeof(char));
     return SUCCESS;
 }
 
-int message_create(message_t* msg, const char* str, uint32_t len) {
+int message_create(message_t* self, const char* str, uint32_t len) {
     if (len > MAX_LEN_MSG) {
         return ERROR;
     }
     for (int i = 0; i < len; i++){
-        msg->buffer[i] = str[i];
+        self->buffer[i] = str[i];
     }
-    msg->len_msg = len;
+    self->len_msg = len;
     return SUCCESS;
 }
 
-int message_append_character(message_t* msg, char character) {
-    if (msg->len_msg >= MAX_LEN_MSG) {
+int message_append_character(message_t* self, char character) {
+    if (self->len_msg >= MAX_LEN_MSG) {
         return ERROR;
     }
-    msg->buffer[msg->len_msg] = character;
-    msg->len_msg++;
+    self->buffer[self->len_msg] = character;
+    self->len_msg++;
     return SUCCESS;
 }
 
-int message_print(message_t* msg) {
-    for (int i = 0; i < msg->len_msg; i++) {
-        fprintf(stdout, "%c", msg->buffer[i]);
+int message_print(message_t* self) {
+    for (int i = 0; i < self->len_msg; i++) {
+        fprintf(stdout, "%c", self->buffer[i]);
     }
     return SUCCESS;
 }
 
-uint32_t message_get_length(message_t* msg) {
-    return msg->len_msg;
+uint32_t message_get_length(message_t* self) {
+    return self->len_msg;
 }
 
-char message_get_first_character(message_t* msg) {
-    return msg->buffer[0];
+char message_get_first_character(message_t* self) {
+    return self->buffer[0];
 }
 
-char* message_get(message_t* msg) {
-    return msg->buffer;
+char* message_get(message_t* self) {
+    return self->buffer;
 }
 
-int message_copy_in_buffer(message_t* msg, char* buffer, int len_buff) {
-    if (msg->len_msg > len_buff) {
+int message_copy_in_buffer(message_t* self, char* buffer, int len_buff) {
+    if (self->len_msg > len_buff) {
         return ERROR;
     }
-    strncpy(buffer, msg->buffer, msg->len_msg);
+    strncpy(buffer, self->buffer, self->len_msg);
     return SUCCESS;
 }
 
-int message_get_nfirst(message_t* msg, char* buffer, int n) {
-    if (msg->len_msg > n) {
+int message_get_nfirst(message_t* self, char* buffer, int n) {
+    if (self->len_msg > n) {
         return ERROR;
     }
     for (int i = 0; i < n; i++) {
-        buffer[i] = msg->buffer[i];
+        buffer[i] = self->buffer[i];
     }
     return SUCCESS;
 }
 
-int message_append_string(message_t* msg, char* str, int len) {
-    if (msg->len_msg + len > MAX_LEN_MSG) {
+int message_append_string(message_t* self, char* str, int len) {
+    if (self->len_msg + len > MAX_LEN_MSG) {
         return ERROR;
     }
     if (len == 0) {
         return ERROR;
     }
-    for (int i = msg->len_msg; i < msg->len_msg + len; i++) {
-        msg->buffer[i] = str[i - msg->len_msg];
+    for (int i = self->len_msg; i < self->len_msg + len; i++) {
+        self->buffer[i] = str[i - self->len_msg];
     }
-    msg->len_msg = msg->len_msg + len;
+    self->len_msg = self->len_msg + len;
+    return SUCCESS;
+}
+
+int message_release(message_t* self) {
+    self->len_msg = 0;
+    memset(self->buffer, 0, MAX_LEN_MSG * sizeof(char));
     return SUCCESS;
 }

@@ -10,6 +10,7 @@ typedef struct sudoku_server {
     sudoku_t sudoku;
 } sudoku_server_t;
 
+//Inicia el juego en modo servidor
 int sudoku_run_as_server(const char* port);
 
 #endif

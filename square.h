@@ -7,16 +7,34 @@ typedef struct square {
     int box;
 } square_t;
 
-int square_init(square_t* square, char number);
+//Inicializa una instacia de square con el numero
+//enviado por parametro
+//PRE: self apunta un sector válido de memoria
+int square_init(square_t* self, char number);
 
-int square_reset(square_t* square);
+//Resetea la celdad a su estado inicial
+//PRE: self fue inicializado previamente
+int square_reset(square_t* self);
 
-int square_put_number(square_t* square, char number);
+//Coloca un si es posible
+//PRE: self fue inicializad previamente.
+//Number pertenece al intervalo [1,9]
+int square_put_number(square_t* self, char number);
 
-int square_set_box(square_t* square, int row, int col);
+//Define la caja en la que pertenece en el tablero
+//PRE: self fue inicializado previamente
+int square_set_box(square_t* self, int row, int col);
 
-int square_get_box(square_t* square);
+//Obtiene la caja en la que pertenece en el tablero
+//PRE: self fue inicializado y su caja fue definida previamente
+int square_get_box(square_t* self);
 
-char square_get_number(square_t* square);
+//Obtiene el numero.
+//PRE: self fue inicializado previamente
+char square_get_number(square_t* self);
+
+//Destruye una instacia de square
+//PRE: self fue inicializado previamente
+int square_release(square_t* self);
 
 #endif

@@ -98,3 +98,8 @@ int instruction_init(instruction_t* self) {
     memset(self->instuction, 0, MAX_LEN_INS * sizeof(char));
     return SUCCESS;
 }
+
+int instruction_release(instruction_t* self) {
+    memset(self->instuction, 0, MAX_LEN_INS * sizeof(char));
+    return SUCCESS;
+}
