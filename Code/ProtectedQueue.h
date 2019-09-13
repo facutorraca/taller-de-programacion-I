@@ -8,7 +8,7 @@
 class ProtectedQueue {
 
     size_t max_q_len;
-    //std::mutex q_mutex;
+    std::mutex q_mutex;
     std::queue<Block> queue;
 
     public:

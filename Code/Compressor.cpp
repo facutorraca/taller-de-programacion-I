@@ -22,7 +22,7 @@ void Compressor::set_output_file(const char* o_filename) {
 
 void Compressor::compress() {
     for (int i = 0; i < this->num_thrds; i++) {
-        this->threads[i].compress();
+        this->cmp_threads[i]->compress();
     }
 }
 
@@ -30,24 +30,24 @@ void Compressor::compress() {
 
 void Compressor::init_threads() {
     for (int i = 0; i < this->num_thrds; i++) {
-        ThreadCompressor thread(this->block_len, i, this->max_q_len);
-        this->threads.push_back(thread);
+        this->cmp_threads.push_back(new ThreadCompressor(this->block_len, i,
+                                                         this->max_q_len));
     }
 }
 
 void Compressor::set_file_to_threads() {
     for (int i = 0; i < this->num_thrds; i++) {
-        this->threads[i].set_file(&this->i_file);
+        this->cmp_threads[i]->set_file(&this->i_file);
     }
 }
 
 Compressor::~Compressor() {
-    threads.clear();
+    this->cmp_threads.clear();
 
-    if (i_file.is_open()) {
-        i_file.close();
+    if (this->i_file.is_open()) {
+        this->i_file.close();
     }
-    if (o_file.is_open()) {
-        o_file.close();
+    if (this->o_file.is_open()) {
+        this->o_file.close();
     }
 }

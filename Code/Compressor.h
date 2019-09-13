@@ -9,7 +9,7 @@
 
 class Compressor {
 
-    std::vector<ThreadCompressor> threads;
+    std::vector<ThreadCompressor*> cmp_threads;
     std::ifstream i_file;
     std::ofstream o_file;
 
