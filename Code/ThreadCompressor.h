@@ -5,12 +5,15 @@
 #include "BlockBuffer.h"
 #include <cstdint>
 #include <fstream>
+#include <thread>
 
 class ThreadCompressor {
 
     std::ifstream* i_file;
+    std::thread thread;
+    ProtectedQueue* queue;
     BlockBuffer buffer;
-    ProtectedQueue queue;
+    std::mutex& mtx;
     int blocks_len;
     int curr_block;
 
@@ -18,13 +21,17 @@ class ThreadCompressor {
 
         void read_block();
 
+        void compress();
+
     public:
 
-        ThreadCompressor(int blocks_len, int start, size_t max_q_len);
+        ThreadCompressor(int blocks_len, int start, std::mutex& mtx);
 
-        void set_file(std::ifstream* file);
+        void set_file(std::ifstream* i_file);
 
-        void compress();
+        void set_queue(ProtectedQueue* queue);
+
+        void run();
 
         ~ThreadCompressor();
 };

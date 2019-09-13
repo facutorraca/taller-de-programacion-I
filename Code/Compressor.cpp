@@ -1,4 +1,5 @@
 #include "Compressor.h"
+#include "ProtectedQueue.h"
 #include "ThreadCompressor.h"
 #include <iostream>
 
@@ -8,6 +9,7 @@ Compressor::Compressor(int num_thrds, size_t max_q_len, int block_len) {
     this->num_thrds = num_thrds;
     this->max_q_len = max_q_len;
     this->block_len = block_len;
+    this->init_queues();
     this->init_threads();
 }
 
@@ -22,16 +24,23 @@ void Compressor::set_output_file(const char* o_filename) {
 
 void Compressor::compress() {
     for (int i = 0; i < this->num_thrds; i++) {
-        this->cmp_threads[i]->compress();
+        this->cmp_threads[i]->run();
     }
+    //Aca va un join:
 }
 
 /*--------------Private-------------*/
 
 void Compressor::init_threads() {
     for (int i = 0; i < this->num_thrds; i++) {
-        this->cmp_threads.push_back(new ThreadCompressor(this->block_len, i,
-                                                         this->max_q_len));
+        this->cmp_threads.push_back(new ThreadCompressor(this->block_len, i, this->mtx));
+        this->cmp_threads[i]->set_queue(this->queues[i]);
+    }
+}
+
+void Compressor::init_queues() {
+    for (int i = 0; i < this->num_thrds; i++) {
+        this->queues.push_back(new ProtectedQueue(this->max_q_len));
     }
 }
 

@@ -11,6 +11,7 @@ ProtectedQueue::ProtectedQueue(size_t max_q_len) {
 }
 
 bool ProtectedQueue::push(Block block) {
+    //Lock(this->mtx); //Lock for othr threads;
     if (this->queue.size() < this->max_q_len) {
         this->queue.push(block);
         return true;
@@ -19,6 +20,7 @@ bool ProtectedQueue::push(Block block) {
 }
 
 Block ProtectedQueue::pop() {
+    //Lock(this->mtx); //Lock for othr threads;
     Block block = this->queue.front();
     this->queue.pop();
     return block;

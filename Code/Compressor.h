@@ -4,14 +4,17 @@
 #include "ThreadCompressor.h"
 #include <fstream>
 #include <vector>
+#include <mutex>
 
 #include <iostream>
 
 class Compressor {
 
     std::vector<ThreadCompressor*> cmp_threads;
+    std::vector<ProtectedQueue*> queues;
     std::ifstream i_file;
     std::ofstream o_file;
+    std::mutex mtx;
 
     size_t max_q_len;
     int num_thrds;
@@ -24,6 +27,8 @@ class Compressor {
         void set_file_to_threads();
 
         void init_threads();
+
+        void init_queues();
 
     public:
 

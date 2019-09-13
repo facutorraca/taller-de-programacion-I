@@ -2,14 +2,15 @@
 #define _QUEUE_H_
 
 #include "Block.h"
-#include <mutex>
 #include <queue>
+#include <mutex>
 
 class ProtectedQueue {
 
     size_t max_q_len;
-    std::mutex q_mutex;
     std::queue<Block> queue;
+    //std::mutex& mtx;
+    //std::condition_variable cond_var;
 
     public:
 
