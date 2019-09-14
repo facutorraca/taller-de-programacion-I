@@ -1,5 +1,5 @@
-#ifndef _THREAD_COMPRESSOR_H_
-#define _THREAD_COMPRESSOR_H_
+#ifndef _COMPRESSOR_THREAD_H_
+#define _COMPRESSOR_THREAD_H_
 
 #include "ProtectedQueue.h"
 #include "BlockBuffer.h"
@@ -7,13 +7,15 @@
 #include <fstream>
 #include <thread>
 
-class ThreadCompressor {
+class CompressorThread {
 
-    std::ifstream* i_file;
-    std::thread thread;
     ProtectedQueue* queue;
+    std::ifstream* i_file;
+
+    std::mutex& f_mtx;
+    std::thread thread;
+
     BlockBuffer buffer;
-    std::mutex& mtx;
     int blocks_len;
     int curr_block;
 
@@ -25,7 +27,7 @@ class ThreadCompressor {
 
     public:
 
-        ThreadCompressor(int blocks_len, int start, std::mutex& mtx);
+        CompressorThread(int blocks_len, int start, std::mutex& f_mtx);
 
         void set_file(std::ifstream* i_file);
 
@@ -33,7 +35,9 @@ class ThreadCompressor {
 
         void run();
 
-        ~ThreadCompressor();
+        void join();
+
+        ~CompressorThread();
 };
 
 #endif

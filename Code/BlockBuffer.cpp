@@ -7,7 +7,6 @@
 #include <arpa/inet.h>
 
 /*--------------Public--------------*/
-
 BlockBuffer::BlockBuffer(int block_len) {
     this->buffer = new uint32_t[block_len];
     this->buff_len = block_len;
@@ -33,7 +32,6 @@ Block BlockBuffer::compress_block() {
 }
 
 /*--------------Private--------------*/
-
 void BlockBuffer::clear() {
     memset(this->buffer, 0, this->buff_len * sizeof(uint32_t));
     this->curr_pos = 0;

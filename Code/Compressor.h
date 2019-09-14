@@ -1,34 +1,35 @@
 #ifndef _COMPRESSOR_H_
 #define _COMPRESSOR_H_
 
-#include "ThreadCompressor.h"
+#include "CompressorThread.h"
+#include "WriterThread.h"
 #include <fstream>
 #include <vector>
 #include <mutex>
-
 #include <iostream>
 
 class Compressor {
 
-    std::vector<ThreadCompressor*> cmp_threads;
-    std::vector<ProtectedQueue*> queues;
+    int num_thrds;
+
     std::ifstream i_file;
     std::ofstream o_file;
-    std::mutex mtx;
 
-    size_t max_q_len;
-    int num_thrds;
-    int block_len;
+    std::mutex file_mtx;
+
+    WriterThread* wrt_thread;
+    std::vector<ProtectedQueue*> queues;
+    std::vector<CompressorThread*> cmp_threads;
 
     private:
 
         uint32_t find_minimal_bits(uint32_t number);
 
-        void set_file_to_threads();
+        void set_file_to_cmp_threads();
 
-        void init_threads();
+        void init_threads(int block_len);
 
-        void init_queues();
+        void init_queues(size_t max_q_len);
 
     public:
 
