@@ -14,19 +14,14 @@ class Compressor {
 
     std::ifstream i_file;
     std::ofstream o_file;
+    std::mutex i_file_mtx;
 
-    std::mutex file_mtx;
-
-    WriterThread* wrt_thread;
+    WriterThread* wtr_thread;
     std::vector<ProtectedQueue*> queues;
     std::vector<CompressorThread*> cmp_threads;
 
     private:
-
-        uint32_t find_minimal_bits(uint32_t number);
-
-        void set_file_to_cmp_threads();
-
+        
         void init_threads(int block_len);
 
         void init_queues(size_t max_q_len);

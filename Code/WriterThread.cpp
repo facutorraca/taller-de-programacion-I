@@ -26,8 +26,8 @@ void WriterThread::write_file() {
     while (true) {
         for (size_t i = 0; i < queues.size(); i++){
             this->queues[i]->wait();
-            Block block = this->queues[i]->pop();
-            block.print();
+            Block* block = this->queues[i]->pop();
+            block->print();
         }
     }
 }

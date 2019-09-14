@@ -23,7 +23,7 @@ class BlockBuffer {
 
         void add_number(char* str_number);
 
-        Block create_compressed_block();
+        Block* create_compressed_block();
 
         ~BlockBuffer();
 

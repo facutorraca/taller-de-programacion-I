@@ -6,12 +6,13 @@
 #include <vector>
 
 class Block {
-    //d
-    int elements;
+
+    std::vector<bool> bitset;
     uint8_t bits;
     uint32_t ref;
+
+    int elements;
     uint32_t* numbers;
-    std::vector<bool> dyn_bitset;
 
     private:
 
@@ -27,7 +28,9 @@ class Block {
 
     public:
 
-        Block(uint32_t* numbers, int elements);
+        Block(const uint32_t* numbers, int elements);
+
+        Block(Block&& block);
 
         void compress();
 

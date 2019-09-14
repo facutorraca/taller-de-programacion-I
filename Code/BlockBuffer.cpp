@@ -9,7 +9,7 @@
 BlockBuffer::BlockBuffer(int block_len) {
     this->buffer = new uint32_t[block_len];
     this->buff_len = block_len;
-    this->clear(); //Clear the buffer
+    this->clear(); //Init the buffer
 }
 
 void BlockBuffer::add_number(char* str_number) {
@@ -20,10 +20,10 @@ void BlockBuffer::add_number(char* str_number) {
     this->curr_pos++;
 }
 
-Block BlockBuffer::create_compressed_block() {
-    Block block(buffer, this->buff_len);
-    block.compress();
+Block* BlockBuffer::create_compressed_block() {
+    Block* block = new Block(buffer, this->buff_len);
     this->clear(); //Restart the buffer
+    block->compress();
     return block;
 }
 

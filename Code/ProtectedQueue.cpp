@@ -10,7 +10,7 @@ ProtectedQueue::ProtectedQueue(size_t max_q_len) {
     this->max_q_len = max_q_len;
 }
 
-bool ProtectedQueue::push(Block block) {
+bool ProtectedQueue::push(Block* block) {
     std::unique_lock<std::mutex> lock(this->q_mtx);
 
     bool was_empty = this->queue.empty();
@@ -25,10 +25,10 @@ bool ProtectedQueue::push(Block block) {
     return false;
 }
 
-Block ProtectedQueue::pop() {
+Block* ProtectedQueue::pop() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
 
-    Block block = this->queue.front();
+    Block* block = this->queue.front();
     this->queue.pop();
 
     return block;

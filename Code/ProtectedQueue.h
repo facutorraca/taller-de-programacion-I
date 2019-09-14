@@ -9,7 +9,7 @@
 class ProtectedQueue {
 
     size_t max_q_len;
-    std::queue<Block> queue;
+    std::queue<Block*> queue;
     std::condition_variable cv;
     std::mutex q_mtx;
 
@@ -19,11 +19,11 @@ class ProtectedQueue {
 
         void wait();
 
-        bool push(Block block);
+        bool push(Block* block);
 
         bool empty();
 
-        Block pop();
+        Block* pop();
 
         ~ProtectedQueue();
 

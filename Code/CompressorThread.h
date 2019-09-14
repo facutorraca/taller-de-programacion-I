@@ -9,15 +9,15 @@
 
 class CompressorThread {
 
-    ProtectedQueue* queue;
     std::ifstream* i_file;
-
     std::mutex& f_mtx;
-    std::thread thread;
 
     BlockBuffer buffer;
     int blocks_len;
     int curr_block;
+    
+    ProtectedQueue* queue;
+    std::thread thread;
 
     private:
 

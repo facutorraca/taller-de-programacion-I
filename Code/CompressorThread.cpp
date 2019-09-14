@@ -11,18 +11,10 @@
 
 /*--------------Public--------------*/
 CompressorThread::CompressorThread(int blocks_len, int start, std::mutex& f_mtx): f_mtx(f_mtx), buffer(blocks_len) {
-    this->queue = NULL;
-    this->i_file = NULL;
+    this->queue = NULL; //Queue is set before when created
+    this->i_file = NULL; //File is set before when created
     this->blocks_len = blocks_len;
     this->curr_block = start;
-}
-
-void CompressorThread::run() {
-    this->thread = std::thread(&CompressorThread::compress, this);
-}
-
-void CompressorThread::join() {
-    this->thread.join();
 }
 
 void CompressorThread::set_file(std::ifstream* i_file) {
@@ -31,6 +23,14 @@ void CompressorThread::set_file(std::ifstream* i_file) {
 
 void CompressorThread::set_queue(ProtectedQueue* queue) {
     this->queue = queue;
+}
+
+void CompressorThread::run() {
+    this->thread = std::thread(&CompressorThread::compress, this);
+}
+
+void CompressorThread::join() {
+    this->thread.join();
 }
 
 /*-------------Private--------------*/
@@ -42,13 +42,16 @@ void CompressorThread::compress() {
 }
 
 void CompressorThread::read_block() {
-    int nums_read = 0;
     char number[DW_BYTES];
+    memset(number, 0, DW_BYTES * sizeof(char));
+
+    int nums_read = 0;
     while (this->i_file->read(number, DW_BYTES) && nums_read < this->blocks_len) {
         this->buffer.add_number(number);
         nums_read++;
     }
-    this->queue->push(this->buffer.create_compressed_block());
+    Block* block = this->buffer.create_compressed_block();
+    this->queue->push(block);
 }
 
 CompressorThread::~CompressorThread() {
