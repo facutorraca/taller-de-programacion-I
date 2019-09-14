@@ -2,6 +2,8 @@
 #define _BLOCK_H_
 
 #include <cstdint>
+#include <bitset>
+#include <vector>
 
 class Block {
 
@@ -9,12 +11,15 @@ class Block {
     uint8_t bits;
     uint32_t ref;
     uint32_t* numbers;
+    std::vector<bool> dyn_bitset;
 
     private:
 
         uint32_t find_max();
 
         uint32_t find_min();
+
+        void numbers_to_bits();
 
         void subtract_reference();
 
@@ -28,6 +33,7 @@ class Block {
 
         void print();
 
+        ~Block();
 };
 
 #endif
