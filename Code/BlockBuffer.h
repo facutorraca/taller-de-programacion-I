@@ -17,21 +17,13 @@ class BlockBuffer {
 
         void clear();
 
-        uint32_t find_max();
-
-        uint32_t find_min();
-
-        uint8_t get_bits(uint32_t number);
-
-        void subtract_reference(uint32_t ref);
-
     public:
 
         BlockBuffer(int block_len);
 
         void add_number(char* str_number);
 
-        Block compress_block();
+        Block create_compressed_block();
 
         ~BlockBuffer();
 

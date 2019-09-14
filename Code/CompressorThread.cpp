@@ -48,7 +48,7 @@ void CompressorThread::read_block() {
         this->buffer.add_number(number);
         nums_read++;
     }
-    this->queue->push(this->buffer.compress_block());
+    this->queue->push(this->buffer.create_compressed_block());
 }
 
 CompressorThread::~CompressorThread() {
