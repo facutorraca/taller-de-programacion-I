@@ -14,32 +14,35 @@ ProtectedQueue::ProtectedQueue(size_t max_q_len) {
     this->poped = 0;
 }
 
-bool ProtectedQueue::push(Block* block) {
+void ProtectedQueue::push(Block* block) {
     std::unique_lock<std::mutex> lock(this->q_mtx);
-    if (this->queue.size() < this->max_q_len) {
-        this->queue.push(block);
-        this->pushed++;
-        this->cv.notify_all();
-        return true;
+    while (this->queue.size() >= this->max_q_len) {
+        this->cv.wait(lock);
     }
-    return false;
+
+    this->queue.push(block);
+    this->pushed++;
+
+    //Now a thread can pop
+    this->cv.notify_all();
 }
 
 Block* ProtectedQueue::pop() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
-    while (this->queue.empty() && !this->q_closed) {
+    while (!this->q_closed && this->queue.empty()) {
         this->cv.wait(lock);
     }
-
     Block* block = this->queue.front();
     this->queue.pop();
     this->poped++;
+
+    //Now a thread can push
+    this->cv.notify_all();
 
     return block;
 }
 
 bool ProtectedQueue::empty() {
-    std::cout << "Aca!" << '\n';
     std::unique_lock<std::mutex> lock(this->q_mtx);
     return this->queue.empty();
 }
@@ -47,10 +50,11 @@ bool ProtectedQueue::empty() {
 void ProtectedQueue::close() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
     this->q_closed = true;
+    //Notify free pass to take!
+    this->cv.notify_all();
 }
 
 bool ProtectedQueue::closed() {
-    std::cout << "Asking!" << '\n';
     std::unique_lock<std::mutex> lock(this->q_mtx);
     return this->q_closed;
 }

@@ -24,7 +24,7 @@ class ProtectedQueue {
 
         void wait();
 
-        bool push(Block* block);
+        void push(Block* block);
 
         bool empty();
 
@@ -35,7 +35,6 @@ class ProtectedQueue {
         Block* pop();
 
         ~ProtectedQueue();
-
 
         int get_pop();
 

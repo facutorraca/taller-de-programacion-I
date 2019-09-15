@@ -27,10 +27,10 @@ void Compressor::compress() {
     for (int i = 0; i < this->num_thrds; i++) {
         this->cmp_threads[i]->run();
     }
+    this->wtr_thread->run();
     for (int i = 0; i < this->num_thrds; i++) {
         this->cmp_threads[i]->join();
     }
-    this->wtr_thread->run();
     this->wtr_thread->join();
     std::cerr << "Threads Closed" << '\n';
 }
@@ -55,10 +55,11 @@ Compressor::~Compressor() {
     this->cmp_threads.clear();
 
     if (this->i_file.is_open()) {
+        std::cout << "Input File Closed" << '\n';
         this->i_file.close();
     }
     if (this->o_file.is_open()) {
-        printf("cerre\n");
+        std::cout << "Output File Closed" << '\n';
         this->o_file.close();
     }
 

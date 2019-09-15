@@ -26,18 +26,18 @@ void WriterThread::join() {
 /*--------------Private-------------*/
 void WriterThread::write_file() {
     while (!this->queues_are_empty() || this->queues_are_open()) {
-        for (size_t i = 0; i < queues.size(); i++){
-            //this->queues[i]->wait();
-            Block* block = this->queues[i]->pop();
-            block->print_in_file(this->o_file);
+        for (size_t i = 0; i < queues.size(); i++) {
+            if (!this->queues[i]->empty()) {
+                Block* block = this->queues[i]->pop();
+                block->print_in_file(this->o_file);
+            }
         }
     }
     int pop = this->queues[0]->get_pop();
     int push = this->queues[0]->get_push();
 
-    std::cout << "Number of Push: " << push << " Numbers of Pop's " << pop << '\n';
-
     std::cout << "WriterThread finalized!" <<'\n';
+    std::cout << "Number of Push: " << push << " Numbers of Pop's " << pop << '\n';
 }
 
 bool WriterThread::queues_are_open() {
@@ -53,6 +53,7 @@ bool WriterThread::queues_are_open() {
 bool WriterThread::queues_are_empty() {
     bool empty = true;
     for (size_t i = 0; i < this->queues.size(); i++) {
+        //std::cout << "me trabe!" << '\n';
         if (!this->queues[i]->empty()) {
             empty = false;
         }
