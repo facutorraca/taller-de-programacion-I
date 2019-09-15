@@ -39,6 +39,8 @@ void CompressorThread::compress() {
     while (!this->i_file->eof()) {
         this->read_block();
     }
+    std::cout << "Compressor ha dejado el grupo" << '\n';
+    this->queue->close();
 }
 
 void CompressorThread::read_block() {

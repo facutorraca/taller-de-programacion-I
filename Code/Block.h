@@ -3,11 +3,12 @@
 
 #include <cstdint>
 #include <bitset>
-#include <vector>
+#include <fstream>
+#include "Bitset.h"
 
 class Block {
 
-    std::vector<bool> bitset;
+    Bitset bitset;
     uint8_t bits;
     uint32_t ref;
 
@@ -20,6 +21,8 @@ class Block {
 
         uint32_t find_min();
 
+        void add_padding();
+
         void numbers_to_bits();
 
         void subtract_reference();
@@ -30,11 +33,9 @@ class Block {
 
         Block(const uint32_t* numbers, int elements);
 
-        Block(Block&& block);
+        void print_in_file(std::ofstream* o_file);
 
         void compress();
-
-        void print();
 
         ~Block();
 };

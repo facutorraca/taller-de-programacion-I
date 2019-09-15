@@ -4,6 +4,7 @@
 #include "Block.h"
 #include <queue>
 #include <mutex>
+#include <cstdbool>
 #include <condition_variable>
 
 class ProtectedQueue {
@@ -12,6 +13,10 @@ class ProtectedQueue {
     std::queue<Block*> queue;
     std::condition_variable cv;
     std::mutex q_mtx;
+    bool q_closed;
+
+    int pushed;
+    int poped;
 
     public:
 
@@ -23,9 +28,18 @@ class ProtectedQueue {
 
         bool empty();
 
+        void close();
+
+        bool closed();
+
         Block* pop();
 
         ~ProtectedQueue();
+
+
+        int get_pop();
+
+        int get_push();
 
 };
 

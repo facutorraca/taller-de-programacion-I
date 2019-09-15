@@ -32,6 +32,7 @@ void Compressor::compress() {
         this->cmp_threads[i]->join();
     }
     this->wtr_thread->join();
+    std::cerr << "llegue a cerrar" << '\n';
 }
 
 /*--------------Private-------------*/

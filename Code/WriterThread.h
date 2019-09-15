@@ -4,6 +4,7 @@
 #include "ProtectedQueue.h"
 #include <fstream>
 #include <thread>
+#include <cstdbool>
 
 class WriterThread {
 
@@ -14,6 +15,10 @@ class WriterThread {
     private:
 
         void write_file();
+
+        bool queues_are_open();
+
+        bool queues_are_empty();
 
     public:
 

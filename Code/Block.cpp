@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <bitset>
-#include <vector>
+#include "Bitset.h"
 
 /*--------------Public--------------*/
 Block::Block(const uint32_t* numbers, int elements) {
@@ -32,19 +32,10 @@ Block::Block(Block&& block)
  }
 */
 
-void Block::print() {
-    for (int j = 0; j < this->elements; j++) {
-        for (int i = 0; i < this->bits; i++) {
-            if(this->bitset[j*this->bits + i]) std::cout << 1;
-            else std::cout << 0;
-        }
-        std::cout << " ";
-    }
-
-    for (int j = 0; j < this->elements; j++) {
-        std::cout << numbers[j] << " ";
-    }
-    std::cout << " Ref " << this->ref << " Bits " << unsigned(this->bits) << '\n';
+void Block::print_in_file(std::ofstream* o_file) {
+    o_file->write((char*)&this->ref, sizeof(uint32_t));
+    o_file->write((char*)&this->bits, sizeof(uint8_t));
+    this->bitset.print_in_file(o_file);
 }
 
 void Block::compress() {
@@ -53,6 +44,8 @@ void Block::compress() {
 
     uint32_t max = this->find_max();
     this->bits = this->get_bits(max);
+
+    this->bitset.set_size(this->bits * this->elements);
 
     this->numbers_to_bits();
 }
@@ -94,11 +87,7 @@ void Block::numbers_to_bits() {
     for (int i = 0; i < this->elements; i++) {
         bitset = this->numbers[i];
         for (int j = 0; j < this->bits; j++) {
-            if (bitset[this->bits - 1 - j]) {
-                this->bitset.push_back(true);
-            } else {
-                this->bitset.push_back(false);
-            }
+            this->bitset.push_bit(bitset[this->bits - 1 - j]);
         }
     }
 }
