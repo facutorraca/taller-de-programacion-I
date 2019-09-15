@@ -35,6 +35,7 @@ Block::Block(Block&& block)
 
 void Block::print_in_file(std::ofstream* o_file) {
     uint32_t ref_be = htonl(this->ref);
+    std::cout << std::hex << ref_be << '\n';
     o_file->write((char*)&ref_be, sizeof(uint32_t));
     o_file->write((char*)&this->bits, sizeof(uint8_t));
     this->bitset.print_in_file(o_file);

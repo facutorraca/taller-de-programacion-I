@@ -53,8 +53,10 @@ void CompressorThread::read_block() {
         this->buffer.add_number(number);
         nums_read++;
     }
-    Block* block = this->buffer.create_compressed_block();
-    this->queue->push(block);
+    if (!i_file->eof()) {
+        Block* block = this->buffer.create_compressed_block();
+        this->queue->push(block);
+    }
 }
 
 CompressorThread::~CompressorThread() {

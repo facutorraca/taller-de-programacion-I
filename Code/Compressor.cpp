@@ -58,6 +58,7 @@ Compressor::~Compressor() {
         this->i_file.close();
     }
     if (this->o_file.is_open()) {
+        printf("cerre\n");
         this->o_file.close();
     }
 
