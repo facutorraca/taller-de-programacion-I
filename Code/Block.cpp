@@ -35,22 +35,9 @@ Block::Block(Block&& block)
 
 void Block::print_in_file(std::ofstream* o_file) {
     uint32_t ref_be = htonl(this->ref);
-    std::cout << std::hex << ref_be << '\n';
     o_file->write((char*)&ref_be, sizeof(uint32_t));
     o_file->write((char*)&this->bits, sizeof(uint8_t));
     this->bitset.print_in_file(o_file);
-//    std::bitset<32> bitset;
-
-    /*
-    for (int i = 0; i < this->elements; i++) {
-        bitset = this->numbers[i];
-        for (int j = 0; j < this->bits; j++) {
-            if(bitset[this->bits - 1 - j]) std::cout << "1";
-            else std::cout << "0";
-        }
-        std::cout << " ";
-    }*/
-//    std::cout << '\n';
 }
 
 void Block::compress() {
@@ -93,6 +80,9 @@ void Block::subtract_reference() {
 }
 
 uint8_t Block::get_bits(uint32_t number) {
+    if (number == 0) {
+        return 0;
+    }
     return (uint8_t)log2(number) + 1;
 }
 

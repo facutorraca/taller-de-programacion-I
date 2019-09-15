@@ -16,8 +16,6 @@ ProtectedQueue::ProtectedQueue(size_t max_q_len) {
 
 bool ProtectedQueue::push(Block* block) {
     std::unique_lock<std::mutex> lock(this->q_mtx);
-    //std::cout << "Mutex Compressor" << '\n';
-    //bool was_empty = this->queue.empty();
     if (this->queue.size() < this->max_q_len) {
         this->queue.push(block);
         this->pushed++;
@@ -41,19 +39,19 @@ Block* ProtectedQueue::pop() {
 }
 
 bool ProtectedQueue::empty() {
-//    std::cout << "Aca!" << '\n';
-    //std::unique_lock<std::mutex> lock(this->q_mtx);
+    std::cout << "Aca!" << '\n';
+    std::unique_lock<std::mutex> lock(this->q_mtx);
     return this->queue.empty();
 }
 
 void ProtectedQueue::close() {
-    //std::unique_lock<std::mutex> lock(this->q_mtx);
+    std::unique_lock<std::mutex> lock(this->q_mtx);
     this->q_closed = true;
 }
 
 bool ProtectedQueue::closed() {
-//    std::cout << "Asking!" << '\n';
-//    std::unique_lock<std::mutex> lock(this->q_mtx);
+    std::cout << "Asking!" << '\n';
+    std::unique_lock<std::mutex> lock(this->q_mtx);
     return this->q_closed;
 }
 

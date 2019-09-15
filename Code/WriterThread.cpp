@@ -16,8 +16,7 @@ void WriterThread::set_file(std::ofstream* o_file) {
 }
 
 void WriterThread::run() {
-    //this->thread = std::thread(&WriterThread::write_file, this);
-    this->write_file();
+    this->thread = std::thread(&WriterThread::write_file, this);
 }
 
 void WriterThread::join() {
@@ -41,7 +40,6 @@ void WriterThread::write_file() {
     std::cout << "WriterThread finalized!" <<'\n';
 }
 
-
 bool WriterThread::queues_are_open() {
     bool open = false;
     for (size_t i = 0; i < this->queues.size(); i++) {
@@ -61,6 +59,5 @@ bool WriterThread::queues_are_empty() {
     }
     return empty;
 }
-
 
 WriterThread::~WriterThread() {}

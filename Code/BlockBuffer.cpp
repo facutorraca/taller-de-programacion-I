@@ -21,8 +21,13 @@ void BlockBuffer::add_number(char* str_number) {
 }
 
 Block* BlockBuffer::create_compressed_block() {
-    this->complete_buffer();
-    Block* block = new Block(buffer, this->buff_len);
+    Block* block;
+    if (curr_pos == 1) { //Zero brick case
+        block = new Block(buffer, 1);
+    } else {
+        this->complete_buffer();
+        block = new Block(buffer, this->buff_len);
+    }
     this->clear(); //Restart the buffer
     block->compress();
     return block;

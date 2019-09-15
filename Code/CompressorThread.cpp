@@ -7,7 +7,6 @@
 #include <cstdint>
 
 #define DW_BYTES 4
-//
 
 /*--------------Public--------------*/
 CompressorThread::CompressorThread(int blocks_len, int start, std::mutex& f_mtx): f_mtx(f_mtx), buffer(blocks_len) {
@@ -26,8 +25,7 @@ void CompressorThread::set_queue(ProtectedQueue* queue) {
 }
 
 void CompressorThread::run() {
-    //this->thread = std::thread(&CompressorThread::compress, this);
-    this->compress();
+    this->thread = std::thread(&CompressorThread::compress, this);
 }
 
 void CompressorThread::join() {
@@ -53,7 +51,7 @@ void CompressorThread::read_block() {
         this->buffer.add_number(number);
         nums_read++;
     }
-    if (!i_file->eof()) {
+    if (nums_read > 0) { //Incomplete blocks case
         Block* block = this->buffer.create_compressed_block();
         this->queue->push(block);
     }
