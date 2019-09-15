@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stack>
 
-#define BINARY 2
+#define BINARY +2
 
 /*--------------Public--------------*/
 Bitset::Bitset() {
@@ -49,6 +49,6 @@ void Bitset::calculate_padding() {
 }
 
 uint8_t Bitset::get_byte_to_print(char* number_by_bit) {
-    uint8_t number = strtoul(number_by_bit, 0, BINARY);
+    uint8_t number = strtoul(number_by_bit, nullptr, BINARY);
     return number;
 }

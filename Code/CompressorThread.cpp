@@ -26,7 +26,8 @@ void CompressorThread::set_queue(ProtectedQueue* queue) {
 }
 
 void CompressorThread::run() {
-    this->thread = std::thread(&CompressorThread::compress, this);
+    //this->thread = std::thread(&CompressorThread::compress, this);
+    this->compress();
 }
 
 void CompressorThread::join() {
@@ -39,7 +40,7 @@ void CompressorThread::compress() {
     while (!this->i_file->eof()) {
         this->read_block();
     }
-    std::cout << "Compressor ha dejado el grupo" << '\n';
+    std::cout << "CompressorThread finalized!" <<'\n';
     this->queue->close();
 }
 
@@ -48,7 +49,7 @@ void CompressorThread::read_block() {
     memset(number, 0, DW_BYTES * sizeof(char));
 
     int nums_read = 0;
-    while (this->i_file->read(number, DW_BYTES) && nums_read < this->blocks_len) {
+    while (nums_read < this->blocks_len && this->i_file->read(number, DW_BYTES)) {
         this->buffer.add_number(number);
         nums_read++;
     }

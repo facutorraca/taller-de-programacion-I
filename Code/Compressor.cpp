@@ -27,12 +27,12 @@ void Compressor::compress() {
     for (int i = 0; i < this->num_thrds; i++) {
         this->cmp_threads[i]->run();
     }
+//    for (int i = 0; i < this->num_thrds; i++) {
+//        this->cmp_threads[i]->join();
+//    }
     this->wtr_thread->run();
-    for (int i = 0; i < this->num_thrds; i++) {
-        this->cmp_threads[i]->join();
-    }
-    this->wtr_thread->join();
-    std::cerr << "llegue a cerrar" << '\n';
+    //this->wtr_thread->join();
+    std::cerr << "Threads Closed" << '\n';
 }
 
 /*--------------Private-------------*/

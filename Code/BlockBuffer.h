@@ -17,6 +17,8 @@ class BlockBuffer {
 
         void clear();
 
+        void complete_buffer();
+
     public:
 
         BlockBuffer(int block_len);

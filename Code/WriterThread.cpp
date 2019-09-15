@@ -16,7 +16,8 @@ void WriterThread::set_file(std::ofstream* o_file) {
 }
 
 void WriterThread::run() {
-    this->thread = std::thread(&WriterThread::write_file, this);
+    //this->thread = std::thread(&WriterThread::write_file, this);
+    this->write_file();
 }
 
 void WriterThread::join() {
@@ -25,7 +26,7 @@ void WriterThread::join() {
 
 /*--------------Private-------------*/
 void WriterThread::write_file() {
-    while (this->queues_are_open() || !this->queues_are_empty()) {
+    while (!this->queues_are_empty() || this->queues_are_open()) {
         for (size_t i = 0; i < queues.size(); i++){
             //this->queues[i]->wait();
             Block* block = this->queues[i]->pop();
@@ -35,9 +36,9 @@ void WriterThread::write_file() {
     int pop = this->queues[0]->get_pop();
     int push = this->queues[0]->get_push();
 
-    std::cout << "Push " << push << " Pop " << pop << '\n';
+    std::cout << "Number of Push: " << push << " Numbers of Pop's " << pop << '\n';
 
-    std::cout << "Writer ha dejado el grupo" <<'\n';
+    std::cout << "WriterThread finalized!" <<'\n';
 }
 
 
