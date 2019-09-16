@@ -25,7 +25,7 @@ void WriterThread::join() {
 
 /*--------------Private-------------*/
 void WriterThread::write_file() {
-    while (!this->queues_are_empty() || this->queues_are_open()) {
+    while (this->queues_are_open() || !this->queues_are_empty()) {
         for (size_t i = 0; i < queues.size(); i++) {
             if (!this->queues[i]->empty()) {
                 Block* block = this->queues[i]->pop();
