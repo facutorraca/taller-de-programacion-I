@@ -18,7 +18,7 @@ class Writer {
 
         void write_reference(uint32_t reference);
 
-        void writer_bits(uint8_t bits);
+        void write_bits(uint8_t bits);
 
         void write_number(const char* number_by_bit);
 

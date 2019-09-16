@@ -9,6 +9,7 @@
 #define ERROR 1
 #define SUCCESS 0
 
+/*--------------Public--------------*/
 Reader::Reader(int block_len) {
     this->block_len = block_len;
 }
@@ -21,7 +22,6 @@ int Reader::set_file(const char* filename) {
     return ERROR;
 }
 
-
 int Reader::set_and_read_block(int block_pos, BlockBuffer& buffer) {
     std::unique_lock<std::mutex> lock(this->f_mtx);
     if (this->set_block(block_pos) == ERROR) {
@@ -30,6 +30,7 @@ int Reader::set_and_read_block(int block_pos, BlockBuffer& buffer) {
     return this->read_block(buffer);
 }
 
+/*--------------Private-------------*/
 int Reader::set_block(int block_pos) {
     int pos = block_pos * this->block_len * sizeof(uint32_t);
     if(this->file.seekg(pos, std::ios_base::beg)) {

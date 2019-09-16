@@ -18,11 +18,12 @@ class Reader {
 
         int read_block(BlockBuffer& buffer);
 
-        int set_file(const char* filename);
 
     public:
 
         Reader(int block_len);
+
+        int set_file(const char* filename);
 
         int set_and_read_block(int block_pos, BlockBuffer& buffer);
 

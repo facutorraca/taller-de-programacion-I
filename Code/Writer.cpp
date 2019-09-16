@@ -8,7 +8,10 @@
 #define SUCCESS 0
 #define BINARY +2
 
-Writer::Writer() {}
+/*--------------Public--------------*/
+Writer::Writer() {
+
+}
 
 int Writer::set_file(const char* filename) {
     this->file.open(filename, std::ios::binary);
@@ -23,7 +26,7 @@ void Writer::write_reference(uint32_t reference) {
     file.write((char*)&ref_be, sizeof(uint32_t));
 }
 
-void Writer::writer_bits(uint8_t bits) {
+void Writer::write_bits(uint8_t bits) {
     file.write((char*)&bits, sizeof(uint8_t));
 }
 
@@ -32,6 +35,7 @@ void Writer::write_number(const char* number_by_bit) {
     file.write((char*)&number, sizeof(uint8_t));
 }
 
+/*--------------Private-------------*/
 uint8_t Writer::get_byte_to_print(const char* number_by_bit) {
     uint8_t number = strtoul(number_by_bit, nullptr, BINARY);
     return number;

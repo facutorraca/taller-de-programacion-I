@@ -36,7 +36,7 @@ Block::Block(Block&& block)
 
 void Block::print_in_file(Writer& writer) {
     writer.write_reference(this->ref);
-    writer.writer_bits(this->bits);
+    writer.write_bits(this->bits);
     this->bitset.print_in_file(writer);
 }
 
