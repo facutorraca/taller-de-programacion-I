@@ -38,7 +38,7 @@ void Compressor::compress() {
 /*--------------Private-------------*/
 void Compressor::init_threads(int block_len) {
     for (int i = 0; i < this->num_thrds; i++) {
-        CompressorThread* cmp_thread = new CompressorThread(block_len, i, this->i_file_mtx);
+        CompressorThread* cmp_thread = new CompressorThread(block_len, i, this->num_thrds, this->i_file_mtx);
         this->cmp_threads.push_back(cmp_thread); //By pointer
         this->cmp_threads[i]->set_queue(this->queues[i]); //By reference
     }

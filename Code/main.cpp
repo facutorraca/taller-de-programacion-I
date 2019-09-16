@@ -8,8 +8,8 @@
 
 int main (int argc, char *argv[]) {
     int block_len = atoi(argv[1]);
-    int max_q_len = atol(argv[2]);
-    int num_thrds = atoi(argv[3]);
+    int num_thrds = atoi(argv[2]);
+    int max_q_len = atol(argv[3]);
 
     char* i_filename = argv[4];
     char* o_filename = argv[5];

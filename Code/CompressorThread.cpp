@@ -5,14 +5,16 @@
 #include <iostream>
 #include <cstring>
 #include <cstdint>
+#include <mutex>
 
 #define DW_BYTES 4
 
 /*--------------Public--------------*/
-CompressorThread::CompressorThread(int blocks_len, int start, std::mutex& f_mtx): f_mtx(f_mtx), buffer(blocks_len) {
+CompressorThread::CompressorThread(int blocks_len, int start, int off_blocks, std::mutex& f_mtx): f_mtx(f_mtx), buffer(blocks_len) {
     this->queue = NULL; //Queue is set before when created
     this->i_file = NULL; //File is set before when created
     this->blocks_len = blocks_len;
+    this->off_blocks = off_blocks;
     this->curr_block = start;
 }
 
@@ -34,9 +36,11 @@ void CompressorThread::join() {
 
 /*-------------Private--------------*/
 void CompressorThread::compress() {
-    //Valido unico thread
-    while (!this->i_file->eof()) {
+    std::cout << "No puedo entrar! Hilo:" << this->curr_block <<'\n';
+    std::unique_lock<std::mutex> lock(this->f_mtx);
+    while (this->i_file->seekg(this->curr_block * this->blocks_len * sizeof(uint32_t), std::ios_base::beg)) {
         this->read_block();
+        this->curr_block = this->curr_block + this->off_blocks;
     }
     std::cout << "CompressorThread finalized!" <<'\n';
     this->queue->close();
@@ -51,6 +55,7 @@ void CompressorThread::read_block() {
         this->buffer.add_number(number);
         nums_read++;
     }
+
     if (nums_read > 0) { //Incomplete blocks case
         Block* block = this->buffer.create_compressed_block();
         this->queue->push(block);

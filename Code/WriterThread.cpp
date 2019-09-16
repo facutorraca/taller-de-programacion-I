@@ -33,11 +33,15 @@ void WriterThread::write_file() {
             }
         }
     }
-    int pop = this->queues[0]->get_pop();
-    int push = this->queues[0]->get_push();
+    int pop1 = this->queues[0]->get_pop();
+    int push1 = this->queues[0]->get_push();
+
+    int pop2 = this->queues[1]->get_pop();
+    int push2 = this->queues[1]->get_push();
 
     std::cout << "WriterThread finalized!" <<'\n';
-    std::cout << "Number of Push: " << push << " Numbers of Pop's " << pop << '\n';
+    std::cout << "Number of Push 1: " << push1 << " Numbers of Pop's 1:" << pop1 << '\n';
+    std::cout << "Number of Push 1: " << push2 << " Numbers of Pop's 1:" << pop2 << '\n';
 }
 
 bool WriterThread::queues_are_open() {

@@ -24,13 +24,12 @@ void ProtectedQueue::push(Block* block) {
     this->queue.push(block);
     this->pushed++;
 
-//    std::cout << "pusheando" << '\n';
+    std::cout << "Push " << this->pushed << '\n';
 
     if (was_empty) {
         //Now a thread can pop
         this->cv.notify_all();
     }
-    //this->cv.notify_all();
 }
 
 Block* ProtectedQueue::pop() {
@@ -44,18 +43,17 @@ Block* ProtectedQueue::pop() {
     this->queue.pop();
     this->poped++;
 
-//    std::cout << "popeando" << '\n';
-    //Now a thread can push
+    std::cout << "Pop " << this->poped << '\n';
 
     if (was_full) {
+        //Now a thread can push
         this->cv.notify_all();
     }
-    //this->cv.notify_all();
     return block;
 }
 
 bool ProtectedQueue::empty() {
-//    std::unique_lock<std::mutex> lock(this->q_mtx);
+//  std::unique_lock<std::mutex> lock(this->q_mtx);
     return this->queue.empty();
 }
 
@@ -67,7 +65,7 @@ void ProtectedQueue::close() {
 }
 
 bool ProtectedQueue::closed() {
-//    std::unique_lock<std::mutex> lock(this->q_mtx);
+//  std::unique_lock<std::mutex> lock(this->q_mtx);
     return this->q_closed;
 }
 
