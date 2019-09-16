@@ -1,6 +1,7 @@
 #ifndef _BITSET_H_
 #define _BITSET_H_
 
+#include "Writer.h"
 #include <fstream>
 #include <cstdint>
 
@@ -24,7 +25,7 @@ class Bitset {
 
         void set_size(int size);
 
-        void print_in_file(std::ofstream* o_file);
+        void print_in_file(Writer& writer);
 
 };
 

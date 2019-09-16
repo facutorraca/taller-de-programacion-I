@@ -1,9 +1,10 @@
 #ifndef _BLOCK_BUFFER_H_
 #define _BLOCK_BUFFER_H_
 
-#include <cstdint>
-#include <iostream>
 #include "Block.h"
+#include <cstdint>
+#include <cstdbool>
+#include <iostream>
 
 #define DW_BYTES 4
 
@@ -23,7 +24,11 @@ class BlockBuffer {
 
         BlockBuffer(int block_len);
 
+        int numbers_stored();
+
         void add_number(const char* str_number);
+
+        bool is_full();
 
         Block* create_compressed_block();
 

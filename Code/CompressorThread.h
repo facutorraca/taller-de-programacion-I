@@ -3,34 +3,28 @@
 
 #include "ProtectedQueue.h"
 #include "BlockBuffer.h"
+#include "Reader.h"
 #include <cstdint>
-#include <fstream>
 #include <thread>
 
 class CompressorThread {
 
-    std::ifstream* i_file;
-    std::mutex& f_mtx;
-
     BlockBuffer buffer;
-    int blocks_len;
     int curr_block;
     int off_blocks;
+
+    Reader& reader;
 
     ProtectedQueue* queue;
     std::thread thread;
 
     private:
 
-        int read_block();
-
         void compress();
 
     public:
 
-        CompressorThread(int blocks_len, int start, int off_block, std::mutex& f_mtx);
-
-        void set_file(std::ifstream* i_file);
+        CompressorThread(int block_len, int start, int off_block, Reader& reader);
 
         void set_queue(ProtectedQueue* queue);
 

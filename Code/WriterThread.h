@@ -2,13 +2,14 @@
 #define _WRITER_THREAD_H_
 
 #include "ProtectedQueue.h"
+#include "Writer.h"
 #include <fstream>
 #include <thread>
 #include <cstdbool>
 
 class WriterThread {
 
-    std::ofstream* o_file;
+    Writer& writer;
     std::thread thread;
     std::vector<ProtectedQueue*>& queues;
 
@@ -22,9 +23,7 @@ class WriterThread {
 
     public:
 
-        WriterThread(std::vector<ProtectedQueue*>& queues);
-
-        void set_file(std::ofstream* o_file);
+        WriterThread(std::vector<ProtectedQueue*>& queues, Writer& writer);
 
         void run();
 

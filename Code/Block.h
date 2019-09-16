@@ -1,6 +1,7 @@
 #ifndef _BLOCK_H_
 #define _BLOCK_H_
 
+#include "Writer.h"
 #include <cstdint>
 #include <bitset>
 #include <fstream>
@@ -33,7 +34,7 @@ class Block {
 
         Block(const uint32_t* numbers, int elements);
 
-        void print_in_file(std::ofstream* o_file);
+        void print_in_file(Writer& writer);
 
         void compress();
 

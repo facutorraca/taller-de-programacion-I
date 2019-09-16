@@ -11,8 +11,8 @@ int main (int argc, char *argv[]) {
     int num_thrds = atoi(argv[2]);
     int max_q_len = atol(argv[3]);
 
-    char* i_filename = argv[4];
-    char* o_filename = argv[5];
+    const char* i_filename = argv[4];
+    const char* o_filename = argv[5];
 
     Compressor compressor(num_thrds, max_q_len, block_len);
 

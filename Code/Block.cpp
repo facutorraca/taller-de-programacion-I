@@ -1,10 +1,11 @@
 #include "Block.h"
+#include "Writer.h"
 #include "Bitset.h"
 #include <cstdint>
 #include <iostream>
 #include <cmath>
 #include <bitset>
-#include <arpa/inet.h>
+
 
 /*--------------Public--------------*/
 Block::Block(const uint32_t* numbers, int elements) {
@@ -33,11 +34,10 @@ Block::Block(Block&& block)
  }
 */
 
-void Block::print_in_file(std::ofstream* o_file) {
-    uint32_t ref_be = htonl(this->ref);
-    o_file->write((char*)&ref_be, sizeof(uint32_t));
-    o_file->write((char*)&this->bits, sizeof(uint8_t));
-    this->bitset.print_in_file(o_file);
+void Block::print_in_file(Writer& writer) {
+    writer.write_reference(this->ref);
+    writer.writer_bits(this->bits);
+    this->bitset.print_in_file(writer);
 }
 
 void Block::compress() {

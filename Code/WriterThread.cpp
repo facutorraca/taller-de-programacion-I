@@ -1,19 +1,16 @@
 #include "WriterThread.h"
 #include "ProtectedQueue.h"
 #include "Block.h"
+#include "Writer.h"
 #include <condition_variable>
 #include <fstream>
 #include <cstdbool>
 #include <iostream>
 
 /*--------------Public--------------*/
-WriterThread::WriterThread(std::vector<ProtectedQueue*>& queues): queues(queues) {
-    this->o_file = NULL;
-}
-
-void WriterThread::set_file(std::ofstream* o_file) {
-    this->o_file = o_file;
-}
+WriterThread::WriterThread(std::vector<ProtectedQueue*>& queues, Writer& writer):
+    writer(writer),
+    queues(queues) {}
 
 void WriterThread::run() {
     this->thread = std::thread(&WriterThread::write_file, this);
@@ -29,15 +26,19 @@ void WriterThread::write_file() {
         for (size_t i = 0; i < queues.size(); i++) {
             if (!this->queues[i]->empty()) {
                 Block* block = this->queues[i]->pop();
-                block->print_in_file(this->o_file);
+                block->print_in_file(this->writer);
             }
         }
     }
 
     std::cout << "WriterThread finalized!" <<'\n';
+    int sum_push = 0, sum_pop = 0;
     for (size_t i = 0; i < this->queues.size(); i++) {
-        std::cout << "Number of Push 1: " << this->queues[i]->get_push() << " Numbers of Pop's 1:" << this->queues[i]->get_pop() << '\n';
+        sum_pop = sum_pop + this->queues[i]->get_pop();
+        sum_push = sum_push + this->queues[i]->get_push();
+        std::cout << "Thread" << i << " Number of Push: " << this->queues[i]->get_push() << " Numbers of Pop's:" << this->queues[i]->get_pop() << '\n';
     }
+    std::cout << "Total Push: " << sum_push <<" Total Pop: " << sum_pop <<"\n";
 }
 
 bool WriterThread::queues_are_open() {

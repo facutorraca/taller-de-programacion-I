@@ -1,6 +1,7 @@
 #include "BlockBuffer.h"
 #include "Block.h"
 #include <cstdint>
+#include <cstdbool>
 #include <iostream>
 #include <cstring>
 #include <arpa/inet.h>
@@ -10,6 +11,14 @@ BlockBuffer::BlockBuffer(int block_len) {
     this->buffer = new uint32_t[block_len];
     this->buff_len = block_len;
     this->clear(); //Init the buffer
+}
+
+bool BlockBuffer::is_full() {
+    return this->curr_pos >= this->buff_len;
+}
+
+int BlockBuffer::numbers_stored() {
+    return this->curr_pos;
 }
 
 void BlockBuffer::add_number(const char* str_number) {

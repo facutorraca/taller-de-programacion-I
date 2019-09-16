@@ -3,7 +3,8 @@
 
 #include "CompressorThread.h"
 #include "WriterThread.h"
-#include <fstream>
+#include "Reader.h"
+#include "Writer.h"
 #include <vector>
 #include <mutex>
 #include <iostream>
@@ -12,16 +13,15 @@ class Compressor {
 
     int num_thrds;
 
-    std::ifstream i_file;
-    std::ofstream o_file;
-    std::mutex i_file_mtx;
+    Reader reader;
+    Writer writer;
 
     WriterThread* wtr_thread;
     std::vector<ProtectedQueue*> queues;
     std::vector<CompressorThread*> cmp_threads;
 
     private:
-        
+
         void init_threads(int block_len);
 
         void init_queues(size_t max_q_len);

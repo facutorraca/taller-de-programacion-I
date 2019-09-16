@@ -1,6 +1,5 @@
 #include "ProtectedQueue.h"
 #include "Block.h"
-#include "Lock.h"
 #include <cstdbool>
 #include <iostream>
 #include <mutex>

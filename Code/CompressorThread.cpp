@@ -2,24 +2,23 @@
 #include "ProtectedQueue.h"
 #include "BlockBuffer.h"
 #include "Block.h"
+#include "Reader.h"
 #include <iostream>
 #include <cstring>
 #include <cstdint>
 #include <mutex>
 
 #define DW_BYTES 4
+#define SUCCESS 0
+#define ERROR 1
 
 /*--------------Public--------------*/
-CompressorThread::CompressorThread(int blocks_len, int start, int off_blocks, std::mutex& f_mtx): f_mtx(f_mtx), buffer(blocks_len) {
+CompressorThread::CompressorThread(int block_len, int start, int off_blocks, Reader& reader):
+    buffer(block_len),
+    reader(reader) {
     this->queue = NULL; //Queue is set before when created
-    this->i_file = NULL; //File is set before when created
-    this->blocks_len = blocks_len;
     this->off_blocks = off_blocks;
     this->curr_block = start;
-}
-
-void CompressorThread::set_file(std::ifstream* i_file) {
-    this->i_file = i_file;
 }
 
 void CompressorThread::set_queue(ProtectedQueue* queue) {
@@ -36,31 +35,13 @@ void CompressorThread::join() {
 
 /*-------------Private--------------*/
 void CompressorThread::compress() {
-    while (this->read_block() > 0) {
+    while (this->reader.set_and_read_block(this->curr_block, this->buffer) > 0) {
         Block* block = this->buffer.create_compressed_block();
         this->queue->push(block);
+        this->curr_block = this->curr_block + this->off_blocks;
     }
     std::cout << "CompressorThread finalized!" <<'\n';
     this->queue->close();
-}
-
-int CompressorThread::read_block() {
-    char number[DW_BYTES];
-    memset(number, 0, DW_BYTES * sizeof(char));
-
-    std::unique_lock<std::mutex> lock(this->f_mtx);
-    int nums_read = 0;
-
-    int offset = this->curr_block * this->blocks_len * sizeof(uint32_t);
-    if(this->i_file->seekg(offset, std::ios_base::beg)) {
-        while (nums_read < this->blocks_len && this->i_file->read(number, DW_BYTES)) {
-            this->buffer.add_number(number);
-            nums_read++;
-        }
-    }
-    this->curr_block = this->curr_block + this->off_blocks;
-    this->i_file->clear();
-    return nums_read;
 }
 
 CompressorThread::~CompressorThread() {
