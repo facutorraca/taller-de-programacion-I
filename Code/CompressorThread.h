@@ -22,7 +22,7 @@ class CompressorThread {
 
     private:
 
-        void read_block();
+        int read_block();
 
         void compress();
 

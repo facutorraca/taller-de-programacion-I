@@ -36,30 +36,31 @@ void CompressorThread::join() {
 
 /*-------------Private--------------*/
 void CompressorThread::compress() {
-    std::cout << "No puedo entrar! Hilo:" << this->curr_block <<'\n';
-    std::unique_lock<std::mutex> lock(this->f_mtx);
-    while (this->i_file->seekg(this->curr_block * this->blocks_len * sizeof(uint32_t), std::ios_base::beg)) {
-        this->read_block();
-        this->curr_block = this->curr_block + this->off_blocks;
+    while (this->read_block() > 0) {
+        Block* block = this->buffer.create_compressed_block();
+        this->queue->push(block);
     }
     std::cout << "CompressorThread finalized!" <<'\n';
     this->queue->close();
 }
 
-void CompressorThread::read_block() {
+int CompressorThread::read_block() {
     char number[DW_BYTES];
     memset(number, 0, DW_BYTES * sizeof(char));
 
+    std::unique_lock<std::mutex> lock(this->f_mtx);
     int nums_read = 0;
-    while (nums_read < this->blocks_len && this->i_file->read(number, DW_BYTES)) {
-        this->buffer.add_number(number);
-        nums_read++;
-    }
 
-    if (nums_read > 0) { //Incomplete blocks case
-        Block* block = this->buffer.create_compressed_block();
-        this->queue->push(block);
+    int offset = this->curr_block * this->blocks_len * sizeof(uint32_t);
+    if(this->i_file->seekg(offset, std::ios_base::beg)) {
+        while (nums_read < this->blocks_len && this->i_file->read(number, DW_BYTES)) {
+            this->buffer.add_number(number);
+            nums_read++;
+        }
     }
+    this->curr_block = this->curr_block + this->off_blocks;
+    this->i_file->clear();
+    return nums_read;
 }
 
 CompressorThread::~CompressorThread() {

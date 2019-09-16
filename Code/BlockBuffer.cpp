@@ -12,7 +12,7 @@ BlockBuffer::BlockBuffer(int block_len) {
     this->clear(); //Init the buffer
 }
 
-void BlockBuffer::add_number(char* str_number) {
+void BlockBuffer::add_number(const char* str_number) {
     uint32_t number;
     memcpy(&number, str_number, 4);
 
