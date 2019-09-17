@@ -4,6 +4,7 @@
 #include "Writer.h"
 #include <cstdint>
 #include <bitset>
+#include <vector>
 #include <fstream>
 #include "Bitset.h"
 
@@ -13,8 +14,7 @@ class Block {
     uint8_t bits;
     uint32_t ref;
 
-    int elements;
-    uint32_t* numbers;
+    std::vector<uint32_t> numbers;
 
     private:
 
@@ -32,7 +32,7 @@ class Block {
 
     public:
 
-        Block(const uint32_t* numbers, int elements);
+        Block(const std::vector<uint32_t> numbers);
 
         void print_in_file(Writer& writer);
 

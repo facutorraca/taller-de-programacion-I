@@ -6,7 +6,7 @@
 #include <iostream>
 
 /*--------------Public--------------*/
-Compressor::Compressor(int num_thrds, size_t max_q_len, int block_len):
+Compressor::Compressor(int num_thrds, size_t max_q_len, size_t block_len):
     reader(block_len)
 {
     this->wtr_thread = new WriterThread(this->queues, this->writer);

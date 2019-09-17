@@ -24,7 +24,7 @@ class CompressorThread {
 
     public:
 
-        CompressorThread(int block_len, int start, int off_block, Reader& reader);
+        CompressorThread(size_t block_len, int start, int off_block, Reader& reader);
 
         CompressorThread(CompressorThread&& cmp_thread);
 

@@ -3,6 +3,7 @@
 
 #include "Block.h"
 #include <cstdint>
+#include <vector>
 #include <cstdbool>
 #include <iostream>
 
@@ -10,21 +11,16 @@
 
 class BlockBuffer {
 
-    uint32_t* buffer;
-    int buff_len;
-    int curr_pos;
+    std::vector<uint32_t> buffer;
+    size_t buff_len;
 
     private:
-
-        void clear();
 
         void complete_buffer();
 
     public:
 
-        BlockBuffer(int block_len);
-
-//        BlockBuffer(BlockBuffer&& block_buffer);
+        BlockBuffer(size_t block_len);
 
         int numbers_stored();
 
@@ -40,3 +36,5 @@ class BlockBuffer {
 
 
 #endif
+
+//        BlockBuffer(BlockBuffer&& block_buffer);

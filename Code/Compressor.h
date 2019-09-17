@@ -28,7 +28,7 @@ class Compressor {
 
     public:
 
-        Compressor(int num_thrds, size_t max_q_len, int block_len);
+        Compressor(int num_thrds, size_t max_q_len, size_t block_len);
 
         void set_input_file(const char* i_filename);
 

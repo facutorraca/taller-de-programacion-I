@@ -1,6 +1,7 @@
 #include "Compressor.h"
 #include <iostream>
 #include <cstring>
+#include <cstdlib>
 #include <sstream>
 
 #define SUCCESS 0

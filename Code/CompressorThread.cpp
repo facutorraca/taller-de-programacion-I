@@ -13,7 +13,7 @@
 #define ERROR 1
 
 /*--------------Public--------------*/
-CompressorThread::CompressorThread(int block_len, int start, int off_blocks, Reader& reader):
+CompressorThread::CompressorThread(size_t block_len, int start, int off_blocks, Reader& reader):
     buffer(block_len),
     reader(reader)
 {
