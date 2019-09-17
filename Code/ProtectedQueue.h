@@ -40,7 +40,7 @@ class ProtectedQueue {
 
         int get_push();
 
-        ProtectedQueue();
+        ~ProtectedQueue();
 
 };
 
