@@ -69,7 +69,7 @@ int Reader::read_block(BlockBuffer& buffer) {;
 
 Reader::~Reader() {
     if (this->file.is_open()) {
-        std::cerr << "Input File Closed" << '\n';
+    //    std::cerr << "Input File Closed" << '\n';
         this->file.close();
     }
 }

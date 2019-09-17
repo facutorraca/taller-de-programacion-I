@@ -44,7 +44,7 @@ uint8_t Writer::get_byte_to_print(const char* number_by_bit) {
 
 Writer::~Writer() {
     if (this->file.is_open()) {
-        std::cerr << "Output File Closed" << '\n';
+//        std::cerr << "Output File Closed" << '\n';
         this->file.close();
     }
 }

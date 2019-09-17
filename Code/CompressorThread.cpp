@@ -15,13 +15,14 @@
 /*--------------Public--------------*/
 CompressorThread::CompressorThread(int block_len, int start, int off_blocks, Reader& reader):
     buffer(block_len),
-    reader(reader) {
+    reader(reader)
+{
     this->queue = NULL; //Queue is set before when created
     this->off_blocks = off_blocks;
     this->curr_block = start;
 }
 
-
+/*
 CompressorThread::CompressorThread(CompressorThread&& cmp_thread):
     buffer(cmp_thread.buffer),
     reader(cmp_thread.reader)
@@ -34,8 +35,7 @@ CompressorThread::CompressorThread(CompressorThread&& cmp_thread):
     cmp_thread.queue = nullptr;
     cmp_thread.off_blocks = 0;
     cmp_thread.curr_block = 0;
-}
-
+}*/
 
 void CompressorThread::set_queue(ProtectedQueue* queue) {
     this->queue = queue;
