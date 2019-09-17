@@ -26,6 +26,8 @@ class CompressorThread {
 
         CompressorThread(int block_len, int start, int off_block, Reader& reader);
 
+        CompressorThread(CompressorThread&& cmp_thread);
+
         void set_queue(ProtectedQueue* queue);
 
         void run();

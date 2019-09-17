@@ -21,6 +21,22 @@ CompressorThread::CompressorThread(int block_len, int start, int off_blocks, Rea
     this->curr_block = start;
 }
 
+
+CompressorThread::CompressorThread(CompressorThread&& cmp_thread):
+    buffer(cmp_thread.buffer),
+    reader(cmp_thread.reader)
+{
+
+    this->queue = cmp_thread.queue;
+    this->off_blocks = cmp_thread.off_blocks;
+    this->curr_block = cmp_thread.curr_block;
+
+    cmp_thread.queue = nullptr;
+    cmp_thread.off_blocks = 0;
+    cmp_thread.curr_block = 0;
+}
+
+
 void CompressorThread::set_queue(ProtectedQueue* queue) {
     this->queue = queue;
 }

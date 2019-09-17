@@ -13,6 +13,16 @@ BlockBuffer::BlockBuffer(int block_len) {
     this->clear(); //Init the buffer
 }
 
+/*BlockBuffer::BlockBuffer(BlockBuffer&& block_buffer) {
+    this->buffer = block_buffer.buffer;
+    this->buff_len = block_buffer.block_len;
+    this->curr_pos = block_buffer.curr_pos;
+
+    block_buffer.buffer = nullptr;
+    block_buffer.block_len = 0;
+    block_buffer.curr_pos = 0;
+}*/
+
 bool BlockBuffer::is_full() {
     return this->curr_pos >= this->buff_len;
 }

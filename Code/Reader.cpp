@@ -14,6 +14,17 @@ Reader::Reader(int block_len) {
     this->block_len = block_len;
 }
 
+/*
+Reader::Reader(Reader&& reader):
+    file(reader.file)
+{
+    this->curr_pos = reader.curr_pos;
+    this->block_len = reader.block_len;
+
+    reader.curr_pos = 0;
+    reader.block_len = 0;
+}*/
+
 int Reader::set_file(const char* filename) {
     this->file.open(filename, std::ios::binary);
     if (this->file.is_open()) {

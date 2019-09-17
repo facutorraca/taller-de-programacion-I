@@ -24,6 +24,8 @@ class BlockBuffer {
 
         BlockBuffer(int block_len);
 
+//        BlockBuffer(BlockBuffer&& block_buffer);
+
         int numbers_stored();
 
         void add_number(const char* str_number);

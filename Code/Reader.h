@@ -23,6 +23,8 @@ class Reader {
 
         Reader(int block_len);
 
+    //    Reader(Reader&& reader);
+
         int set_file(const char* filename);
 
         int set_and_read_block(int block_pos, BlockBuffer& buffer);
