@@ -24,10 +24,11 @@ void WriterThread::join() {
 void WriterThread::write_file() {
     while (this->queues_are_open() || !this->queues_are_empty()) {
         for (size_t i = 0; i < queues.size(); i++) {
-            if (!this->queues[i].empty()) {
-                Block* block = this->queues[i].pop();
+            Block* block = this->queues[i].pop();
+            if (block) {
                 block->print_in_file(this->writer);
             }
+
         }
     }
 

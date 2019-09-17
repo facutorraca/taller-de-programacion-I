@@ -32,41 +32,37 @@ void ProtectedQueue::push(Block* block) {
     while (this->queue.size() >= this->max_q_len) {
         this->cv.wait(lock);
     }
-    bool was_empty = this->queue.empty();
+//    bool was_empty = this->queue.empty();
 
     this->queue.push(block);
     this->pushed++;
 
-    //std::cout << "Push " << this->pushed << '\n';
-
-    if (was_empty) {
+    //if (was_empty) {
         //Now a thread can pop
         this->cv.notify_all();
-    }
+    //}
 }
 
 Block* ProtectedQueue::pop() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
-    while (!this->q_closed && this->queue.empty()) {
+    while (this->queue.empty() && !this->q_closed) {
         this->cv.wait(lock);
     }
 
-    while (this->queue.empty()) {
-        this->cv.wait(lock);
+    if (this->queue.empty() && this->q_closed) {
+        return NULL;
     }
 
-    bool was_full = (this->queue.size() == this->max_q_len);
+//    bool was_full = (this->queue.size() == this->max_q_len);
 
     Block* block = this->queue.front();
     this->queue.pop();
     this->poped++;
 
-    //std::cout << "Pop " << this->poped << '\n';
-
-    if (was_full) {
+//    if (was_full) {
         //Now a thread can push
         this->cv.notify_all();
-    }
+//    }
     return block;
 }
 
