@@ -56,7 +56,7 @@ void CompressorThread::compress() {
         this->queue->push(block);
         this->curr_block = this->curr_block + this->off_blocks;
     }
-    std::cout << "CompressorThread finalized!" <<'\n';
+    std::cerr << "CompressorThread finalized!" <<'\n';
     this->queue->close();
 }
 

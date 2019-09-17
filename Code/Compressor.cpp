@@ -7,7 +7,7 @@
 
 /*--------------Public--------------*/
 Compressor::Compressor(int num_thrds, size_t max_q_len, int block_len) : reader(block_len) {
-    this->wtr_thread = new WriterThread(this->queues, this->writer); //By Reference
+    this->wtr_thread = new WriterThread(this->queues, this->writer);
     this->num_thrds = num_thrds;
     this->init_queues(max_q_len);
     this->init_threads(block_len);

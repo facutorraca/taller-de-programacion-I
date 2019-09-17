@@ -7,6 +7,7 @@
 
 class Reader {
 
+    std::istream* input;
     std::ifstream file;
     std::mutex f_mtx;
     size_t curr_pos;

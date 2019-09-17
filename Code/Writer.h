@@ -6,6 +6,7 @@
 
 class Writer {
 
+    std::ostream* output; 
     std::ofstream file;
 
     private:

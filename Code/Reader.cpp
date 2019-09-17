@@ -11,6 +11,7 @@
 
 /*--------------Public--------------*/
 Reader::Reader(int block_len) {
+    this->input = &std::cin; //Default
     this->block_len = block_len;
 }
 
@@ -28,6 +29,7 @@ Reader::Reader(Reader&& reader):
 int Reader::set_file(const char* filename) {
     this->file.open(filename, std::ios::binary);
     if (this->file.is_open()) {
+        this->input = &this->file;
         return SUCCESS;
     }
     return ERROR;
@@ -44,10 +46,10 @@ int Reader::set_and_read_block(int block_pos, BlockBuffer& buffer) {
 /*--------------Private-------------*/
 int Reader::set_block(int block_pos) {
     int pos = block_pos * this->block_len * sizeof(uint32_t);
-    if(this->file.seekg(pos, std::ios_base::beg)) {
+    if(this->input->seekg(pos, std::ios_base::beg)) {
         return SUCCESS;
     }
-    this->file.clear();
+    this->input->clear();
     return ERROR;
 }
 
@@ -55,11 +57,11 @@ int Reader::read_block(BlockBuffer& buffer) {;
     char number[DW_BYTES];
     memset(number, 0, DW_BYTES * sizeof(char));
 
-    while (!buffer.is_full() && this->file.read(number, DW_BYTES)) {
+    while (!buffer.is_full() && this->input->read(number, DW_BYTES)) {
         buffer.add_number(number);
     }
-    if (this->file.eof() || this->file.fail()) {
-        this->file.clear();
+    if (this->input->eof() || this->input->fail()) {
+        this->input->clear();
     }
 
     return buffer.numbers_stored();
@@ -67,7 +69,7 @@ int Reader::read_block(BlockBuffer& buffer) {;
 
 Reader::~Reader() {
     if (this->file.is_open()) {
-        std::cout << "Output File Closed" << '\n';
+        std::cerr << "Input File Closed" << '\n';
         this->file.close();
     }
 }

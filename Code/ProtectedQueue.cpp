@@ -50,6 +50,11 @@ Block* ProtectedQueue::pop() {
     while (!this->q_closed && this->queue.empty()) {
         this->cv.wait(lock);
     }
+
+    while (this->queue.empty()) {
+        this->cv.wait(lock);
+    }
+
     bool was_full = (this->queue.size() == this->max_q_len);
 
     Block* block = this->queue.front();
