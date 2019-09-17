@@ -10,7 +10,8 @@
 /*--------------Public--------------*/
 WriterThread::WriterThread(std::vector<ProtectedQueue>& queues, Writer& writer):
     writer(writer),
-    queues(queues) {}
+    queues(queues)
+{}
 
 void WriterThread::run() {
     this->thread = std::thread(&WriterThread::write_file, this);

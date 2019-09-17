@@ -65,7 +65,7 @@ bool ProtectedQueue::empty() {
 void ProtectedQueue::close() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
     this->q_closed = true;
-    
+
     //Notify free pass to take!
     this->cv.notify_all();
 }
