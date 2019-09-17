@@ -17,7 +17,7 @@ class Compressor {
     Writer writer;
 
     WriterThread* wtr_thread;
-    std::vector<ProtectedQueue*> queues;
+    std::vector<ProtectedQueue> queues;
     std::vector<CompressorThread*> cmp_threads;
 
     private:

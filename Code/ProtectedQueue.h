@@ -22,6 +22,8 @@ class ProtectedQueue {
 
         ProtectedQueue(size_t max_q_len);
 
+        ProtectedQueue(ProtectedQueue&& p_queue);
+
         void wait();
 
         void push(Block* block);

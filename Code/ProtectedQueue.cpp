@@ -13,6 +13,20 @@ ProtectedQueue::ProtectedQueue(size_t max_q_len) {
     this->poped = 0;
 }
 
+ProtectedQueue::ProtectedQueue(ProtectedQueue&& p_queue):
+    queue(p_queue.queue)
+{
+    this->max_q_len = p_queue.max_q_len;
+    this->q_closed = p_queue.q_closed;
+    this->pushed = p_queue.pushed;
+    this->poped = p_queue.poped;
+
+    p_queue.max_q_len = 0;
+    p_queue.q_closed = true;
+    p_queue.pushed = 0;
+    p_queue.poped = 0;
+}
+
 void ProtectedQueue::push(Block* block) {
     std::unique_lock<std::mutex> lock(this->q_mtx);
     while (this->queue.size() >= this->max_q_len) {

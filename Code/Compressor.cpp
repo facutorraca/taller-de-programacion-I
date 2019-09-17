@@ -38,14 +38,13 @@ void Compressor::init_threads(int block_len) {
     for (int i = 0; i < this->num_thrds; i++) {
         CompressorThread* cmp_thread = new CompressorThread(block_len, i, this->num_thrds, this->reader);
         this->cmp_threads.push_back(cmp_thread); //By pointer
-        this->cmp_threads[i]->set_queue(this->queues[i]); //By reference
+        this->cmp_threads[i]->set_queue(&this->queues[i]); //By reference
     }
 }
 
 void Compressor::init_queues(size_t max_q_len) {
     for (int i = 0; i < this->num_thrds; i++) {
-        ProtectedQueue* queue = new ProtectedQueue(max_q_len);
-        this->queues.push_back(queue); //By pointer
+        this->queues.emplace_back(ProtectedQueue(max_q_len));
     }
 }
 

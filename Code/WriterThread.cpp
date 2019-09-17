@@ -8,7 +8,7 @@
 #include <iostream>
 
 /*--------------Public--------------*/
-WriterThread::WriterThread(std::vector<ProtectedQueue*>& queues, Writer& writer):
+WriterThread::WriterThread(std::vector<ProtectedQueue>& queues, Writer& writer):
     writer(writer),
     queues(queues) {}
 
@@ -24,8 +24,8 @@ void WriterThread::join() {
 void WriterThread::write_file() {
     while (this->queues_are_open() || !this->queues_are_empty()) {
         for (size_t i = 0; i < queues.size(); i++) {
-            if (!this->queues[i]->empty()) {
-                Block* block = this->queues[i]->pop();
+            if (!this->queues[i].empty()) {
+                Block* block = this->queues[i].pop();
                 block->print_in_file(this->writer);
             }
         }
@@ -34,9 +34,10 @@ void WriterThread::write_file() {
     std::cout << "WriterThread finalized!" <<'\n';
     int sum_push = 0, sum_pop = 0;
     for (size_t i = 0; i < this->queues.size(); i++) {
-        sum_pop = sum_pop + this->queues[i]->get_pop();
-        sum_push = sum_push + this->queues[i]->get_push();
-        std::cout << "Thread" << i << " Number of Push: " << this->queues[i]->get_push() << " Numbers of Pop's:" << this->queues[i]->get_pop() << '\n';
+        sum_pop = sum_pop + this->queues[i].get_pop();
+        sum_push = sum_push + this->queues[i].get_push();
+        std::cout << "Thread" << i << " Number of Push: " << this->queues[i].get_push()
+        << " Numbers of Pop's:" << this->queues[i].get_pop() << '\n';
     }
     std::cout << "Total Push: " << sum_push <<" Total Pop: " << sum_pop <<"\n";
 }
@@ -44,7 +45,7 @@ void WriterThread::write_file() {
 bool WriterThread::queues_are_open() {
     bool open = false;
     for (size_t i = 0; i < this->queues.size(); i++) {
-        if (!this->queues[i]->closed()) {
+        if (!this->queues[i].closed()) {
             open = true;
         }
     }
@@ -54,8 +55,7 @@ bool WriterThread::queues_are_open() {
 bool WriterThread::queues_are_empty() {
     bool empty = true;
     for (size_t i = 0; i < this->queues.size(); i++) {
-        //std::cout << "me trabe!" << '\n';
-        if (!this->queues[i]->empty()) {
+        if (!this->queues[i].empty()) {
             empty = false;
         }
     }

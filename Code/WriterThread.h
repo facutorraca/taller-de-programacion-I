@@ -11,7 +11,7 @@ class WriterThread {
 
     Writer& writer;
     std::thread thread;
-    std::vector<ProtectedQueue*>& queues;
+    std::vector<ProtectedQueue>& queues;
 
     private:
 
@@ -23,7 +23,7 @@ class WriterThread {
 
     public:
 
-        WriterThread(std::vector<ProtectedQueue*>& queues, Writer& writer);
+        WriterThread(std::vector<ProtectedQueue>& queues, Writer& writer);
 
         void run();
 
