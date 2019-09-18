@@ -9,7 +9,6 @@
 #include "Bitset.h"
 
 class Block {
-
     Bitset bitset;
     uint8_t bits;
     uint32_t ref;
@@ -17,7 +16,6 @@ class Block {
     std::vector<uint32_t> numbers;
 
     private:
-
         uint32_t find_max();
 
         uint32_t find_min();
@@ -25,14 +23,13 @@ class Block {
         void add_padding();
 
         void numbers_to_bits();
- 
+
         void subtract_reference();
 
         uint8_t get_bits(uint32_t number);
 
     public:
-
-        Block(const std::vector<uint32_t> numbers);
+        explicit Block(const std::vector<uint32_t> numbers);
 
         void print_in_file(Writer& writer);
 

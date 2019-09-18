@@ -2,7 +2,7 @@
 #include "ProtectedQueue.h"
 #include "Block.h"
 #include "Writer.h"
-#include <condition_variable>
+#include <vector>
 #include <fstream>
 #include <cstdbool>
 #include <iostream>
@@ -28,8 +28,8 @@ void WriterThread::write_file() {
             Block* block = this->queues[i].pop();
             if (block) {
                 block->print_in_file(this->writer);
+                delete block;
             }
-
         }
     }
     this->show_results();

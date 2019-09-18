@@ -10,7 +10,6 @@
 #include <iostream>
 
 class Compressor {
-
     Reader reader;
     Writer writer;
 
@@ -19,14 +18,12 @@ class Compressor {
     std::vector<CompressorThread*> cmp_threads;
 
     private:
+        void init_queues(size_t max_q_len, int num_thrds);
 
-        void init_threads(int block_len);
-
-        void init_queues(size_t max_q_len);
+        void init_threads(size_t block_len, int num_thrds);
 
     public:
-
-        Compressor(int num_thrds, size_t max_q_len, size_t block_len);
+        explicit Compressor(int num_thrds, size_t max_q_len, size_t block_len);
 
         void set_input_file(const char* i_filename);
 
@@ -35,7 +32,6 @@ class Compressor {
         void compress();
 
         ~Compressor();
-
 };
 
 #endif

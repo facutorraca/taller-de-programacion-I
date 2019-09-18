@@ -5,16 +5,13 @@
 #include <cstdint>
 
 class Writer {
-
     std::ostream* output; //Current output
     std::ofstream file;
 
     private:
-
         uint8_t get_byte_to_print(const char* number_by_bit);
 
     public:
-
         Writer();
 
         int set_file(const char* filename);
@@ -26,7 +23,6 @@ class Writer {
         void write_number(const char* number_by_bit);
 
         ~Writer();
-
 };
 
 #endif

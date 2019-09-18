@@ -10,17 +10,14 @@
 #define DW_BYTES 4
 
 class BlockBuffer {
-
     size_t block_len;
     std::vector<uint32_t> buffer;
 
     private:
-
         void complete_buffer();
 
     public:
-
-        BlockBuffer(size_t block_len);
+        explicit BlockBuffer(size_t block_len);
 
         bool is_full();
 
@@ -31,7 +28,6 @@ class BlockBuffer {
         void add_number(const char* str_number);
 
         ~BlockBuffer();
-
 };
 
 #endif

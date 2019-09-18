@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include <bitset>
 
 

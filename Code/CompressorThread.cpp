@@ -36,12 +36,13 @@ void CompressorThread::join() {
 
 /*-------------Private--------------*/
 void CompressorThread::compress() {
-    while (this->reader.set_and_read_block(this->curr_block, this->buffer) > 0) {
+    while (this->reader.set_and_read_block(this->curr_block,
+                                           this->buffer) > 0) {
         Block* block = this->buffer.create_compressed_block();
-        this->queue->push(block);
+        this->queue.push(block);
         this->curr_block = this->curr_block + this->off_blocks;
     }
-    this->queue->close();
+    this->queue.close();
 }
 
 CompressorThread::~CompressorThread() {

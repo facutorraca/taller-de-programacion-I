@@ -6,7 +6,6 @@
 #include <fstream>
 
 class Reader {
-
     std::istream* input; //Current input
     std::ifstream file;
     std::mutex f_mtx;
@@ -14,22 +13,19 @@ class Reader {
     int block_len;
 
     private:
-
         int set_block(int block_pos);
 
         int read_block(BlockBuffer& buffer);
 
 
     public:
-
-        Reader(int block_len);
+        explicit Reader(int block_len);
 
         int set_file(const char* filename);
 
         int set_and_read_block(int block_pos, BlockBuffer& buffer);
 
         ~Reader();
-
 };
 
 #endif

@@ -34,7 +34,7 @@ int Reader::set_and_read_block(int block_pos, BlockBuffer& buffer) {
 /*--------------Private-------------*/
 int Reader::set_block(int block_pos) {
     int pos = block_pos * this->block_len * sizeof(uint32_t);
-    if(this->input->seekg(pos, std::ios_base::beg)) {
+    if (this->input->seekg(pos, std::ios_base::beg)) {
         return SUCCESS;
     }
     this->input->clear();

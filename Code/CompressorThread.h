@@ -8,7 +8,6 @@
 #include <thread>
 
 class CompressorThread {
-
     BlockBuffer buffer;
     int curr_block;
     int off_blocks;
@@ -19,11 +18,9 @@ class CompressorThread {
     std::thread thread;
 
     private:
-
         void compress();
 
     public:
-
         CompressorThread(size_t block_len,
                          int start,
                          int off_block,

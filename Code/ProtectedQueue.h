@@ -8,7 +8,6 @@
 #include <condition_variable>
 
 class ProtectedQueue {
-
     size_t max_q_len;
     std::queue<Block*> queue;
     std::condition_variable cv;
@@ -19,8 +18,7 @@ class ProtectedQueue {
     int poped;
 
     public:
-
-        ProtectedQueue(size_t max_q_len);
+        explicit ProtectedQueue(size_t max_q_len);
 
         ProtectedQueue(ProtectedQueue&& p_queue);
 
@@ -39,7 +37,6 @@ class ProtectedQueue {
         int get_push();
 
         ~ProtectedQueue();
-
 };
 
 #endif
