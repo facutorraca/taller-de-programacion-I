@@ -38,13 +38,11 @@ void Writer::write_number(const char* number_by_bit) {
 
 /*--------------Private-------------*/
 uint8_t Writer::get_byte_to_print(const char* number_by_bit) {
-    uint8_t number = strtoul(number_by_bit, nullptr, BINARY);
-    return number;
+    return  (uint8_t)strtoul(number_by_bit, nullptr, BINARY);
 }
 
 Writer::~Writer() {
     if (this->file.is_open()) {
-//        std::cerr << "Output File Closed" << '\n';
         this->file.close();
     }
 }

@@ -30,7 +30,7 @@ class WriterThread {
         void run();
 
         void join();
-
+ 
         ~WriterThread();
 
 };

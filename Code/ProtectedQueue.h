@@ -26,8 +26,6 @@ class ProtectedQueue {
 
         void push(Block* block);
 
-        void wait();
-
         bool empty();
 
         void close();

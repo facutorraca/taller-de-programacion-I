@@ -10,8 +10,7 @@
 /*--------------Public--------------*/
 Block::Block(const std::vector<uint32_t> numbers) {
     this->numbers.assign(numbers.begin(), numbers.end());
-    this->ref = 0;
-    this->bits = 0;
+    this->ref = this->bits = 0;
 }
 
 void Block::print_in_file(Writer& writer) {
@@ -78,19 +77,3 @@ void Block::numbers_to_bits() {
 }
 
 Block::~Block() {}
-
-/*
-Block::Block(Block&& block)
-   : bitset(block.bitset),
-     bits(block.bits),
-     ref(block.ref),
-     elements(block.elements),
-     numbers(block.numbers)
-{
-   //block.bitset.clear();
-   block.bits = 0;
-   block.ref = 0;
-   block.elements = 0;
-   block.numbers = NULL;
- }
-*/

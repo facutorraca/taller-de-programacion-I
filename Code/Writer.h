@@ -6,7 +6,7 @@
 
 class Writer {
 
-    std::ostream* output; 
+    std::ostream* output; //Current output
     std::ofstream file;
 
     private:
@@ -17,13 +17,13 @@ class Writer {
 
         Writer();
 
-        void write_reference(uint32_t reference);
+        int set_file(const char* filename);
 
         void write_bits(uint8_t bits);
 
-        void write_number(const char* number_by_bit);
+        void write_reference(uint32_t reference);
 
-        int set_file(const char* filename);
+        void write_number(const char* number_by_bit);
 
         ~Writer();
 

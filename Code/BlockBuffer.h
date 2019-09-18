@@ -11,8 +11,8 @@
 
 class BlockBuffer {
 
+    size_t block_len;
     std::vector<uint32_t> buffer;
-    size_t buff_len;
 
     private:
 
@@ -22,19 +22,16 @@ class BlockBuffer {
 
         BlockBuffer(size_t block_len);
 
-        int numbers_stored();
-
-        void add_number(const char* str_number);
-
         bool is_full();
 
+        int numbers_stored();
+
         Block* create_compressed_block();
+
+        void add_number(const char* str_number);
 
         ~BlockBuffer();
 
 };
 
-
 #endif
-
-//        BlockBuffer(BlockBuffer&& block_buffer);

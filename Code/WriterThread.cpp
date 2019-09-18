@@ -8,10 +8,10 @@
 #include <iostream>
 
 /*--------------Public--------------*/
-WriterThread::WriterThread(std::vector<ProtectedQueue>& queues, Writer& writer):
-    writer(writer),
-    queues(queues)
-{}
+WriterThread::WriterThread(std::vector<ProtectedQueue>& queues,
+                         Writer& writer):
+                         writer(writer),
+                         queues(queues) {}
 
 void WriterThread::run() {
     this->thread = std::thread(&WriterThread::write_file, this);

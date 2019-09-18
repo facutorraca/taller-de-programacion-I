@@ -8,7 +8,6 @@
 ProtectedQueue::ProtectedQueue(size_t max_q_len) {
     this->max_q_len = max_q_len;
     this->q_closed = false;
-
     this->pushed = 0;
     this->poped = 0;
 }
@@ -46,6 +45,7 @@ Block* ProtectedQueue::pop() {
     }
 
     if (this->queue.empty() && this->q_closed) {
+        //The queue is not receiving more elements
         return NULL;
     }
 
@@ -65,7 +65,6 @@ bool ProtectedQueue::empty() {
 void ProtectedQueue::close() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
     this->q_closed = true;
-
     //Notify free pass to take!
     this->cv.notify_all();
 }

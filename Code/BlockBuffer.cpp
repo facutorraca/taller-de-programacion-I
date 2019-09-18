@@ -8,11 +8,11 @@
 
 /*--------------Public--------------*/
 BlockBuffer::BlockBuffer(size_t block_len) {
-    this->buff_len = block_len;
+    this->block_len = block_len;
 }
 
 bool BlockBuffer::is_full() {
-    return this->buffer.size() >= this->buff_len;
+    return this->buffer.size() >= this->block_len;
 }
 
 int BlockBuffer::numbers_stored() {
@@ -26,13 +26,11 @@ void BlockBuffer::add_number(const char* str_number) {
 }
 
 Block* BlockBuffer::create_compressed_block() {
-    Block* block;
-    if (this->buffer.size() == 1) { //Zero brick case
-        block = new Block(buffer);
-    } else {
+    if (this->buffer.size() > 1) {
+        //To avoid zero brick case
         this->complete_buffer();
-        block = new Block(buffer);
     }
+    Block*  block = new Block(buffer);
     this->buffer.clear();
     block->compress();
     return block;
@@ -40,22 +38,12 @@ Block* BlockBuffer::create_compressed_block() {
 
 /*--------------Private--------------*/
 void BlockBuffer::complete_buffer() {
-    if (this->buffer.size() < this->buff_len) {
-        int pos_last = this->buffer.size() - 1;
-        while (this->buffer.size() < this->buff_len) {
-            this->buffer.push_back(this->buffer[pos_last]);
+    if (this->buffer.size() < this->block_len) {
+        int last_pos = this->buffer.size() - 1;
+        while (this->buffer.size() < this->block_len) {
+            this->buffer.push_back(this->buffer[last_pos]);
         }
     }
 }
 
 BlockBuffer::~BlockBuffer() {}
-
-/*BlockBuffer::BlockBuffer(BlockBuffer&& block_buffer) {
-    this->buffer = block_buffer.buffer;
-    this->buff_len = block_buffer.block_len;
-    this->curr_pos = block_buffer.curr_pos;
-
-    block_buffer.buffer = nullptr;
-    block_buffer.block_len = 0;
-    block_buffer.curr_pos = 0;
-}*/

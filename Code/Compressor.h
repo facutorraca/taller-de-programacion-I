@@ -11,8 +11,6 @@
 
 class Compressor {
 
-    int num_thrds;
-
     Reader reader;
     Writer writer;
 

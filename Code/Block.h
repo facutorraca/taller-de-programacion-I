@@ -25,7 +25,7 @@ class Block {
         void add_padding();
 
         void numbers_to_bits();
-
+ 
         void subtract_reference();
 
         uint8_t get_bits(uint32_t number);

@@ -23,7 +23,7 @@ int main (int argc, char *argv[]) {
     if (strncmp(NO_FILE, o_filename, 1) != 0) {
         compressor.set_output_file(o_filename);
     }
-
+ 
     compressor.compress();
     return SUCCESS;
 }

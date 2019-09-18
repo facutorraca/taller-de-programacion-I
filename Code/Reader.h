@@ -7,7 +7,7 @@
 
 class Reader {
 
-    std::istream* input;
+    std::istream* input; //Current input
     std::ifstream file;
     std::mutex f_mtx;
     size_t curr_pos;
@@ -23,8 +23,6 @@ class Reader {
     public:
 
         Reader(int block_len);
-
-    //    Reader(Reader&& reader);
 
         int set_file(const char* filename);
 

@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <cstring>
 
-
 #define ERROR 1
 #define SUCCESS 0
 
@@ -58,18 +57,6 @@ int Reader::read_block(BlockBuffer& buffer) {;
 
 Reader::~Reader() {
     if (this->file.is_open()) {
-    //    std::cerr << "Input File Closed" << '\n';
         this->file.close();
     }
 }
-
-/*
-Reader::Reader(Reader&& reader):
-    file(reader.file)
-{
-    this->curr_pos = reader.curr_pos;
-    this->block_len = reader.block_len;
-
-    reader.curr_pos = 0;
-    reader.block_len = 0;
-}*/

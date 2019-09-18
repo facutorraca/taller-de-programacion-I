@@ -15,7 +15,7 @@ class CompressorThread {
 
     Reader& reader;
 
-    ProtectedQueue* queue;
+    ProtectedQueue& queue;
     std::thread thread;
 
     private:
@@ -24,11 +24,11 @@ class CompressorThread {
 
     public:
 
-        CompressorThread(size_t block_len, int start, int off_block, Reader& reader);
-
-        CompressorThread(CompressorThread&& cmp_thread);
-
-        void set_queue(ProtectedQueue* queue);
+        CompressorThread(size_t block_len,
+                         int start,
+                         int off_block,
+                         Reader& reader,
+                         ProtectedQueue& queue);
 
         void run();
 
