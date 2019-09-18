@@ -21,14 +21,11 @@ int sudoku_server_start_connection(sudoku_server_t* self) {
 }
 
 int sudoku_server_init(sudoku_server_t* self) {
-    sudoku_t sudoku;
-    sudoku_init(&sudoku);
-
-    server_message_t server_msg;
-    server_message_init(&server_msg);
-
-    self->server_msg = server_msg;
-    self->sudoku = sudoku;
+    if (!self) {
+        return ERROR;
+    }
+    sudoku_init(self->sudoku);
+    server_message_init(self->server_msg);
     return SUCCESS;
 }
 

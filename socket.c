@@ -34,22 +34,32 @@ int socket_init(socket_t* self) {
 int socket_bind(socket_t* self, const char* service) {
     struct addrinfo *result;  //Pointer to the result list
     int flag = socket_getaddrinfo(&result, service, AI_PASSIVE);
+
     if (flag == -1) {
         print_getaddrinfo_error(flag);
         return ERROR;
     }
 
-    while (result) {
-        self->fd = socket(result->ai_family,
-                          result->ai_socktype,
-                          result->ai_protocol);
+    struct addrinfo *result_iter = result;
+    while (result_iter) {
+        self->fd = socket(result_iter->ai_family,
+                          result_iter->ai_socktype,
+                          result_iter->ai_protocol);
 
-        if (bind(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
+        if (self->fd == -1) {
+            print_socket_error("SOCKET");
+            freeaddrinfo(result);
+            return ERROR;
+        }
+
+        if (bind(self->fd,
+                 result_iter->ai_addr,
+                 result_iter->ai_addrlen) == SUCCESS) {
             freeaddrinfo(result);
             return SUCCESS;
         }
         close(self->fd);
-        result = result->ai_next;
+        result_iter = result_iter->ai_next;
         print_socket_error("BIND");
     }
     freeaddrinfo(result);
@@ -68,19 +78,32 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
     struct addrinfo *result;  //Pointer to the result list
     socket_getaddrinfo(&result, service, 0);
 
+    /*
     self->fd = socket(result->ai_family,
                       result->ai_socktype,
                       result->ai_protocol);
-    while (result) {
-        self->fd = socket(result->ai_family,
-                          result->ai_socktype,
-                          result->ai_protocol);
-        if (connect(self->fd, result->ai_addr, result->ai_addrlen) == SUCCESS) {
-            freeaddrinfo(result);
+    */
+
+    struct addrinfo *result_iter = result;
+    while (result_iter) {
+        self->fd = socket(result_iter->ai_family,
+                          result_iter->ai_socktype,
+                          result_iter->ai_protocol);
+
+        if (self->fd == -1) {
+            print_socket_error("SOCKET");
+            freeaddrinfo(ptr_result);
+            return ERROR;
+        }
+
+        if (connect(self->fd,
+                    result_iter->ai_addr,
+                    result_iter->ai_addrlen) == SUCCESS) {
+            freeaddrinfo(ptr_result);
             return SUCCESS;
         }
         close(self->fd);
-        result = result->ai_next;
+        result_iter = result_iter->ai_next;
         print_socket_error("CONNECT");
     }
     freeaddrinfo(result);
