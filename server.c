@@ -8,26 +8,27 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
-#define MAX_BUFFER 722
+#define MAX_BUFF 3
 
 int control_recv(message_t* msg);
 
 int server_recv(server_t* server,
                 message_t* msg,
                 int (*control_recv)(message_t* msg)) {
-    char buffer[MAX_BUFFER];
-    int total_bytes = 0, bytes_recv = 0, rem_bytes;
-    do {
-        rem_bytes = MAX_BUFFER - total_bytes;
-        bytes_recv = socket_receive(&server->s_socket,
-                                    &buffer[total_bytes],
-                                    rem_bytes);
-        message_append_string(msg, &buffer[total_bytes], bytes_recv);
-        total_bytes = total_bytes + bytes_recv;
-    } while (control_recv(msg) == ERROR);
-    return total_bytes;
+    char buffer[MAX_BUFF];
+    char frt_char;
+    if (socket_receive(&server->s_socket, &frt_char, 1) < 0) {
+        return ERROR;
+    }
+    message_append_character(msg, frt_char);;
+    if (control_recv(msg) == ERROR) {
+        if (socket_receive(&server->s_socket, buffer, MAX_BUFF) < 0) {
+            return ERROR;
+        }
+        message_append_string(msg, buffer, MAX_BUFF);;
+    }
+    return SUCCESS;
 }
 
 int server_send(server_t* server, message_t* msg) {

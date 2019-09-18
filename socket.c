@@ -127,21 +127,26 @@ int socket_send(socket_t* self, uint8_t* buffer, size_t length) {
                           rem_bytes, 0 /*flags*/);
 
         if (bytes_sent == -1) {
+            return -1;
             print_socket_error("SEND");
         }
-
         total_bytes = bytes_sent + total_bytes;
     }
-
-
-
     return total_bytes;
 }
 
 int socket_receive(socket_t* self, char* buffer, size_t length) {
-    int total_bytes = recv(self->fd, (void*) buffer, length, 0 /*flags*/);
-    if (total_bytes == -1) {
-        print_socket_error("RECV");
+    int bytes_recv = 0, total_bytes = 0, rem_bytes;
+    while (length != total_bytes) {
+        rem_bytes = length - total_bytes;
+        bytes_recv = recv(self->fd, (void*)&buffer[total_bytes],
+                          rem_bytes, 0 /*flags*/);
+
+        if (bytes_recv == -1) {
+            return -1;
+            print_socket_error("RECEIVE");
+        }
+        total_bytes = bytes_recv + total_bytes;
     }
     return total_bytes;
 }

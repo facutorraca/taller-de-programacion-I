@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "message.h"
 #include "sudoku.h"
+#include <stdio.h>
 
 #define SIZE_BOARD 722
 #define NUM_NUMBERS 81

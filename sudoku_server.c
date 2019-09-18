@@ -5,6 +5,7 @@
 #include "utils.h"
 #include <stdbool.h>
 
+
 int sudoku_server_start_connection(sudoku_server_t* self) {
     bool connected = true;
     while (connected) {

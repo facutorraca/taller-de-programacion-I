@@ -3,6 +3,7 @@
 #include "instruction.h"
 #include "client.h"
 #include "utils.h"
+#include <stdio.h>
 
 int sudoku_client_start_connection(sudoku_client_t* self) {
     while (instruction_get_new(&self->instruction) == SUCCESS  &&

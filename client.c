@@ -16,16 +16,11 @@ int control_recv(message_t* msg);
 
 int client_recv(client_t* client, message_t* msg, uint32_t length_msg) {
     char buffer[MAX_BUFFER];
-    int total_bytes = 0, bytes_recv = 0, rem_bytes;
-    while (message_get_length(msg) != length_msg) {
-        rem_bytes = length_msg - total_bytes;
-        bytes_recv = socket_receive(&client->c_socket,
-                                    &buffer[total_bytes],
-                                    rem_bytes);
-        message_append_string(msg, &buffer[total_bytes], bytes_recv);
-        total_bytes = total_bytes + bytes_recv;
+    if (socket_receive(&client->c_socket, buffer, length_msg) > 0) {
+        message_append_string(msg, buffer, length_msg);
+        return SUCCESS;
     }
-    return total_bytes;
+    return ERROR;
 }
 
 int client_send(client_t* client, message_t* msg) {

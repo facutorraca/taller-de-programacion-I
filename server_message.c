@@ -5,6 +5,7 @@
 #include "sudoku.h"
 #include "utils.h"
 #include <arpa/inet.h>
+#include <stdio.h>
 
 #define BYTES_LEN 4
 
@@ -44,10 +45,7 @@ int server_message_recv(server_message_t* self) {
     if (!self->server) {
         return ERROR;
     }
-    if (server_recv(self->server, &self->message, control_recv_server) == 0) {
-        return ERROR;
-    }
-    return SUCCESS;
+    return server_recv(self->server, &self->message, control_recv_server);
 }
 
 int server_message_send(server_message_t* self) {
