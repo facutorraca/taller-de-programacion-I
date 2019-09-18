@@ -32,15 +32,11 @@ int server_recv(server_t* server,
 
 int server_send(server_t* server, message_t* msg) {
     char* msg_buf = message_get(msg);
-    int bytes_sent = 0, total_bytes = 0, rem_bytes;
-    while (message_get_length(msg) != total_bytes) {
-        rem_bytes = message_get_length(msg) - total_bytes;
-        bytes_sent = socket_send(&server->s_socket,
-                                 (uint8_t*)&msg_buf[total_bytes],
-                                 rem_bytes);
-        total_bytes = bytes_sent + total_bytes;
+    if (socket_send(&server->s_socket,(uint8_t*)msg_buf,
+                    message_get_length(msg)) > 0) {
+        return SUCCESS;
     }
-    return total_bytes;
+    return ERROR;
 }
 
 int server_listen(server_t* server) {

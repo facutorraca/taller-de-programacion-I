@@ -30,15 +30,11 @@ int client_recv(client_t* client, message_t* msg, uint32_t length_msg) {
 
 int client_send(client_t* client, message_t* msg) {
     char* msg_buf = message_get(msg);
-    int bytes_sent = 0, total_bytes = 0, rem_bytes;
-    while (message_get_length(msg) != total_bytes) {
-        rem_bytes = message_get_length(msg) - total_bytes;
-        bytes_sent = socket_send(&client->c_socket,
-                                 (uint8_t*)&msg_buf[total_bytes],
-                                 rem_bytes);
-        total_bytes = bytes_sent + total_bytes;
+    if (socket_send(&client->c_socket,(uint8_t*)msg_buf,
+                    message_get_length(msg)) > 0) {
+        return SUCCESS;
     }
-    return SUCCESS;
+    return ERROR;
 }
 
 int client_connect_with_server(client_t* client) {

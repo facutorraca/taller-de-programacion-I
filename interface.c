@@ -42,6 +42,10 @@ void print_getaddrinfo_error(int errcode) {
     fprintf(stderr,"Error en GETADDRINFO: %s\n", gai_strerror(errcode));
 }
 
+void print_invalid_socket_close() {
+    fprintf(stderr,"Error: el socket es invalido\n");
+}
+
 void print_socket_error(char* func_error) {
     fprintf(stderr,"Error en %s: %s\n", func_error, strerror(errno));
 }

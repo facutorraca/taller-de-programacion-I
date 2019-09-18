@@ -20,6 +20,8 @@ void print_invalid_number_error();
 
 void print_server_params_error();
 
+void print_invalid_socket_close();
+
 void print_client_params_error();
 
 void print_unsupported_mode_error();
