@@ -92,14 +92,14 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
 
         if (self->fd == -1) {
             print_socket_error("SOCKET");
-            freeaddrinfo(ptr_result);
+            freeaddrinfo(result);
             return ERROR;
         }
 
         if (connect(self->fd,
                     result_iter->ai_addr,
                     result_iter->ai_addrlen) == SUCCESS) {
-            freeaddrinfo(ptr_result);
+            freeaddrinfo(result);
             return SUCCESS;
         }
         close(self->fd);

@@ -50,32 +50,12 @@ int interface_print_message(message_t* msg) {
     return message_print(msg);
 }
 
-bool port_is_valid(const char* port) {
-    size_t len_port = strlen(port);
-    if (len_port > 5 || len_port < 4) {
-        return false;
-    }
-    int i = 0;
-    bool port_is_correct = true;
-    while (port_is_correct && i < len_port) {
-        if (!is_a_number(port[i])) {
-            port_is_correct = false;
-        }
-        i++;
-    }
-    return port_is_correct;
-}
-
 bool verify_server_parameters(int argc, char const *argv[]) {
     if (argc != 3) {
         print_server_params_error();
         return false;
     }
-    if (port_is_valid(argv[2])) {
-        return true;
-    }
-    print_server_params_error();
-    return false;
+    return true;
 }
 
 bool verify_client_parameters(int argc, char const *argv[]) {
@@ -83,11 +63,7 @@ bool verify_client_parameters(int argc, char const *argv[]) {
         print_client_params_error();
         return false;
     }
-    if (port_is_valid(argv[3])) {
-        return true;
-    }
-    print_client_params_error();
-    return false;
+    return true;
 }
 
 char get_board_char(int row, int col) {

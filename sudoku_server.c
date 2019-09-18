@@ -24,8 +24,8 @@ int sudoku_server_init(sudoku_server_t* self) {
     if (!self) {
         return ERROR;
     }
-    sudoku_init(self->sudoku);
-    server_message_init(self->server_msg);
+    sudoku_init(&self->sudoku);
+    server_message_init(&self->server_msg);
     return SUCCESS;
 }
 

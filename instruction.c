@@ -7,6 +7,10 @@
 #include <string.h>
 #include "sudoku.h"
 
+#define ROW_MSG_POS 9
+#define COL_MSG_POS 11
+#define NUM_MSG_POS 4
+
 bool instruction_is_get(instruction_t* self) {
     return strcmp(self->instuction, "get\n") == 0;
 }
@@ -24,15 +28,15 @@ bool instruction_is_exit(instruction_t* self) {
 }
 
 char instruction_get_row(instruction_t* self) {
-    return self->instuction[9];
+    return self->instuction[ROW_MSG_POS];
 }
 
 char instruction_get_col(instruction_t* self) {
-    return self->instuction[11];
+    return self->instuction[COL_MSG_POS];
 }
 
 char instruction_get_num(instruction_t* self) {
-    return self->instuction[4];
+    return self->instuction[NUM_MSG_POS];
 }
 
 bool put_inst_has_error(char* s1, char* s2, int i1, int i2, int i3) {

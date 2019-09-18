@@ -5,7 +5,6 @@
 #include "stdbool.h"
 
 typedef struct sudoku {
-    parset_t parser;
     board_t board;
 } sudoku_t;
 
