@@ -41,10 +41,10 @@ int reset_messages(server_message_t* self) {
 }
 
 int server_message_recv(server_message_t* self) {
-    reset_messages(self);
     if (!self->server) {
         return ERROR;
     }
+    reset_messages(self);
     return server_recv(self->server, &self->message, control_recv_server);
 }
 
