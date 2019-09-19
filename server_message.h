@@ -5,9 +5,11 @@
 #include "server.h"
 #include "sudoku.h"
 
+#define MAX_LEN_MSG 722
+
 typedef struct server_message {
-    message_t message;
-    message_t len_msg;
+    char message[MAX_LEN_MSG];
+    uint32_t len_msg;
     server_t* server;
 } server_message_t;
 

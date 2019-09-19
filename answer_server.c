@@ -1,67 +1,62 @@
 #include "utils.h"
-#include "message.h"
 #include "sudoku.h"
 #include <stdio.h>
+#include <string.h>
 
 #define SIZE_BOARD 722
-#define NUM_NUMBERS 81
+#define MAX_LEN_MSG 722
+#define LEN_MODIY_MSG 36
+#define LEN_ERROR_MSG 6
+#define LEN_OK_MSG 3
 
-int prepare_message_with_board(sudoku_t* sudoku, message_t* msg) {
+uint32_t prepare_message_with_board(sudoku_t* sudoku, char* msg) {
     char* board_drawing = sudoku_get_board_drawing(sudoku);
-    message_create(msg, board_drawing, SIZE_BOARD);
-    return SUCCESS;
+    strncpy(msg, board_drawing, SIZE_BOARD);
+    return SIZE_BOARD;
 }
 
-int create_answer_for_put(sudoku_t* sudoku, message_t* msg) {
-    char* msg_cont = message_get(msg);
-    if (sudoku_put_number(sudoku,
-                          msg_cont[3],
-                          msg_cont[1],
-                          msg_cont[2]) == SUCCESS) {
-        message_init(msg); //Restart the message
-        prepare_message_with_board(sudoku, msg);
+uint32_t create_answer_for_put(sudoku_t* sudoku, char* msg) {
+    if (sudoku_put_number(sudoku, msg[2], msg[0], msg[1]) == SUCCESS) {
+        memset(msg, 0, MAX_LEN_MSG * sizeof(char));
+        return prepare_message_with_board(sudoku, msg);
     } else {
-        message_init(msg); //Restart the message
-        message_create(msg, "La celda indicada no es modificable\n", 36);
+        memset(msg, 0, MAX_LEN_MSG * sizeof(char));
+        strncpy(msg, "La celda indicada no es modificable\n", LEN_MODIY_MSG);
+        return LEN_MODIY_MSG;
     }
-    return SUCCESS;
 }
 
-int create_answer_for_reset(sudoku_t* sudoku, message_t* msg) {
-    message_init(msg); //Restart the message
+uint32_t create_answer_for_reset(sudoku_t* sudoku, char* msg) {
+    memset(msg, 0, MAX_LEN_MSG * sizeof(char));
     sudoku_reset(sudoku);
-    prepare_message_with_board(sudoku, msg);
-    return SUCCESS;
+    return prepare_message_with_board(sudoku, msg);
 }
 
-int create_answer_for_verify(sudoku_t* sudoku, message_t* msg) {
-    message_init(msg); //Restart the message
+uint32_t create_answer_for_verify(sudoku_t* sudoku, char* msg) {
+    memset(msg, 0, MAX_LEN_MSG * sizeof(char));
     if (sudoku_verify(sudoku) == SUCCESS) {
-        message_create(msg, "OK\n", 3);
+        strncpy(msg, "OK\n", LEN_OK_MSG);
+        return LEN_OK_MSG;
     } else {
-        message_create(msg, "ERROR\n", 6);
+        strncpy(msg, "ERROR\n", LEN_ERROR_MSG);
+        return LEN_ERROR_MSG;
     }
-    return SUCCESS;
 }
 
-int create_answer_for_get(sudoku_t* sudoku, message_t* msg) {
-    message_init(msg); //Restart the message
-    prepare_message_with_board(sudoku, msg);
-    return SUCCESS;
+uint32_t create_answer_for_get(sudoku_t* sudoku, char* msg) {
+    memset(msg, 0, MAX_LEN_MSG * sizeof(char));
+    return prepare_message_with_board(sudoku, msg);
 }
 
-int answer_server_create(message_t* msg, sudoku_t* sudoku) {
-    if (message_get_first_character(msg) == 'G') {
-        create_answer_for_get(sudoku, msg);
+uint32_t answer_server_create(char* msg, sudoku_t* sudoku) {
+    if (msg[0] == 'G') {
+        return create_answer_for_get(sudoku, msg);
     }
-    if (message_get_first_character(msg) == 'V') {
-        create_answer_for_verify(sudoku, msg);
+    if (msg[0] == 'V') {
+        return create_answer_for_verify(sudoku, msg);
     }
-    if (message_get_first_character(msg) == 'R') {
-        create_answer_for_reset(sudoku, msg);
+    if (msg[0] == 'R') {
+        return create_answer_for_reset(sudoku, msg);
     }
-    if (message_get_first_character(msg) == 'P') {
-        create_answer_for_put(sudoku, msg);
-    }
-    return SUCCESS;
+    return create_answer_for_put(sudoku, msg);
 }

@@ -9,32 +9,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_BUFF 3
+int control_recv(char* msg);
 
-int control_recv(message_t* msg);
-
-int server_recv(server_t* server,
-                message_t* msg,
-                int (*control_recv)(message_t* msg)) {
-    char buffer[MAX_BUFF];
+int server_recv(server_t* server, char* msg, int (*control_recv)(char* msg)) {
     char frt_char;
     if (socket_receive(&server->s_socket, &frt_char, 1) < 0) {
         return ERROR;
     }
-    message_append_character(msg, frt_char);;
+    msg[0] = frt_char;
     if (control_recv(msg) == ERROR) {
-        if (socket_receive(&server->s_socket, buffer, MAX_BUFF) < 0) {
+        if (socket_receive(&server->s_socket, msg, 3) < 0) {
             return ERROR;
         }
-        message_append_string(msg, buffer, MAX_BUFF);;
     }
     return SUCCESS;
 }
 
-int server_send(server_t* server, message_t* msg) {
-    char* msg_buf = message_get(msg);
-    if (socket_send(&server->s_socket,(uint8_t*)msg_buf,
-                    message_get_length(msg)) > 0) {
+int server_send(server_t* server, char* msg, uint32_t len_msg) {
+    if (socket_send(&server->s_socket,(uint8_t*)msg, len_msg) > 0) {
         return SUCCESS;
     }
     return ERROR;

@@ -12,12 +12,15 @@ int message_init(message_t* self) {
 }
 
 int message_create(message_t* self, const char* str, uint32_t len) {
+    message_init(self);
     if (len > MAX_LEN_MSG) {
         return ERROR;
     }
+    strncpy(self->buffer, str, len);
+    /*
     for (int i = 0; i < len; i++){
         self->buffer[i] = str[i];
-    }
+    }*/
     self->len_msg = len;
     return SUCCESS;
 }
@@ -39,6 +42,7 @@ int message_print(message_t* self) {
 }
 
 uint32_t message_get_length(message_t* self) {
+    //uint32_t len = strlen(self->buffer);
     return self->len_msg;
 }
 

@@ -1,6 +1,7 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_
 
+#include <stdint.h>
 #include "socket.h"
 #include "message.h"
 
@@ -15,15 +16,12 @@ typedef struct server {
 //PRE: self fue inicializado previamente. Msg fue inicializado
 //previamente y control receive permite determinar cuando
 //el mensaje fue completamente leido.
-int server_recv(server_t* self,
-                message_t* msg,
-                int (*control_recv)(message_t* msg));
-
+int server_recv(server_t* self, char* msg, int (*control_recv)(char* msg));
 
 //Envia un mensaje si es posible.
 //PRE: self fue inicializado previamente. Msg contiene
 //el mensaje que quiere ser enviado
-int server_send(server_t* self, message_t* msg);
+int server_send(server_t* self, char* msg,  uint32_t len_msg);
 
 //Pone al server en escuhca para acetar una conexion
 //PRE: self fue inicializado previamente.
