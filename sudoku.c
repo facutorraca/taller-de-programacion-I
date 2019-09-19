@@ -8,28 +8,16 @@
 #include <stdlib.h>
 
 #define NUM_SQUARES 81
-
-int get_numbers(char* numbers) {
-    parser_t parser;
-    parser_init(&parser);
-    parser_set_file(&parser, "board.txt");
-    parser_set_delimiter(&parser, " ");
-    parser_set_delimiter(&parser, "\n");
-
-    int i = 0;
-    char number[1];
-    while (parser_get_next_word(&parser, number) == SUCCESS) {
-        numbers[i] = (char)number[0];
-        i++;
-    }
-    parser_release(&parser);
-    return SUCCESS;
-}
+#define LINE_LENGHT 25
 
 int sudoku_init(sudoku_t* self) {
     char numbers[NUM_SQUARES];
     memset(numbers, 0, NUM_SQUARES * sizeof(char));
-    get_numbers(numbers);
+
+    parser_t parser;
+    parser_init(&parser, "board.txt", numbers, NUM_SQUARES);
+    parser_process_file(&parser);
+    parser_release(&parser);
 
     return board_init(&self->board, numbers);
 }
