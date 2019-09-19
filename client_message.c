@@ -9,14 +9,13 @@
 
 #define BYTES_LEN 4
 
-static uint32_t calculate_length_message(char* msg) {
+uint32_t calculate_length_message(char* msg) {
     char array_with_length[BYTES_LEN];
     memset(array_with_length, 0, BYTES_LEN * sizeof(char));
 
-    for (int i = 0; i < BYTES_LEN; i++) {
-        array_with_length[i] = msg[i];
-    }
-    return ntohl(array_to_uint(array_with_length));
+    uint32_t len;
+    memcpy(&len, msg, BYTES_LEN);
+    return ntohl(len);
 }
 
 int client_message_send(client_message_t* self) {

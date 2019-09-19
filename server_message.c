@@ -37,10 +37,7 @@ int server_message_send(server_message_t* self) {
     }
 
     uint32_t len_msg_be = htonl(self->len_msg);
-    char array_with_length[BYTES_LEN];
-    uint_to_array(array_with_length, len_msg_be);
-
-    server_send(self->server, array_with_length, BYTES_LEN);
+    server_send(self->server, (char*)&len_msg_be, BYTES_LEN);
     server_send(self->server, self->message, self->len_msg);
     return SUCCESS;
 }
