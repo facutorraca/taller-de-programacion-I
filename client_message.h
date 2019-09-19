@@ -1,12 +1,14 @@
 #ifndef _CLIENT_MESSAGE_H_
 #define _CLIENT_MESSAGE_H_
 
-#include "message.h"
 #include "client.h"
 #include "instruction.h"
 
+#define MAX_LEN_MSG 722
+
 typedef struct client_message {
-    message_t message;
+    char message[MAX_LEN_MSG];
+    uint32_t len_msg;
     client_t* client;
 } client_message_t;
 

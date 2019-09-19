@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include "socket.h"
-#include "message.h"
 
 
 typedef struct server {

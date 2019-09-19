@@ -1,27 +1,23 @@
-#include "message.h"
 #include "instruction.h"
 #include "sudoku.h"
 #include "utils.h"
-#include <stdio.h>
-#include <string.h>
+#include <stdint.h>
 
-int prepare_put_instruction(message_t* msg, instruction_t* inst) {
-    message_append_character(msg, 'P');
-    message_append_character(msg, instruction_get_row(inst));
-    message_append_character(msg, instruction_get_col(inst));
-    message_append_character(msg, instruction_get_num(inst));
-    return SUCCESS;
-}
-
-int question_client_create(message_t* message, instruction_t* instruction) {
+uint32_t question_client_create(char* message, instruction_t* instruction) {
     if (instruction_is_get(instruction)) {
-        return message_append_character(message, 'G');
+        message[0] = 'G';
+        return 1;
+    } else if (instruction_is_verify(instruction)) {
+        message[0] = 'V';
+        return 1;
+    } else if (instruction_is_reset(instruction)) {
+        message[0] = 'R';
+        return 1;
+    } else {
+        message[0] = 'P';
+        message[1] = instruction_get_row(instruction);
+        message[2] = instruction_get_col(instruction);
+        message[3] = instruction_get_num(instruction);
+        return 4;
     }
-    if (instruction_is_verify(instruction)) {
-        return message_append_character(message, 'V');
-    }
-    if (instruction_is_reset(instruction)) {
-        return message_append_character(message, 'R');
-    } /* put instruction case */
-    return prepare_put_instruction(message, instruction);
 }

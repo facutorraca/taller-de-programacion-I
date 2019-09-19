@@ -1,7 +1,6 @@
 #include "client_message.h"
 #include "instruction.h"
 #include "question_client.h"
-#include "message.h"
 #include "client.h"
 #include "interface.h"
 #include "utils.h"
@@ -10,11 +9,13 @@
 
 #define BYTES_LEN 4
 
-static uint32_t calculate_length_message(message_t* msg) {
+static uint32_t calculate_length_message(char* msg) {
     char array_with_length[BYTES_LEN];
     memset(array_with_length, 0, BYTES_LEN * sizeof(char));
 
-    message_get_nfirst(msg, array_with_length, BYTES_LEN);
+    for (int i = 0; i < BYTES_LEN; i++) {
+        array_with_length[i] = msg[i];
+    }
     return ntohl(array_to_uint(array_with_length));
 }
 
@@ -22,28 +23,32 @@ int client_message_send(client_message_t* self) {
     if (!self->client) {
         return ERROR;
     }
-    client_send(self->client, &self->message);
-    message_init(&self->message); //Restart the message
+    client_send(self->client, self->message, self->len_msg);
+    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
     return SUCCESS;
 }
 
 int client_message_recv(client_message_t* self) {
-    client_recv(self->client, &self->message, BYTES_LEN);
-    uint32_t length_next_message = calculate_length_message(&self->message);
+    client_recv(self->client, self->message, BYTES_LEN);
+    self->len_msg = calculate_length_message(self->message);
 
-    message_init(&self->message); //Restart the message to receive the new one
-    client_recv(self->client, &self->message, length_next_message);
+    //Restart the message to receive the new one
+    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
+    client_recv(self->client,self->message, self->len_msg);
     return SUCCESS;
 }
 
 int client_message_show(client_message_t* self) {
-    return interface_print_message(&self->message);
+    interface_print_message(self->message, self->len_msg);
+    return SUCCESS;
 }
 
 int client_message_create_question(client_message_t* self,
                                    instruction_t* instruction) {
-    message_init(&self->message); //Restart the message to receive the new one
-    return question_client_create(&self->message, instruction);
+    //Restart the message to receive the new one
+    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
+    self->len_msg = question_client_create(self->message, instruction);
+    return SUCCESS;
 }
 
 int client_message_set_client(client_message_t* self, client_t* client) {
@@ -52,13 +57,15 @@ int client_message_set_client(client_message_t* self, client_t* client) {
 }
 
 int client_message_init(client_message_t* self) {
-    message_init(&self->message);
+    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
+    self->len_msg = 0;
     self->client = NULL;
     return SUCCESS;
 }
 
 int client_message_release(client_message_t* self) {
-    message_release(&self->message);
+    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
+    self->len_msg = 0;
     self->client = NULL;
     return SUCCESS;
 }

@@ -2,7 +2,6 @@
 #define _CLIENT_H_
 
 #include "socket.h"
-#include "message.h"
 
 typedef struct client {
     const char* host;
@@ -12,13 +11,13 @@ typedef struct client {
 
 //Recibe un mensaje si es posible y lo guarda en msg.
 //PRE: self fue inicializado previamente. Msg fue inicializado
-//previamente. length_msg contiene la longitud del mensaje esperado
-int client_recv(client_t* self, message_t* msg, uint32_t length_msg);
+//previamente. Length contiene la longitud del mensaje esperado
+int client_recv(client_t* self, char* msg, uint32_t length);
 
 //Envia un mensaje si es posible.
 //PRE: self fue inicializado previamente. Msg contiene
-//el mensaje que quiere ser enviado
-int client_send(client_t* self, message_t* msg);
+//el mensaje que quiere ser enviado, con longitud length
+int client_send(client_t* client, char* msg, uint32_t length);
 
 //Conecta al cliente con un servidor si posible
 //PRE: self fue inicializado previamente.

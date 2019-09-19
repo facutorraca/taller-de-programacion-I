@@ -3,7 +3,6 @@
 #include "server.h"
 #include "socket.h"
 #include "utils.h"
-#include "message.h"
 #include "interface.h"
 #include <stdbool.h>
 #include <stdlib.h>

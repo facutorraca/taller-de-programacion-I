@@ -1,9 +1,9 @@
 #define _POSIX_C_SOURCE 200112L
 
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include <errno.h>
-#include "message.h"
 #include "sudoku.h"
 #include "utils.h"
 #include <stdbool.h>
@@ -50,8 +50,10 @@ void print_socket_error(char* func_error) {
     fprintf(stderr,"Error en %s: %s\n", func_error, strerror(errno));
 }
 
-int interface_print_message(message_t* msg) {
-    return message_print(msg);
+void interface_print_message(char* msg, uint32_t len) {
+    for (int i = 0; i < len; i++) {
+        fprintf(stdout, "%c", msg[i]);
+    }
 }
 
 bool verify_server_parameters(int argc, char const *argv[]) {

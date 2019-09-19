@@ -1,8 +1,8 @@
 #ifndef _INTERFACE_H_
 #define _INTERFACE_H_
 
-#include "message.h"
 #include <stdbool.h>
+#include <stdint.h>
 
 int get_board_drawing(char* buffer);
 
@@ -30,6 +30,6 @@ void print_getaddrinfo_error(int errcode);
 
 void print_socket_error(char* func_error);
 
-int interface_print_message(message_t* msg);
+void interface_print_message(const char* msg, uint32_t len);
 
 #endif

@@ -7,26 +7,19 @@
 #include <stdio.h>
 #include "client.h"
 #include "socket.h"
-#include "message.h"
 #include "utils.h"
 
 #define MAX_BUFFER 722
 
-int control_recv(message_t* msg);
-
-int client_recv(client_t* client, message_t* msg, uint32_t length_msg) {
-    char buffer[MAX_BUFFER];
-    if (socket_receive(&client->c_socket, buffer, length_msg) > 0) {
-        message_append_string(msg, buffer, length_msg);
+int client_recv(client_t* client, char* msg, uint32_t length) {
+    if (socket_receive(&client->c_socket, msg, length) > 0) {
         return SUCCESS;
     }
     return ERROR;
 }
 
-int client_send(client_t* client, message_t* msg) {
-    char* msg_buf = message_get(msg);
-    if (socket_send(&client->c_socket,(uint8_t*)msg_buf,
-                    message_get_length(msg)) > 0) {
+int client_send(client_t* client, char* msg, uint32_t length) {
+    if (socket_send(&client->c_socket, (uint8_t*)msg, length) > 0) {
         return SUCCESS;
     }
     return ERROR;

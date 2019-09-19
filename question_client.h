@@ -2,9 +2,9 @@
 #define _QUESTION_CLIENT_H_
 
 #include "instruction.h"
-#include "message.h"
 #include "sudoku.h"
+#include <stdint.h>
 
-int question_client_create(message_t* message, instruction_t* instruction);
+uint32_t question_client_create(char* message, instruction_t* instruction);
 
 #endif

@@ -1,7 +1,6 @@
 #ifndef _SERVER_MESSAGE_H_
 #define _SERVER_MESSAGE_H_
 
-#include "message.h"
 #include "server.h"
 #include "sudoku.h"
 

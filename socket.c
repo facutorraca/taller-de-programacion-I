@@ -77,12 +77,6 @@ int socket_connect(socket_t* self, const char* host, const char* service) {
     struct addrinfo *result;  //Pointer to the result list
     socket_getaddrinfo(&result, service, 0);
 
-    /*
-    self->fd = socket(result->ai_family,
-                      result->ai_socktype,
-                      result->ai_protocol);
-    */
-
     struct addrinfo *result_iter = result;
     while (result_iter) {
         self->fd = socket(result_iter->ai_family,
