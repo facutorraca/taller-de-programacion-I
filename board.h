@@ -10,7 +10,7 @@
 typedef struct board {
     square_t square[NUM_SQUARES];
     char drawing[SIZE_BOARD];
-    int pos_nbr[NUM_SQUARES];
+    int pos_nbr[NUM_SQUARES]; //Posicion de los numeros en el dibujo
 } board_t;
 
 //Inicializa una instacia de board con los numeros

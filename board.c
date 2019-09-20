@@ -18,12 +18,17 @@ int cmp_by_square(const void *sqr_a, const void *sqr_b) {
     return box_a - box_b;
 }
 
+//Funcion para simular una matriz en un vector
 int get_board_position(int row, int col) {
-    //Use for user input
+    /*Para el input del usuario que es
+     *de 1 a 9 */
     return (row - 1) * 9 + (col - 1);
 }
 
+//Funcion para simular una matriz en un vector
 int get_line_pos(int row, int col) {
+    /*Para el manejo interns con indices de
+     *de 0 a 8 */
     return (row * 9) + col;
 }
 
@@ -91,6 +96,8 @@ int board_verify_col(board_t* self) {
 
 int board_verify_box(board_t* self) {
     square_t sqr_dup[NUM_SQUARES];
+    /*Se ordenan los numeros por caja y se los maneja
+     *Como si fueran una fila */
     sort_square_by_box(self, sqr_dup);
 
     char box[9];

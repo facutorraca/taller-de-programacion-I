@@ -9,7 +9,6 @@
 #include <stdbool.h>
 #include <netdb.h>
 
-
 #define MAX_BOARD_ROW 19
 #define MAX_BOARD_COL 37
 
