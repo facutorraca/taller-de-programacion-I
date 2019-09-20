@@ -14,12 +14,12 @@ Compressor::Compressor(int num_thrds, size_t max_q_len, size_t block_len):
     this->wtr_thread = new WriterThread(this->queues, this->writer);
 }
 
-void Compressor::set_input_file(const char* i_filename) {
-    this->reader.set_file(i_filename);
+int Compressor::set_input_file(const char* i_filename) {
+    return this->reader.set_file(i_filename);
 }
 
-void Compressor::set_output_file(const char* o_filename) {
-    this->writer.set_file(o_filename);
+int Compressor::set_output_file(const char* o_filename) {
+    return this->writer.set_file(o_filename);
 }
 
 void Compressor::compress() {
@@ -31,7 +31,6 @@ void Compressor::compress() {
         this->cmp_threads[i]->join();
     }
     this->wtr_thread->join();
-    std::cerr << "Threads Closed" << '\n';
 }
 
 /*--------------Private-------------*/

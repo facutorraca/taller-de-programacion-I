@@ -25,9 +25,9 @@ class Compressor {
     public:
         explicit Compressor(int num_thrds, size_t max_q_len, size_t block_len);
 
-        void set_input_file(const char* i_filename);
+        int set_input_file(const char* i_filename);
 
-        void set_output_file(const char* o_filename);
+        int set_output_file(const char* o_filename);
 
         void compress();
 

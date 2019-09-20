@@ -33,8 +33,6 @@ void ProtectedQueue::push(Block* block) {
     }
 
     this->queue.push(block);
-    this->pushed++;
-
     this->cv.notify_all();
 }
 
@@ -72,14 +70,6 @@ void ProtectedQueue::close() {
 bool ProtectedQueue::closed() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
     return this->q_closed;
-}
-
-int ProtectedQueue::get_pop() {
-    return this->poped;
-}
-
-int ProtectedQueue::get_push() {
-    return this->pushed;
 }
 
 /*--------------Private--------------*/

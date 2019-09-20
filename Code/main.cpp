@@ -4,24 +4,36 @@
 #include <cstdlib>
 #include <sstream>
 
+#define ERROR 1
 #define SUCCESS 0
 #define NO_FILE "-"
 
 int main(int argc, char *argv[]) {
-    int block_len = atoi(argv[1]);
-    int num_thrds = atoi(argv[2]);
-    int max_q_len = atol(argv[3]);
-
-    const char* i_filename = argv[4];
-    const char* o_filename = argv[5];
-
-    Compressor compressor(num_thrds, max_q_len, block_len);
-
-    if (strncmp(NO_FILE, i_filename, 1) != 0) {
-        compressor.set_input_file(i_filename);
+    if (arg != 5) {
+        std::cerr << "Parametros invalidos" << '\n';
+        return ERROR;
     }
-    if (strncmp(NO_FILE, o_filename, 1) != 0) {
-        compressor.set_output_file(o_filename);
+
+    //argv[1] -> block_len
+    //argv[2] -> num_thrds
+    //argv[3] -> max_q_len
+    //argv[4] -> i_filename
+    //argv[5] -> o_filename
+
+    Compressor compressor(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]));
+
+    if (strncmp(NO_FILE, argv[4], 1) != 0) {
+        if (compressor.set_input_file(i_filename) == ERROR) {
+            std::cerr << "El archivo no se pudo abrir o no existe" << '\n';
+            return ERROR;
+        };
+
+    }
+    if (strncmp(NO_FILE, argv[5], 1) != 0) {
+        if (compressor.set_output_file(o_filename) == ERROR) {
+            std::cerr << "El archivo no se pudo crear" << '\n';
+            return ERROR;
+        };
     }
 
     compressor.compress();

@@ -15,8 +15,6 @@ class WriterThread {
     private:
         void write_file();
 
-        void show_results();
-
         bool queues_are_open();
 
         bool queues_are_empty();

@@ -38,7 +38,7 @@ void Writer::write_number(const char* number_by_bit) {
 
 /*--------------Private-------------*/
 uint8_t Writer::get_byte_to_print(const char* number_by_bit) {
-    return  (uint8_t)strtoul(number_by_bit, nullptr, BINARY);
+    return (uint8_t)strtoul(number_by_bit, nullptr, BINARY);
 }
 
 Writer::~Writer() {

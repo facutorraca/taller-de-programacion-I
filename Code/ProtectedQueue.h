@@ -32,10 +32,6 @@ class ProtectedQueue {
 
         Block* pop();
 
-        int get_pop();
-
-        int get_push();
-
         ~ProtectedQueue();
 };
 

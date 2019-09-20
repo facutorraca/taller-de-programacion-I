@@ -32,7 +32,6 @@ void WriterThread::write_file() {
             }
         }
     }
-    this->show_results();
 }
 
 bool WriterThread::queues_are_open() {
@@ -53,18 +52,6 @@ bool WriterThread::queues_are_empty() {
         }
     }
     return empty;
-}
-
-void WriterThread::show_results() {
-    int sum_push = 0, sum_pop = 0;
-    for (size_t i = 0; i < this->queues.size(); i++) {
-        sum_pop = sum_pop + this->queues[i].get_pop();
-        sum_push = sum_push + this->queues[i].get_push();
-        std::cerr << "Thread: " << i << " "
-        "Pushes: " << this->queues[i].get_push() << " " <<
-        "Pop's: " << this->queues[i].get_pop() << '\n';
-    }
-    std::cerr << "Total Push: " << sum_push << " Total Pop: " << sum_pop <<"\n";
 }
 
 WriterThread::~WriterThread() {}
