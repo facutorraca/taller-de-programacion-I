@@ -14,13 +14,16 @@ int main(int argc, char *argv[]) {
         return ERROR;
     }
 
-    //argv[1] -> block_len
-    //argv[2] -> num_thrds
-    //argv[3] -> max_q_len
-    //argv[4] -> i_filename
-    //argv[5] -> o_filename
+    char* end_1; char* end_2; char* end_3;
+    int block_len = strtol(argv[1], &end_1, 10);
+    int num_thrds = strtol(argv[2], &end_2, 10);
+    int max_q_len = strtol(argv[3], &end_3, 10);
 
-    Compressor compressor(atoi(argv[2]), atoi(argv[3]), atoi(argv[1]));
+    if (*end_1 || *end_2 || *end_3) {
+        std::cerr << "Los parametros numericos de entrada son invalidos" <<'\n';
+    }
+
+    Compressor compressor(num_thrds, max_q_len, block_len);
 
     if (strncmp(NO_FILE, argv[4], 1) != 0) {
         if (compressor.set_input_file(argv[4]) == ERROR) {
