@@ -17,7 +17,7 @@ int control_recv_server(char* msg) {
     }
 }
 
-int reset_messages(server_message_t* self) {
+int static reset_messages(server_message_t* self) {
     memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
     self->len_msg = 0;
     return SUCCESS;

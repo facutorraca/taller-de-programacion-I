@@ -23,7 +23,12 @@ int client_message_send(client_message_t* self) {
         return ERROR;
     }
     client_send(self->client, self->message, self->len_msg);
+    return SUCCESS;
+}
+
+int static reset_messages(client_message_t* self) {
     memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
+    self->len_msg = 0;
     return SUCCESS;
 }
 
@@ -46,15 +51,9 @@ int client_message_show(client_message_t* self) {
     return SUCCESS;
 }
 
-int reset_messages(client_message_t* self) {
-    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
-    self->len_msg = 0;
-    return SUCCESS;
-}
-
 int client_message_create_question(client_message_t* self,
                                    instruction_t* instruction) {
-    reser_messages(self);
+    reset_messages(self);
     self->len_msg = question_client_create(self->message, instruction);
     return SUCCESS;
 }
