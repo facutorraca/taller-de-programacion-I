@@ -29,11 +29,15 @@ int client_message_send(client_message_t* self) {
 
 int client_message_recv(client_message_t* self) {
     client_recv(self->client, self->message, BYTES_LEN);
-    self->len_msg = calculate_length_message(self->message);
+
+    //Calcula la lingitud del siguiente mensaje a recibir
+    uint32_t len_next = calculate_length_message(self->message);
 
     //Restart the message to receive the new one
-    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
-    client_recv(self->client,self->message, self->len_msg);
+    reset_messages(self);
+
+    client_recv(self->client,self->message, len_next);
+    self->len_msg = len_next;
     return SUCCESS;
 }
 
@@ -42,10 +46,15 @@ int client_message_show(client_message_t* self) {
     return SUCCESS;
 }
 
+int reset_messages(client_message_t* self) {
+    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
+    self->len_msg = 0;
+    return SUCCESS;
+}
+
 int client_message_create_question(client_message_t* self,
                                    instruction_t* instruction) {
-    //Restart the message to receive the new one
-    memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
+    reser_messages(self);
     self->len_msg = question_client_create(self->message, instruction);
     return SUCCESS;
 }
@@ -57,14 +66,14 @@ int client_message_set_client(client_message_t* self, client_t* client) {
 
 int client_message_init(client_message_t* self) {
     memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
-    self->len_msg = 0;
     self->client = NULL;
+    self->len_msg = 0;
     return SUCCESS;
 }
 
 int client_message_release(client_message_t* self) {
     memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
-    self->len_msg = 0;
     self->client = NULL;
+    self->len_msg = 0;
     return SUCCESS;
 }

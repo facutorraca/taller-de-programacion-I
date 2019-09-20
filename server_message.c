@@ -44,7 +44,7 @@ int server_message_send(server_message_t* self) {
 
 int server_message_create_answer(server_message_t* self, sudoku_t* sudoku) {
     self->len_msg = answer_server_create(self->message, sudoku);
-    //calculate_length_message
+    //La funcion devuelve la longitud del mensaje creado
     return SUCCESS;
 }
 
@@ -55,14 +55,14 @@ int server_message_set_server(server_message_t* self, server_t* server) {
 
 int server_message_init(server_message_t* self) {
     memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
-    self->len_msg = 0;
     self->server = NULL;
+    self->len_msg = 0;
     return SUCCESS;
 }
 
 int server_message_release(server_message_t* self) {
     memset(self->message, 0, MAX_LEN_MSG * sizeof(char));
-    self->len_msg = 0;
     self->server = NULL;
+    self->len_msg = 0;
     return SUCCESS;
 }
