@@ -8,8 +8,6 @@
 ProtectedQueue::ProtectedQueue(size_t max_q_len) {
     this->max_q_len = max_q_len;
     this->q_closed = false;
-    this->pushed = 0;
-    this->poped = 0;
 }
 
 ProtectedQueue::ProtectedQueue(ProtectedQueue&& p_queue):
@@ -17,13 +15,9 @@ ProtectedQueue::ProtectedQueue(ProtectedQueue&& p_queue):
 {
     this->max_q_len = p_queue.max_q_len;
     this->q_closed = p_queue.q_closed;
-    this->pushed = p_queue.pushed;
-    this->poped = p_queue.poped;
 
     p_queue.max_q_len = 0;
     p_queue.q_closed = true;
-    p_queue.pushed = 0;
-    p_queue.poped = 0;
 }
 
 void ProtectedQueue::push(Block* block) {
@@ -42,18 +36,17 @@ Block* ProtectedQueue::pop() {
         this->cv.wait(lock);
     }
 
-    if (this->queue.empty() && this->q_closed) {
+    if (this->queue.empty()) {
         //The queue is not receiving more elements
-        return NULL;
+        return nullptr;
+    } else {
+        Block* block = this->queue.front();
+        this->queue.pop();
+        this->cv.notify_all();
+        return block;
     }
-
-    Block* block = this->queue.front();
-    this->queue.pop();
-    this->poped++;
-
-    this->cv.notify_all();
-    return block;
 }
+
 
 bool ProtectedQueue::empty() {
     std::unique_lock<std::mutex> lock(this->q_mtx);

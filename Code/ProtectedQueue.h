@@ -14,9 +14,6 @@ class ProtectedQueue {
     std::mutex q_mtx;
     bool q_closed;
 
-    int pushed;
-    int poped;
-
     public:
         explicit ProtectedQueue(size_t max_q_len);
 
