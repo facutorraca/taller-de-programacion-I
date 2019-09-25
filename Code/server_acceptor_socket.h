@@ -1,25 +1,22 @@
 #ifndef _SERVER_SOCKET_H_
 #define _SERVER_SOCKET_H_
 
+#include "common_socket.h"
 #include <string>
-#include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/socket.h>
 
 class AcceptorSocket {
-    const std::string service;
     int fd;
-
-    private:
-        socket_getaddrinfo(struct addrinfo** result, int ai_flags)
 
     public:
         AcceptorSocket();
 
-        int bind();
+        int bind(const std::string port);
 
         int listen();
 
-        Socket accept(); //Return a new socket;
+        Socket accept();
 
         ~AcceptorSocket();
 };
