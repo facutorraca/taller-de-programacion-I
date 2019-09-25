@@ -118,7 +118,7 @@ int socket_send(socket_t* self, uint8_t* buffer, size_t length) {
     while (length != total_bytes) {
         rem_bytes = length - total_bytes;
         bytes_sent = send(self->fd, (void*)&buffer[total_bytes],
-                          rem_bytes, MSG_NO_SIGNAL /*flags*/);
+                          rem_bytes, MSG_NOSIGNAL /*flags*/);
 
         if (bytes_sent == -1) {
             return -1;
@@ -134,7 +134,7 @@ int socket_receive(socket_t* self, char* buffer, size_t length) {
     while (length != total_bytes) {
         rem_bytes = length - total_bytes;
         bytes_recv = recv(self->fd, (void*)&buffer[total_bytes],
-                          rem_bytes, MSG_NO_SIGNAL /*flags*/);
+                          rem_bytes, MSG_NOSIGNAL /*flags*/);
 
         if (bytes_recv == -1) {
             return -1;
