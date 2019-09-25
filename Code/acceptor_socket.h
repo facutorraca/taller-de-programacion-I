@@ -2,13 +2,17 @@
 #define _SERVER_SOCKET_H_
 
 #include <string>
+#include <sys/socket.h>
+#include <sys/types.h>
 
 class AcceptorSocket {
     const std::string service;
     int fd;
 
-    public:
+    private:
+        socket_getaddrinfo(struct addrinfo** result, int ai_flags)
 
+    public:
         AcceptorSocket();
 
         int bind();

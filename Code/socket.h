@@ -4,16 +4,22 @@
 class Socket {
     int fd;
 
+    private:
+        socket_getaddrinfo(struct addrinfo** result, int ai_flags)
+
     public:
 
-        explicit Socket(int fd);
+        Socket();
 
-        int send();
+        Socket(int fd);
 
-        int receive();
+        int send(const char* msg, size_t len);
+
+        int receive(char* buf, size_t len);
+
+        int connect();
 
         ~Socket();
-
 }
 
 #endif
