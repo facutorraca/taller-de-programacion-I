@@ -15,7 +15,6 @@ int main(int argc, char const *argv[]) {
     std::vector<char> buf;
     while (true) {
         s_socket.receive(buf);
-        std::cout << buf.size();
         buf.clear();
     }
 

@@ -4,7 +4,6 @@
 #include <vector>
 
 int main(int argc, char const *argv[]) {
-
     std::string host(argv[1]);
     std::string port(argv[2]);
 
