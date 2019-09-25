@@ -120,6 +120,10 @@ int socket_send(socket_t* self, uint8_t* buffer, size_t length) {
         bytes_sent = send(self->fd, (void*)&buffer[total_bytes],
                           rem_bytes, MSG_NOSIGNAL /*flags*/);
 
+        if (bytes_sent == 0) {
+            return -1;
+        }
+
         if (bytes_sent == -1) {
             return -1;
             print_socket_error("SEND");
@@ -135,6 +139,10 @@ int socket_receive(socket_t* self, char* buffer, size_t length) {
         rem_bytes = length - total_bytes;
         bytes_recv = recv(self->fd, (void*)&buffer[total_bytes],
                           rem_bytes, MSG_NOSIGNAL /*flags*/);
+
+        if (bytes_recv == 0) {
+            return -1;
+        }
 
         if (bytes_recv == -1) {
             return -1;
