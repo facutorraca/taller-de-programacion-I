@@ -12,9 +12,9 @@ class ServerProxy {
     public:
         ServerProxy(const std::string host, const std::string port);
 
-        void connect();
+        void execute(const std::string cmd);
 
-        void execute(std::string cmd);
+        void connect();
 
         ~ServerProxy();
 };

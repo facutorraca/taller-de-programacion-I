@@ -15,8 +15,11 @@ void ServerProxy::connect() {
     std::cout << welcome_message;
 }
 
-void ServerProxy::execute(std::string cmd) {
+void ServerProxy::execute(const std::string cmd) {
+    std::string answer;
     this->socket.send(cmd);
+    this->socket.receive(answer);
+    std::cout << answer;
 }
 
 ServerProxy::~ServerProxy() {}
