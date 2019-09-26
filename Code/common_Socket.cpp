@@ -20,7 +20,7 @@ Socket::Socket(int fd) {
     this->fd = fd;
 }
 
-Socket::Socket(Socket &&other) {
+Socket::Socket(Socket&& other) {
     this->fd = other.fd;
     other.fd = INVALID_FD;
 }
@@ -58,7 +58,7 @@ int Socket::send(const std::string& msg) {
     return SUCCESS;
 }
 
-int Socket::connect(const std::string port, const std:: string host) {
+int Socket::connect(const std::string host, const std:: string port) {
     struct addrinfo *result;  //Pointer to the result list
 
     struct addrinfo hints; //Criteria for selecting the socket addr structures

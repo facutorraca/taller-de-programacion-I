@@ -21,7 +21,7 @@ class Socket {
 
         int send(const std::string& msg);
 
-        int connect(const std::string port, const std::string host);
+        int connect(const std::string host, const std::string port);
 
         ~Socket();
 };
