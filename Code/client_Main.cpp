@@ -1,8 +1,11 @@
-#include "common_Socket.h"
+#include "client_Input.h"
 #include "client_Client.h"
-#include <cstring>
+#include "client_Instruction.h"
 #include <iostream>
 #include <vector>
+
+#define ERROR 1
+#define SUCCESS 0
 
 int main(int argc, char const *argv[]) {
     std::string host(argv[1]);
@@ -11,14 +14,11 @@ int main(int argc, char const *argv[]) {
     Client client(host, port);
     client.connect();
 
-    std::string input;
+    Input input;
     while (true) {
-        std::getline(std::cin, input);
-        input.push_back('\n');
-
-        client.send(input);
-        input.erase(input.begin(), input.end());
+        Instruction instruction = input.get_instruction();
+        client.send(instruction);
     }
 
-    return 0;
+    return SUCCESS;
 }

@@ -3,6 +3,7 @@
 
 #include "common_Socket.h"
 #include "client_ServerProxy.h"
+#include "client_Instruction.h"
 #include <string>
 
 class Client {
@@ -15,7 +16,7 @@ class Client {
 
         void connect();
 
-        void send(std::string msg);
+        void send(Instruction inst);
 
         ~Client();
 };
