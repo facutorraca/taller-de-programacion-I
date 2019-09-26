@@ -9,6 +9,7 @@ class ThreadClient {
     bool alive;
     Socket socket;
     std::thread thread;
+    LogState log_state;
 
     private:
         void communicate();
