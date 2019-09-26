@@ -12,13 +12,7 @@ int main(int argc, char const *argv[]) {
     std::string port(argv[2]);
 
     Client client(host, port);
-    client.connect();
-
-    Input input;
-    while (true) {
-        Instruction instruction = input.get_instruction();
-        client.send(instruction);
-    }
+    client.run();
 
     return SUCCESS;
 }

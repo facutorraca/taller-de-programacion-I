@@ -8,11 +8,9 @@ class ServerProxy {
     Socket c_socket;
 
     public:
-        ServerProxy();
+        ServerProxy(const std::string host, const std::string port);
 
-        void connect(const std::string host, const std::string port);
-
-        void send(std::string msg);
+        void execute(std::string msg);
 
         ~ServerProxy();
 };

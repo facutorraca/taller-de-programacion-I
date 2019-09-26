@@ -8,15 +8,14 @@
 
 class Client {
     ServerProxy server;
-    std::string port;
-    std::string host;
+    Input input;
 
     public:
         explicit Client(const std::string host, const std::string port);
 
-        void connect();
+        void send(Instruction instruction);
 
-        void send(Instruction inst);
+        void run();
 
         ~Client();
 };

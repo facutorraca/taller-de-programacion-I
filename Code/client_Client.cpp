@@ -5,16 +5,13 @@
 #include <iostream>
 
 Client::Client(const std::string host, const std::string port):
-    port(port),
-    host(host)
-{}
+    server(host, port) {}
 
-void Client::connect() {
-    this->server.connect(this->port, this->host);
-}
-
-void Client::send(Instruction inst) {
-    inst.send(&this->server);
+void Client::run() {
+    while (true) {
+        Instruction instruction = this->input.get_instruction();
+        instruction.execute(&this->server);
+    }
 }
 
 Client::~Client() {}
