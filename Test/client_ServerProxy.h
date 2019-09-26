@@ -5,10 +5,14 @@
 #include <string>
 
 class ServerProxy {
-    Socket c_socket;
+    Socket socket;
+    std::string host;
+    std::string port;
 
     public:
         ServerProxy(const std::string host, const std::string port);
+
+        void connect();
 
         void execute(std::string cmd);
 

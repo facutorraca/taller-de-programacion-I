@@ -17,10 +17,13 @@ void ThreadClient::run() {
 }
 
 void ThreadClient::communicate() {
+    this->socket.send("220 <newClient>\n");
+
     std::string buf;
     while (this->alive) {
         this->socket.receive(buf);
         std::cout << buf;
+        buf.clear();
     }
 }
 

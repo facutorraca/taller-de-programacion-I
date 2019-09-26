@@ -27,7 +27,6 @@ void ThreadAcceptor::run() {
 void ThreadAcceptor::accept_clients() {
     while (this->server_running) {
         Socket socket = this->acceptor.accept();
-        std::cout << "Client Accepted" << '\n';
 
         ThreadClient* new_client = new ThreadClient(std::move(socket));
         this->clients.push_back(new_client);

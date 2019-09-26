@@ -13,6 +13,8 @@ void Client::read_input(std::string& cmd) {
 }
 
 void Client::run() {
+    this->server.connect();
+    
     std::string cmd;
     while (true) {
         this->read_input(cmd);
