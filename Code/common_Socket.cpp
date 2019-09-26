@@ -1,4 +1,4 @@
-#include "common_socket.h"
+#include "common_Socket.h"
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <iostream>
@@ -25,7 +25,7 @@ Socket::Socket(Socket &&other) {
     other.fd = INVALID_FD;
 }
 
-int Socket::receive(std::vector<char>& buf) {
+int Socket::receive(std::string& buf) {
     int flag;
     char byte_buf;
     do {
@@ -34,14 +34,13 @@ int Socket::receive(std::vector<char>& buf) {
             return ERROR;
         }
         buf.push_back(byte_buf);
-        std::cout << byte_buf;
     } while (byte_buf != '\n');
     return SUCCESS;
 }
 
-int Socket::send(const std::vector<char>& msg) {
+int Socket::send(const std::string& msg) {
     const char* msg_buf = reinterpret_cast<const char*>(msg.data());
-    int msg_size = msg.size();
+    int msg_size = msg.length();
 
     int bytes_sent = 0, total_bytes = 0, rem_bytes = 0;
     while (total_bytes != msg_size) {

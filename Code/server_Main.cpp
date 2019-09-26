@@ -1,5 +1,5 @@
-#include "common_socket.h"
-#include "server_acceptor_socket.h"
+#include "common_Socket.h"
+#include "server_AcceptorSocket.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -12,10 +12,11 @@ int main(int argc, char const *argv[]) {
     acceptor_socket.listen();
     Socket s_socket = acceptor_socket.accept();
 
-    std::vector<char> buf;
+    std::string buf;
     while (true) {
         s_socket.receive(buf);
-        buf.clear();
+        std::cout << buf;
+        buf.erase(buf.begin(),buf.end());
     }
 
     return 0;

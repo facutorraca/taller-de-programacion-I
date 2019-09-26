@@ -1,5 +1,5 @@
-#include "server_acceptor_socket.h"
-#include "common_socket.h"
+#include "server_AcceptorSocket.h"
+#include "common_Socket.h"
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <iostream>

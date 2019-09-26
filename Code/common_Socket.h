@@ -15,11 +15,11 @@ class Socket {
 
         Socket(int fd);
 
-        Socket(Socket &&other);
+        Socket(Socket&& other);
 
-        int receive(std::vector<char>& buf);
+        int receive(std::string& buf);
 
-        int send(const std::vector<char>& msg);
+        int send(const std::string& msg);
 
         int connect(const std::string port, const std::string host);
 
