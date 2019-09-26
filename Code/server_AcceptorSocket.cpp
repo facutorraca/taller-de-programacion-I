@@ -8,7 +8,6 @@
 #include <netdb.h>
 #include <string>
 
-
 #define ERROR -1
 #define SUCCESS 0
 #define INVALID_FD -1

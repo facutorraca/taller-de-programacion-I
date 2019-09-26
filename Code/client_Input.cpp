@@ -10,6 +10,8 @@ void Input::parse_input() {
     if (this->input.length() > 4) {
         this->inst_factory.set_instruction(this->input.substr(0, 4));
         this->inst_factory.set_args(this->input.substr(5, std::string::npos));
+    } else if (this->input.length() == 4) {
+        this->inst_factory.set_instruction(this->input.substr(0, 4));
     } else {
         this->inst_factory.set_instruction(this->input.substr(0, 3));
     }

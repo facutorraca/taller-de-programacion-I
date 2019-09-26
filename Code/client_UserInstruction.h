@@ -2,7 +2,6 @@
 #define _USER_INSTRUCTION_H_
 
 #include "client_Instruction.h"
-#include "client_ServerProxy.h"
 #include <string>
 
 class UserInstruction : public Instruction {

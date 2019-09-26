@@ -1,9 +1,14 @@
 #include "client_InstructionFactory.h"
 #include "client_RmdInstruction.h"
+#include "client_PwdInstruction.h"
+#include "client_MkdInstruction.h"
 #include "client_UserInstruction.h"
 #include "client_PassInstruction.h"
-#include <string>
+#include "client_SystInstruction.h"
+#include "client_ListInstruction.h"
+#include "client_HelpInstruction.h"
 #include <iostream>
+#include <string>
 
 InstructionFactory::InstructionFactory() {}
 
@@ -20,17 +25,17 @@ Instruction InstructionFactory::create_instruction() {
         return UserInstruction(this->args);
     } else if (this->inst.compare("PASS") == 0) {
         return PassInstruction(this->args);
-    } /* else if (this->inst.compare("SYST") == 0) {
-        return std::move(SystInstruction inst());
+    } else if (this->inst.compare("SYST") == 0) {
+        return SystInstruction();
     } else if (this->inst.compare("LIST") == 0) {
-        return std::move(HelpInstruction inst());
+        return ListInstruction();
     } else if (this->inst.compare("HELP") == 0) {
-        return std::move(PwdrInstruction inst());
+        return HelpInstruction();
     } else if (this->inst.compare("PWD") == 0) {
-        return std::move(UserInstruction inst());
+        return PwdInstruction();
     } else if (this->inst.compare("MKD") == 0) {
-        return std::move(MkdInstruction inst()); }*/
-    else { //(this->inst.compare("RMD") == 0) {
+        return MkdInstruction();
+    } else { //(this->inst.compare("RMD") == 0) {
         return RmdInstruction();
     }
 }
