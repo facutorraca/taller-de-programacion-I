@@ -1,11 +1,12 @@
 #include "client_ServerProxy.h"
+#include <iostream>
 
 ServerProxy::ServerProxy(const std::string host, const std::string port) {
-    this->c_socket.connect(port, host);
+    this->c_socket.connect(host, port);
 }
 
-ServerProxy::execute(std::string msg) {
-    this->c_socket.send(msg);
+void ServerProxy::execute(std::string cmd) {
+    this->c_socket.send(cmd);
 }
 
 ServerProxy::~ServerProxy() {}

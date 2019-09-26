@@ -10,17 +10,17 @@
 #include <iostream>
 #include <string>
 
-CommnadFactory::CommnadFactory() {}
+CommandFactory::CommandFactory() {}
 
-void CommnadFactory::set_argument(std::string arg) {
+void CommandFactory::set_argument(std::string arg) {
     this->arg = arg;
 }
 
-void CommnadFactory::set_commnad(std::string cmd) {
+void CommandFactory::set_command(std::string cmd) {
     this->cmd = cmd;
 }
 
-Command CommnadFactory::create_command() {
+Command CommandFactory::create_command() {
     if (this->cmd.compare("USER") == 0) {
         return CommandUser(this->arg);
     } else if (this->cmd.compare("PASS") == 0) {
@@ -30,14 +30,14 @@ Command CommnadFactory::create_command() {
     } else if (this->cmd.compare("LIST") == 0) {
         return CommandList();
     } else if (this->cmd.compare("HELP") == 0) {
-        return CommnadHelp();
+        return CommandHelp();
     } else if (this->cmd.compare("PWD") == 0) {
-        return CommnadPwd();
+        return CommandPwd();
     } else if (this->cmd.compare("MKD") == 0) {
-        return CommnadMkd();
+        return CommandMkd();
     } else { //(this->cmd.compare("RMD") == 0) {
-        return CommnadRmd();
+        return CommandRmd();
     }
 }
 
-CommnadFactory::~CommnadFactory() {}
+CommandFactory::~CommandFactory() {}

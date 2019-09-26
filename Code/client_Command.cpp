@@ -1,14 +1,14 @@
 #include "client_ServerProxy.h"
-#include "client_Commnad.h"
+#include "client_Command.h"
 #include <string>
 #include <iostream>
 
-Commnad::Commnad(std::string cmd):
+Command::Command(std::string cmd):
     cmd(cmd)
 {}
 
-void Commnad::execute(ServerProxy& server) {
-    server.execute(this->inst);
+void Command::execute(ServerProxy& server) {
+    server.execute(this->cmd);
 }
 
-Commnad::~Commnad() {}
+Command::~Command() {}

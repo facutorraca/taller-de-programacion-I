@@ -10,7 +10,7 @@ class ServerProxy {
     public:
         ServerProxy(const std::string host, const std::string port);
 
-        void execute(std::string msg);
+        void execute(std::string cmd);
 
         ~ServerProxy();
 };

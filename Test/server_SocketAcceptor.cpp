@@ -1,4 +1,4 @@
-#include "server_AcceptorSocket.h"
+#include "server_SocketAcceptor.h"
 #include "common_Socket.h"
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -14,11 +14,11 @@
 #define MAX_PENDING_CONNECTIONS 10
 
 /*--------------------------PUBLIC------------------------------*/
-AcceptorSocket::AcceptorSocket() {
+SocketAcceptor::SocketAcceptor() {
     this->fd = INVALID_FD;
 }
 
-int AcceptorSocket::bind(const std::string port) {
+int SocketAcceptor::bind(const std::string port) {
     struct addrinfo *result;  //Pointer to the result list
 
     struct addrinfo hints; //Criteria for selecting the socket addr structures
@@ -46,14 +46,14 @@ int AcceptorSocket::bind(const std::string port) {
     return ERROR;
 }
 
-int AcceptorSocket::listen() {
+int SocketAcceptor::listen() {
     if (::listen(this->fd, MAX_PENDING_CONNECTIONS) == ERROR) {
         return ERROR;
     }
     return SUCCESS;
 }
 
-Socket AcceptorSocket::accept() {
+Socket SocketAcceptor::accept() {
     int new_fd = ::accept(this->fd, NULL, NULL);
     Socket new_socket(new_fd);
 
@@ -61,4 +61,4 @@ Socket AcceptorSocket::accept() {
 }
 
 /*--------------------------PRIVATE-----------------------------*/
-AcceptorSocket::~AcceptorSocket() {}
+SocketAcceptor::~SocketAcceptor() {}

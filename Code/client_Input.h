@@ -1,13 +1,13 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
-#include "client_Instruction.h"
-#include "client_InstructionFactory.h"
+#include "client_Command.h"
+#include "client_CommandFactory.h"
 #include <string>
 
 
 class Input {
-    InstructionFactory inst_factory;
+    CommandFactory cmd_factory;
     std::string input;
 
     private:
@@ -16,7 +16,7 @@ class Input {
     public:
         Input();
 
-        Instruction get_instruction();
+        Command get_command();
 
         ~Input();
 };

@@ -4,15 +4,15 @@
 #include "client_ServerProxy.h"
 #include <string>
 
-class Commnad {
+class Command {
     std::string cmd;
 
     public:
-        Commnad(std::string cmd);
+        Command(std::string cmd);
 
         void execute(ServerProxy& server);
 
-        ~Commnad();
+        ~Command();
 };
 
 #endif

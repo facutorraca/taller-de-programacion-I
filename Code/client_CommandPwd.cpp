@@ -1,5 +1,5 @@
-#include "client_PwdCommnad.h"
-#include "client_Commnad.h"
+#include "client_CommandPwd.h"
+#include "client_Command.h"
 #include <string>
 
 CommandPwd::CommandPwd():

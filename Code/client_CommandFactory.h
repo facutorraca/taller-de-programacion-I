@@ -4,20 +4,20 @@
 #include "client_Command.h"
 #include <string>
 
-class CommnadFactory {
+class CommandFactory {
     std::string cmd;
     std::string arg;
 
     public:
-        CommnadFactory();
+        CommandFactory();
 
         void set_argument(std::string args);
 
         void set_command(std::string inst);
 
-        Instruction create_command();
+        Command create_command();
 
-        ~CommnadFactory();
+        ~CommandFactory();
 };
 
 #endif

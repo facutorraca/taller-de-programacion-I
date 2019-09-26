@@ -3,7 +3,7 @@
 #include <string>
 
 CommandList::CommandList():
-    Commnad("LIST\n")
+    Command("LIST\n")
 {}
 
 CommandList::~CommandList() {}

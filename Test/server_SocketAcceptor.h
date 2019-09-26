@@ -6,11 +6,11 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-class AcceptorSocket {
+class SocketAcceptor {
     int fd;
 
     public:
-        AcceptorSocket();
+        SocketAcceptor();
 
         int bind(const std::string port);
 
@@ -18,7 +18,7 @@ class AcceptorSocket {
 
         Socket accept();
 
-        ~AcceptorSocket();
+        ~SocketAcceptor();
 };
 
 #endif
