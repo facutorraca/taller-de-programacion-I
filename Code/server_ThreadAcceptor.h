@@ -13,7 +13,7 @@ class ThreadAcceptor {
     std::thread thread;
     bool server_running;
     SocketAcceptor acceptor;
-    ProtectedSet& shared_files;
+    ProtectedSet& directories;
     std::vector<ThreadClient*> clients;
     std::map<std::string, std::string>& config;
 
@@ -25,7 +25,7 @@ class ThreadAcceptor {
     public:
         ThreadAcceptor(const std::string port,
                        std::map<std::string, std::string>& config,
-                       ProtectedSet& shared_files);
+                       ProtectedSet& directories);
 
         void run();
 

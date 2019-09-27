@@ -18,8 +18,10 @@ void ClientProxy::interpret_command(std::string cmd) {
     if (cmd.length() <= LEN_INST_NO_ARGS) {
         this->cmd_factory.set_command(cmd);
     } else {
-        this->cmd_factory.set_command(cmd.substr(0, LEN_INST_NO_ARGS));
-        this->cmd_factory.set_argument(cmd.substr(5, std::string::npos));
+        size_t pos_delim = cmd.find(' ');
+        this->cmd_factory.set_command(cmd.substr(0, pos_delim));
+        this->cmd_factory.set_argument(cmd.substr(pos_delim + 1,
+                                                  std::string::npos));
     }
 }
 

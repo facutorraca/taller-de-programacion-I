@@ -8,7 +8,7 @@
 
 void CommandUnknown::execute(User& user,
                              std::map<std::string, std::string>& config,
-                             ProtectedSet& shared_files) {
+                             ProtectedSet& directories) {
     if (user.is_logged()) {
         this->answer.assign("500 " + config["unknownCommand"] + "\n");
     } else {

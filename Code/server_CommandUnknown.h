@@ -13,7 +13,7 @@ class CommandUnknown : public Command {
     public:
         void execute(User& user,
                      std::map<std::string, std::string>& config,
-                     ProtectedSet& shared_files);
+                     ProtectedSet& directories);
 
         void send_answer(Socket& socket);
 

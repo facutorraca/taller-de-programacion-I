@@ -1,5 +1,7 @@
 #include "server_CommandFactory.h"
 #include "server_Command.h"
+#include "server_CommandMkd.h"
+#include "server_CommandRmd.h"
 #include "server_CommandUser.h"
 #include "server_CommandPass.h"
 #include "server_CommandUnknown.h"
@@ -13,6 +15,12 @@ Command* CommandFactory::create_command() {
     }
     if (this->cmd.compare("PASS") == 0) {
         return new CommandPass(this->arg);
+    }
+    if (this->cmd.compare("MKD") == 0) {
+        return new CommandMkd(this->arg);
+    }
+    if (this->cmd.compare("RMD") == 0) {
+        return new CommandRmd(this->arg);
     }
     return new CommandUnknown();
 }

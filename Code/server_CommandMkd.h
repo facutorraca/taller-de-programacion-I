@@ -1,5 +1,5 @@
-#ifndef _COMMAND_PASS_H_
-#define _COMMAND_PASS_H_
+#ifndef _COMMAND_MKD_H_
+#define _COMMAND_MKD_H_
 
 #include "server_User.h"
 #include "common_Socket.h"
@@ -8,12 +8,12 @@
 #include <string>
 #include <map>
 
-class CommandPass : public Command {
+class CommandMkd : public Command {
     std::string answer;
-    std::string password;
+    std::string directory;
 
     public:
-        CommandPass(std::string password);
+        CommandMkd(std::string directory);
 
         void send_answer(Socket& socket);
 
@@ -21,7 +21,7 @@ class CommandPass : public Command {
                      std::map<std::string, std::string>& config,
                      ProtectedSet& directories);
 
-        ~CommandPass();
+        ~CommandMkd();
 };
 
 #endif

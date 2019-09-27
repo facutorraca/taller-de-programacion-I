@@ -11,8 +11,8 @@
 
 ThreadAcceptor::ThreadAcceptor(const std::string port,
                                std::map<std::string, std::string>& config,
-                               ProtectedSet& shared_files):
-    shared_files(shared_files),
+                               ProtectedSet& directories):
+    directories(directories),
     config(config)
 {
     this->acceptor.bind(port);
@@ -35,7 +35,7 @@ void ThreadAcceptor::accept_clients() {
 
         ThreadClient* new_client = new ThreadClient(std::move(socket),
                                                     this->config,
-                                                    shared_files);
+                                                    this->directories);
         this->clients.push_back(new_client);
         new_client->run();
 

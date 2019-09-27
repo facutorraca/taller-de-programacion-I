@@ -12,7 +12,7 @@ CommandPass::CommandPass(std::string password):
 
 void CommandPass::execute(User& user,
                           std::map<std::string, std::string>& config,
-                          ProtectedSet& shared_files) {
+                          ProtectedSet& directories) {
     user.set_password(this->password);
     if (user.verify_login()) {
         this->answer.assign("230 " + config["loginSuccess"] + "\n");

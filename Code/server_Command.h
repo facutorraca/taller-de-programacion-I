@@ -11,7 +11,7 @@ class Command {
     public:
         virtual void execute(User& user,
                              std::map<std::string, std::string>& config,
-                             ProtectedSet& shared_files) = 0;
+                             ProtectedSet& directories) = 0;
 
         virtual void send_answer(Socket& socket) = 0;
 

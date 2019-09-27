@@ -12,7 +12,7 @@ CommandUser::CommandUser(std::string username):
 
 void CommandUser::execute(User& user,
                           std::map<std::string, std::string>& config,
-                          ProtectedSet& shared_files) {
+                          ProtectedSet& directories) {
     user.set_username(this->username);
     this->answer.assign("331 " + config["passRequired"] + "\n");
 }

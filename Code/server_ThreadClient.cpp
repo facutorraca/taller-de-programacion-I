@@ -10,10 +10,10 @@
 
 ThreadClient::ThreadClient(Socket socket,
                            std::map<std::string, std::string>& config,
-                           ProtectedSet& shared_files):
+                           ProtectedSet& directories):
     user(config["user"], config["password"]),
     client(std::move(socket)),
-    shared_files(shared_files),
+    directories(directories),
     config(config)
 {
     this->dead = false;
@@ -28,7 +28,7 @@ void ThreadClient::communicate() {
 
     while (!this->dead) {
         Command* command = this->client.get_command();
-        command->execute(user, this->config, this->shared_files);
+        command->execute(user, this->config, this->directories);
         this->client.send_command_answer(command);
     }
 }

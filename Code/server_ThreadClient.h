@@ -15,7 +15,7 @@ class ThreadClient {
     ClientProxy client;
     std::thread thread;
 
-    ProtectedSet& shared_files;
+    ProtectedSet& directories;
     std::map<std::string, std::string>& config;
 
     private:
@@ -24,7 +24,7 @@ class ThreadClient {
     public:
         ThreadClient(Socket socket,
                      std::map<std::string, std::string>& config,
-                     ProtectedSet& shared_files);
+                     ProtectedSet& directories);
 
         void run();
 

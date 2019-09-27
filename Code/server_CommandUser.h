@@ -19,7 +19,7 @@ class CommandUser : public Command {
 
         void execute(User& user,
                      std::map<std::string, std::string>& config,
-                     ProtectedSet& shared_files);
+                     ProtectedSet& directories);
 
         ~CommandUser();
 };
