@@ -7,12 +7,15 @@
 #include <string>
 
 class CommandPass : public Command {
+    std::string answer;
     std::string password;
 
     public:
         CommandPass(std::string password);
 
-        void execute(User& user, Socket& socket);
+        void send_answer(Socket& socket);
+
+        void execute(User& user);
 
         ~CommandPass();
 };

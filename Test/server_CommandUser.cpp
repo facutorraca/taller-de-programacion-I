@@ -8,9 +8,13 @@ CommandUser::CommandUser(std::string username):
     username(username)
 {}
 
-void CommandUser::execute(User& user, Socket& socket) {
+void CommandUser::execute(User& user) {
     user.set_username(this->username);
-    socket.send("331 <passRequired>\n");
+    this->answer.assign("331 <passRequired>\n");
+}
+
+void CommandUser::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }
 
 CommandUser::~CommandUser() {}

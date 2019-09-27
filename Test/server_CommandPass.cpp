@@ -8,12 +8,16 @@ CommandPass::CommandPass(std::string password):
     password(password)
 {}
 
-void CommandPass::execute(User& user, Socket& socket) {
+void CommandPass::execute(User& user) {
     user.set_password(this->password);
     if (user.verify_login()) {
-        socket.send("230 <loginSuccess>\n");
+        this->answer.assign("230 <loginSuccess>\n");
     } else
-        socket.send("530 <loginFailed>\n");
+        this->answer.assign("530 <loginFailed>\n");
+}
+
+void CommandPass::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }
 
 CommandPass::~CommandPass() {}

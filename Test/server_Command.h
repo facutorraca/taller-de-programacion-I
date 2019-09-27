@@ -7,7 +7,9 @@
 
 class Command {
     public:
-        virtual void execute(User& user, Socket& socket) = 0;
+        virtual void execute(User& user) = 0;
+
+        virtual void send_answer(Socket& socket) = 0;
 
         virtual ~Command() {} //Esto esta mal!!
 };

@@ -4,8 +4,12 @@
 #include "server_Command.h"
 #include <string>
 
-void CommandUnknown::execute(User& user, Socket& socket) {
-    socket.send("230 <unknownCommand>\n");
+void CommandUnknown::execute(User& user) {
+    this->answer.assign("<CommandUnknown>\n");
+}
+
+void CommandUnknown::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }
 
 CommandUnknown::~CommandUnknown() {}

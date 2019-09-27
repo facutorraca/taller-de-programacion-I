@@ -7,12 +7,15 @@
 #include <string>
 
 class CommandUser : public Command {
+    std::string answer;
     std::string username;
 
     public:
         CommandUser(std::string username);
 
-        void execute(User& user, Socket& socket);
+        void send_answer(Socket& socket);
+
+        void execute(User& user);
 
         ~CommandUser();
 };
