@@ -1,8 +1,10 @@
-#include "server_Command.h"
+#ifndef _LOG_STATE_H_
+#define _LOG_STATE_H_
 
-class LogState {
+typedef enum log_state {
+  NotConnected,
+  NoPassword,
+  Connected
+} log_state_t;
 
-    public:
-        virtual void execute(Command command);
-
-}
+#endif

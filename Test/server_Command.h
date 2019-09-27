@@ -1,17 +1,15 @@
 #ifndef _COMMAND_H_
 #define _COMMAND_H_
 
+#include "server_User.h"
+#include "common_Socket.h"
 #include <string>
 
 class Command {
-    std::string cmd;
-
     public:
-        Command(std::string cmd);
+        virtual void execute(User& user, Socket& socket) = 0;
 
-        void execute();
-
-        ~Command();
+        virtual ~Command() {} //Esto esta mal!!
 };
 
 #endif
