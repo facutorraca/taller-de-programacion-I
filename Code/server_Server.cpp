@@ -1,13 +1,18 @@
 #include "server_Server.h"
+#include "server_ThreadClient.h"
 #include <map>
 #include <string>
+#include <vector>
 #include <fstream>
 #include <cstdbool>
 #include <iostream>
 
 Server::Server(const std::string port, const std::string filename) {
     this->load_configs(filename);
-    this->acceptor = new ThreadAcceptor(port, this->config, this->shared_files);
+    this->acceptor = new ThreadAcceptor(port,
+                                        this->config,
+                                        this->directories,
+                                        this->clients);
 }
 
 void Server::control_quit() {

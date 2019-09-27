@@ -2,15 +2,17 @@
 #define _SERVER_H_
 
 #include "server_ProtectedSet.h"
+#include "server_ThreadClient.h"
 #include "server_ThreadAcceptor.h"
 #include <map>
 #include <string>
-#include <fstream>
+#include <vector>
 #include <cstdbool>
 
 class Server {
-    ProtectedSet shared_files;
+    ProtectedSet directories;
     ThreadAcceptor* acceptor;
+    std::vector<ThreadClient*> clients;
     std::map<std::string, std::string> config;
 
 
