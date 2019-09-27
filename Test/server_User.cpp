@@ -5,7 +5,7 @@
 #include <cstdbool>
 
 User::User() {
-    this->log_state = NotConnected;
+    this->log_state = NotLogged;
 }
 
 void User::set_username(std::string username) {
@@ -18,7 +18,7 @@ void User::set_password(std::string password) {
 }
 
 bool User::verify_login() {
-    this->log_state = Connected;
+    this->log_state = Logged;
     return true;
 }
 

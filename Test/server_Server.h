@@ -9,10 +9,13 @@
 class Server {
     ThreadAcceptor* acceptor;
 
-    public:
-        explicit Server(const std::string port);
+    private:
+        void control_quit();
 
-        void run();
+    public:
+        Server(const std::string port);
+
+        void start();
 
         ~Server();
 };

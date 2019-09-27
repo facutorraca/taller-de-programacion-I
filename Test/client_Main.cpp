@@ -10,7 +10,7 @@ int main(int argc, char const *argv[]) {
     std::string port(argv[2]);
 
     Client client(host, port);
-    client.run();
+    client.start();
 
     return SUCCESS;
 }

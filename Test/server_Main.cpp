@@ -2,11 +2,14 @@
 #include <string>
 #include <iostream>
 
+#define ERROR 1
+#define SUCCESS 0
+
 int main(int argc, char const *argv[]) {
     std::string port(argv[1]);
 
     Server server(port);
-    server.run();
+    server.start();
 
-    return 0;
+    return SUCCESS;
 }

@@ -7,13 +7,10 @@
 class Client {
     ServerProxy server;
 
-    private:
-        void read_input(std::string& buf);
-
     public:
-        explicit Client(const std::string host, const std::string port);
+        Client(const std::string host, const std::string port);
 
-        void run();
+        void start();
 
         ~Client();
 };

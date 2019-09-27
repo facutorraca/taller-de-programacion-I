@@ -2,9 +2,9 @@
 #define _LOG_STATE_H_
 
 typedef enum log_state {
-  NotConnected,
+  NotLogged,
   NoPassword,
-  Connected
+  Logged
 } log_state_t;
 
 #endif

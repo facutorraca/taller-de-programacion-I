@@ -17,7 +17,7 @@ void ClientProxy::interpret_command(std::string cmd) {
     if (cmd.length() <= LEN_INST_NO_ARGS) {
         this->cmd_factory.set_command(cmd);
     } else {
-        this->cmd_factory.set_command(cmd.substr(0, LEN_INST_NO_ARGS));
+        this->cmd_factory.set_argument(cmd.substr(0, LEN_INST_NO_ARGS));
         this->cmd_factory.set_argument(cmd.substr(5, std::string::npos));
     }
 }
@@ -35,3 +35,4 @@ void ClientProxy::send_command_answer(Command* command) {
 }
 
 ClientProxy::~ClientProxy() {}
+S

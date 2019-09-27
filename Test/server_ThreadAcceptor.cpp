@@ -7,8 +7,6 @@
 #include <string>
 #include <vector>
 
-#include <iostream>
-
 ThreadAcceptor::ThreadAcceptor(std::string port) {
     this->acceptor.bind(port);
     this->acceptor.listen();
@@ -36,4 +34,5 @@ void ThreadAcceptor::accept_clients() {
     }
 }
 
-ThreadAcceptor::~ThreadAcceptor() {}
+ThreadAcceptor::~ThreadAcceptor() {
+}

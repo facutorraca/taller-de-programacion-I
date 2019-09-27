@@ -6,19 +6,14 @@
 Client::Client(const std::string host, const std::string port):
     server(host, port) {}
 
-void Client::read_input(std::string& cmd) {
-    cmd.clear();
-    std::getline(std::cin, cmd);
-    cmd.append("\n");
-}
-
-void Client::run() {
+void Client::start() {
     this->server.connect();
 
     std::string cmd;
     while (true) {
-        this->read_input(cmd);
+        std::getline(std::cin, cmd);
         this->server.execute(cmd);
+        cmd.clear();
     }
 }
 
