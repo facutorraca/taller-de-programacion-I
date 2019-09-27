@@ -3,11 +3,13 @@
 
 #include "common_Socket.h"
 #include <string>
+#include <cstdbool>
 
 class ServerProxy {
     Socket socket;
     std::string host;
     std::string port;
+    bool connected;
 
     public:
         ServerProxy(const std::string host, const std::string port);
@@ -15,6 +17,8 @@ class ServerProxy {
         void execute(const std::string cmd);
 
         void connect();
+
+        bool is_connected();
 
         ~ServerProxy();
 };

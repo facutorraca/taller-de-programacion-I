@@ -18,7 +18,11 @@ class User {
     public:
         User(std::string real_user, std::string real_pass);
 
+        void log_out();
+
         bool is_logged();
+
+        bool logged_out();
 
         bool verify_login();
 

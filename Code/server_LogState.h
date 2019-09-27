@@ -4,7 +4,8 @@
 typedef enum log_state {
   NotLogged,
   NoPassword,
-  Logged
+  Logged,
+  LoggedOut
 } log_state_t;
 
 #endif

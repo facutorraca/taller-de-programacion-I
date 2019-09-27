@@ -4,13 +4,14 @@
 #include "server_User.h"
 #include "server_ClientProxy.h"
 #include "server_ProtectedSet.h"
-#include <thread>
-#include <cstdbool>
 #include <map>
+#include <thread>
+#include <atomic>
+#include <cstdbool>
 
 class ThreadClient {
     User user;
-    bool dead;
+    std::atomic<bool> dead;
 
     ClientProxy client;
     std::thread thread;

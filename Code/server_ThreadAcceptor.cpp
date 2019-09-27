@@ -22,7 +22,12 @@ ThreadAcceptor::ThreadAcceptor(const std::string port,
 }
 
 void ThreadAcceptor::verify_clients() {
-    return; //Verifica que los clientes sigan vivos
+    for (size_t i = 0; i < this->clients.size(); i++) {
+        if (this->clients[i].is_dead) {
+            this->clients[i].join();
+            delete this->clients[i];
+        }
+    }
 }
 
 void ThreadAcceptor::run() {
@@ -43,5 +48,4 @@ void ThreadAcceptor::accept_clients() {
     }
 }
 
-ThreadAcceptor::~ThreadAcceptor() {
-}
+ThreadAcceptor::~ThreadAcceptor() { }

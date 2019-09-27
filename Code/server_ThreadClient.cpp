@@ -23,6 +23,10 @@ void ThreadClient::run() {
     this->thread = std::thread(&ThreadClient::communicate, this);
 }
 
+void ThreadClient::join() {
+    this->thread.join();
+}
+
 void ThreadClient::communicate() {
     this->client.send_welcome_message(this->config["newClient"]);
 
@@ -30,6 +34,7 @@ void ThreadClient::communicate() {
         Command* command = this->client.get_command();
         command->execute(user, this->config, this->directories);
         this->client.send_command_answer(command);
+        this->dead = this->user.logged_out();
     }
 }
 

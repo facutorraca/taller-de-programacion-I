@@ -39,4 +39,12 @@ bool User::is_logged() {
     return (this->log_state == Logged);
 }
 
+bool User::logged_out() {
+    return (this->log_state == LoggedOut);
+}
+
+void User::log_out() {
+    this->log_state = LoggedOut;
+}
+
 User::~User() {}
