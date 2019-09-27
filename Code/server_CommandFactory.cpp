@@ -3,18 +3,22 @@
 #include "server_CommandMkd.h"
 #include "server_CommandRmd.h"
 #include "server_CommandUser.h"
+#include "server_CommandList.h"
 #include "server_CommandPass.h"
 #include "server_CommandUnknown.h"
 #include <string>
 
 #include <iostream>
-
 Command* CommandFactory::create_command() {
     if (this->cmd.compare("USER") == 0) {
         return new CommandUser(this->arg);
     }
     if (this->cmd.compare("PASS") == 0) {
+        std::cout << "entre" << '\n';
         return new CommandPass(this->arg);
+    }
+    if (this->cmd.compare("LIST") == 0) {
+        return new CommandList();
     }
     if (this->cmd.compare("MKD") == 0) {
         return new CommandMkd(this->arg);

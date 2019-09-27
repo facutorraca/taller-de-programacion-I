@@ -1,11 +1,8 @@
 #include "server_ProtectedSet.h"
 #include <set>
 #include <string>
+#include <vector>
 #include <cstdbool>
-
-bool ProtectedSet::find(std::string str) {
-    return true;
-}
 
 bool ProtectedSet::erase(std::string str) {
     size_t erased = this->set.erase(str);
@@ -16,4 +13,11 @@ bool ProtectedSet::insert(std::string str) {
     std::pair<std::set<std::string>::iterator,bool> ret;
     ret = this->set.insert(str);
     return ret.second; //Bool (inserted/not inserted)
+}
+
+void ProtectedSet::get_elements(std::vector<std::string>& buf) {
+    std::set<std::string>::iterator iter;
+    for (iter = this->set.begin(); iter != this->set.end(); iter++) {
+        buf.push_back(*iter);
+    }
 }
