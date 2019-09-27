@@ -14,7 +14,7 @@ void CommandList::execute(User& user,
                          ProtectedSet& directories) {
 
     if (!user.is_logged()) {
-        this->answers.push_back("500 " + config["unknownCommand"] + "\n");
+        this->answers.push_back("530 " + config["clientNotLogged"] + "\n");
         return;
     }
 

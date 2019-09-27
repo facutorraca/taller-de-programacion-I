@@ -13,6 +13,10 @@ CommandRmd::CommandRmd(std::string directory):
 void CommandRmd::execute(User& user,
                           std::map<std::string, std::string>& config,
                           ProtectedSet& directories) {
+    if (!user.is_logged()) {
+        this->answer.assign("530 " + config["clientNotLogged"] + "\n");
+    }
+
     if (directories.erase(this->directory)) {
         this->answer.assign("250 " + config["rmdSuccess"] + "\n");
     } else

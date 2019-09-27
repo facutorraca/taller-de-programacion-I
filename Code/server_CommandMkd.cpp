@@ -14,7 +14,7 @@ void CommandMkd::execute(User& user,
                          std::map<std::string, std::string>& config,
                          ProtectedSet& directories) {
     if (!user.is_logged()) {
-        this->answer.assign("500 " + config["unknownCommand"] + "\n");
+        this->answer.assign("530 " + config["clientNotLogged"] + "\n");
         return;
     }
 
