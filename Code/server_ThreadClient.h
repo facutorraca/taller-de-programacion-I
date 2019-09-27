@@ -29,6 +29,10 @@ class ThreadClient {
 
         void run();
 
+        void join();
+
+        bool is_dead();
+
         ~ThreadClient();
 };
 

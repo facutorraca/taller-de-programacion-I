@@ -38,4 +38,8 @@ void ThreadClient::communicate() {
     }
 }
 
+bool ThreadClient::is_dead() {
+    return this->dead;
+}
+
 ThreadClient::~ThreadClient() {}

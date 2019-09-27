@@ -11,7 +11,7 @@ CommandQuit::CommandQuit() {}
 void CommandQuit::execute(User& user,
                           std::map<std::string, std::string>& config,
                           ProtectedSet& directories) {
-    user->log_out();
+    user.log_out();
     this->answer.assign("221 " + config["quitSuccess"] + "\n");
 }
 

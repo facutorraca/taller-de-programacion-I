@@ -10,7 +10,7 @@ void Client::start() {
     this->server.connect();
 
     std::string cmd;
-    while (std::getline(std::cin, cmd) && this->server.is_connected()) {
+    while (this->server.is_connected() && std::getline(std::cin, cmd)) {
         this->server.execute(cmd);
         cmd.clear();
     }

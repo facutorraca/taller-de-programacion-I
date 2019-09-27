@@ -23,8 +23,8 @@ ThreadAcceptor::ThreadAcceptor(const std::string port,
 
 void ThreadAcceptor::verify_clients() {
     for (size_t i = 0; i < this->clients.size(); i++) {
-        if (this->clients[i].is_dead) {
-            this->clients[i].join();
+        if (this->clients[i]->is_dead()) {
+            this->clients[i]->join();
             delete this->clients[i];
         }
     }
