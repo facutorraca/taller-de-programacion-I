@@ -1,6 +1,7 @@
 #include "server_ThreadAcceptor.h"
 #include "server_SocketAcceptor.h"
 #include "server_ThreadClient.h"
+#include "server_ProtectedSet.h"
 #include "common_Socket.h"
 #include <cstdbool>
 #include <thread>
@@ -9,7 +10,9 @@
 #include <map>
 
 ThreadAcceptor::ThreadAcceptor(const std::string port,
-                               std::map<std::string, std::string>& config):
+                               std::map<std::string, std::string>& config,
+                               ProtectedSet& shared_files):
+    shared_files(shared_files),
     config(config)
 {
     this->acceptor.bind(port);
@@ -31,7 +34,8 @@ void ThreadAcceptor::accept_clients() {
         Socket socket = this->acceptor.accept();
 
         ThreadClient* new_client = new ThreadClient(std::move(socket),
-                                                    this->config);
+                                                    this->config,
+                                                    shared_files);
         this->clients.push_back(new_client);
         new_client->run();
 

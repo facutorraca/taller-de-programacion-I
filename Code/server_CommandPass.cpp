@@ -2,6 +2,7 @@
 #include "server_User.h"
 #include "common_Socket.h"
 #include "server_Command.h"
+#include "server_ProtectedSet.h"
 #include <string>
 #include <map>
 
@@ -10,7 +11,8 @@ CommandPass::CommandPass(std::string password):
 {}
 
 void CommandPass::execute(User& user,
-                          std::map<std::string, std::string>& config) {
+                          std::map<std::string, std::string>& config,
+                          ProtectedSet& shared_files) {
     user.set_password(this->password);
     if (user.verify_login()) {
         this->answer.assign("230 " + config["loginSuccess"] + "\n");

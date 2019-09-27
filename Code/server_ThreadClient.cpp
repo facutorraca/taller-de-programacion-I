@@ -1,5 +1,6 @@
 #include "server_ThreadClient.h"
 #include "server_ClientProxy.h"
+#include "server_ProtectedSet.h"
 #include <cstdbool>
 #include <iostream>
 #include <string>
@@ -8,9 +9,11 @@
 
 
 ThreadClient::ThreadClient(Socket socket,
-                           std::map<std::string, std::string>& config):
+                           std::map<std::string, std::string>& config,
+                           ProtectedSet& shared_files):
     user(config["user"], config["password"]),
     client(std::move(socket)),
+    shared_files(shared_files),
     config(config)
 {
     this->dead = false;
@@ -25,7 +28,7 @@ void ThreadClient::communicate() {
 
     while (!this->dead) {
         Command* command = this->client.get_command();
-        command->execute(user, this->config);
+        command->execute(user, this->config, this->shared_files);
         this->client.send_command_answer(command);
     }
 }

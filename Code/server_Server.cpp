@@ -7,7 +7,7 @@
 
 Server::Server(const std::string port, const std::string filename) {
     this->load_configs(filename);
-    this->acceptor = new ThreadAcceptor(port, this->config);
+    this->acceptor = new ThreadAcceptor(port, this->config, this->shared_files);
 }
 
 void Server::control_quit() {

@@ -24,12 +24,6 @@ bool User::verify_login() {
     bool pass_correct = (this->real_pass.compare(this->password) == 0);
     bool user_correct = (this->real_user.compare(this->username) == 0);
 
-    std::cout <<"RP "<< this->real_pass << '\n';
-    std::cerr <<"RU "<< this->real_user << '\n';
-
-    std::cout <<"P "<< this->password << '\n';
-    std::cerr <<"U "<< this->username << '\n';
-
     this->password.clear();
     this->username.clear();
 

@@ -4,6 +4,7 @@
 #include "server_User.h"
 #include "common_Socket.h"
 #include "server_Command.h"
+#include "server_ProtectedSet.h"
 #include <string>
 
 class CommandUnknown : public Command {
@@ -11,7 +12,8 @@ class CommandUnknown : public Command {
 
     public:
         void execute(User& user,
-                     std::map<std::string, std::string>& config);
+                     std::map<std::string, std::string>& config,
+                     ProtectedSet& shared_files);
 
         void send_answer(Socket& socket);
 

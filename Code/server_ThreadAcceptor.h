@@ -2,6 +2,7 @@
 #define _THREAD_ACCEPTOR_H_
 
 #include "server_ThreadClient.h"
+#include "server_ProtectedSet.h"
 #include "server_SocketAcceptor.h"
 #include <cstdbool>
 #include <string>
@@ -12,6 +13,7 @@ class ThreadAcceptor {
     std::thread thread;
     bool server_running;
     SocketAcceptor acceptor;
+    ProtectedSet& shared_files;
     std::vector<ThreadClient*> clients;
     std::map<std::string, std::string>& config;
 
@@ -22,7 +24,8 @@ class ThreadAcceptor {
 
     public:
         ThreadAcceptor(const std::string port,
-                       std::map<std::string, std::string>& config);
+                       std::map<std::string, std::string>& config,
+                       ProtectedSet& shared_files);
 
         void run();
 
