@@ -2,18 +2,23 @@
 #define _SERVER_H_
 
 #include "server_ThreadAcceptor.h"
-#include <cstdbool>
+#include <map>
 #include <string>
-#include <vector>
+#include <fstream>
+#include <cstdbool>
 
 class Server {
     ThreadAcceptor* acceptor;
+    std::map<std::string, std::string> config;
+
 
     private:
         void control_quit();
 
+        void load_configs(const std::string filename);
+
     public:
-        Server(const std::string port);
+        Server(const std::string port, const std::string filename);
 
         void start();
 

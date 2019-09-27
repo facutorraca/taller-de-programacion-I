@@ -5,6 +5,8 @@
 #include "server_CommandUnknown.h"
 #include <string>
 
+#include <iostream>
+
 Command* CommandFactory::create_command() {
     if (this->cmd.compare("USER") == 0) {
         return new CommandUser(this->arg);

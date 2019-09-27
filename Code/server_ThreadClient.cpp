@@ -6,8 +6,11 @@
 #include <thread>
 
 
-ThreadClient::ThreadClient(Socket socket):
-    client(std::move(socket))
+
+ThreadClient::ThreadClient(Socket socket,
+                           std::map<std::string, std::string>& config):
+    client(std::move(socket)),
+    config(config)
 {
     this->dead = false;
 }
@@ -17,12 +20,12 @@ void ThreadClient::run() {
 }
 
 void ThreadClient::communicate() {
-    this->client.send_welcome_message();
+    this->client.send_welcome_message(this->config["newClient"]);
 
     while (!this->dead) {
-        Command* cmd = this->client.get_command();
-        cmd->execute(user);
-        this->client.send_command_answer(cmd);
+        Command* command = this->client.get_command();
+        command->execute(user, this->config);
+        this->client.send_command_answer(command);
     }
 }
 

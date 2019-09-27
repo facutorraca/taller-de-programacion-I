@@ -7,8 +7,9 @@
 
 int main(int argc, char const *argv[]) {
     std::string port(argv[1]);
+    std::string file(argv[2]);
 
-    Server server(port);
+    Server server(port, file);
     server.start();
 
     return SUCCESS;

@@ -5,6 +5,7 @@
 #include "common_Socket.h"
 #include "server_Command.h"
 #include <string>
+#include <map>
 
 class CommandUser : public Command {
     std::string answer;
@@ -15,7 +16,8 @@ class CommandUser : public Command {
 
         void send_answer(Socket& socket);
 
-        void execute(User& user);
+        void execute(User& user,
+                     std::map<std::string, std::string>& config);
 
         ~CommandUser();
 };

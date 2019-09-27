@@ -5,6 +5,7 @@
 #include "server_ClientProxy.h"
 #include <thread>
 #include <cstdbool>
+#include <map>
 
 class ThreadClient {
     User user;
@@ -13,11 +14,14 @@ class ThreadClient {
     ClientProxy client;
     std::thread thread;
 
+    std::map<std::string, std::string>& config;
+    
     private:
         void communicate();
 
     public:
-        ThreadClient(Socket socket);
+        ThreadClient(Socket socket,
+                     std::map<std::string, std::string>& config);
 
         void run();
 

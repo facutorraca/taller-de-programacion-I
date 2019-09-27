@@ -16,6 +16,8 @@ class User {
 
         bool verify_login();
 
+        bool is_logged();
+
         void set_username(std::string username);
 
         void set_password(std::string password);

@@ -10,7 +10,8 @@ class CommandUnknown : public Command {
     std::string answer;
 
     public:
-        void execute(User& user);
+        void execute(User& user,
+                     std::map<std::string, std::string>& config);
 
         void send_answer(Socket& socket);
 

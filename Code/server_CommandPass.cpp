@@ -3,17 +3,19 @@
 #include "common_Socket.h"
 #include "server_Command.h"
 #include <string>
+#include <map>
 
 CommandPass::CommandPass(std::string password):
     password(password)
 {}
 
-void CommandPass::execute(User& user) {
+void CommandPass::execute(User& user,
+                          std::map<std::string, std::string>& config) {
     user.set_password(this->password);
     if (user.verify_login()) {
-        this->answer.assign("230 <loginSuccess>\n");
+        this->answer.assign("230 " + config["loginSuccess"] + "\n");
     } else
-        this->answer.assign("530 <loginFailed>\n");
+        this->answer.assign("530 " + config["loginFailed"] + "\n");
 }
 
 void CommandPass::send_answer(Socket& socket) {

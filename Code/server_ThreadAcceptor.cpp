@@ -6,8 +6,12 @@
 #include <thread>
 #include <string>
 #include <vector>
+#include <map>
 
-ThreadAcceptor::ThreadAcceptor(std::string port) {
+ThreadAcceptor::ThreadAcceptor(const std::string port,
+                               std::map<std::string, std::string>& config):
+    config(config)
+{
     this->acceptor.bind(port);
     this->acceptor.listen();
     this->server_running = true;
@@ -26,7 +30,8 @@ void ThreadAcceptor::accept_clients() {
     while (this->server_running) {
         Socket socket = this->acceptor.accept();
 
-        ThreadClient* new_client = new ThreadClient(std::move(socket));
+        ThreadClient* new_client = new ThreadClient(std::move(socket),
+                                                    this->config);
         this->clients.push_back(new_client);
         new_client->run();
 

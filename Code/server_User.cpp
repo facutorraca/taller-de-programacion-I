@@ -22,4 +22,8 @@ bool User::verify_login() {
     return true;
 }
 
+bool User::is_logged() {
+    return this->log_state == Logged;
+}
+
 User::~User() {}
