@@ -19,7 +19,7 @@ void ServerProxy::execute(const std::string cmd) {
     std::string answer;
     this->socket.send(cmd + "\n");
     this->socket.receive(answer);
-    std::cout << answer;
+    std::cout << answer; 
 }
 
 ServerProxy::~ServerProxy() {}
