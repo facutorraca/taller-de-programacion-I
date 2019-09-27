@@ -4,7 +4,10 @@
 #include <string>
 #include <cstdbool>
 
-User::User() {
+#include <iostream>
+User::User(std::string real_user, std::string real_pass) {
+    this->real_user.assign(real_user);
+    this->real_pass.assign(real_pass);
     this->log_state = NotLogged;
 }
 
@@ -18,12 +21,28 @@ void User::set_password(std::string password) {
 }
 
 bool User::verify_login() {
-    this->log_state = Logged;
-    return true;
+    bool pass_correct = (this->real_pass.compare(this->password) == 0);
+    bool user_correct = (this->real_user.compare(this->username) == 0);
+
+    std::cout <<"RP "<< this->real_pass << '\n';
+    std::cerr <<"RU "<< this->real_user << '\n';
+
+    std::cout <<"P "<< this->password << '\n';
+    std::cerr <<"U "<< this->username << '\n';
+
+    this->password.clear();
+    this->username.clear();
+
+    if (pass_correct && user_correct) {
+        this->log_state = Logged;
+        return true;
+    }
+    this->log_state = NotLogged;
+    return false;
 }
 
 bool User::is_logged() {
-    return this->log_state == Logged;
+    return (this->log_state == Logged);
 }
 
 User::~User() {}

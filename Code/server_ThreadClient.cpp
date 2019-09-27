@@ -9,6 +9,7 @@
 
 ThreadClient::ThreadClient(Socket socket,
                            std::map<std::string, std::string>& config):
+    user(config["user"], config["password"]),
     client(std::move(socket)),
     config(config)
 {

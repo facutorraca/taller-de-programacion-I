@@ -26,6 +26,7 @@ void ClientProxy::interpret_command(std::string cmd) {
 Command* ClientProxy::get_command() {
     std::string cmd;
     this->socket.receive(cmd);
+    cmd.pop_back(); //Pop EOL
     this->interpret_command(cmd);
     return this->cmd_factory.create_command();
 }

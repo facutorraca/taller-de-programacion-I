@@ -8,15 +8,19 @@
 
 class User {
     log_state_t log_state;
+
+    std::string real_user;
+    std::string real_pass;
+
     std::string username;
     std::string password;
 
     public:
-        User();
-
-        bool verify_login();
+        User(std::string real_user, std::string real_pass);
 
         bool is_logged();
+
+        bool verify_login();
 
         void set_username(std::string username);
 
