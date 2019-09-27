@@ -94,5 +94,7 @@ int Socket::connect(const std::string host, const std:: string port) {
 
 /*--------------------------PRIVATE-----------------------------*/
 Socket::~Socket() {
-    close(this->fd);
+    if (this->fd != INVALID_FD) {
+        close(this->fd);
+    }
 }
