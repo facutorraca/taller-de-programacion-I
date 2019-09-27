@@ -11,8 +11,10 @@
 
 ThreadAcceptor::ThreadAcceptor(const std::string port,
                                std::map<std::string, std::string>& config,
-                               ProtectedSet& directories):
+                               ProtectedSet& directories,
+                               std::vector<ThreadClient*>& clients):
     directories(directories),
+    clients(clients),
     config(config)
 {
     this->acceptor.bind(port);
