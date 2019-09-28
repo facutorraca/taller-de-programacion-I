@@ -7,11 +7,12 @@
 #include <cstdbool>
 #include <string>
 #include <vector>
+#include <atomic>
 #include <map>
 
 class ThreadAcceptor {
     std::thread thread;
-    bool server_running;
+    std::atomic<bool> server_running;
     SocketAcceptor acceptor;
     ProtectedSet& directories;
     std::vector<ThreadClient*>& clients;
@@ -29,6 +30,10 @@ class ThreadAcceptor {
                        std::vector<ThreadClient*>& clients);
 
         void run();
+
+        void stop();
+
+        void join();
 
         ~ThreadAcceptor();
 };

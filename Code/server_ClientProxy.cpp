@@ -25,6 +25,10 @@ void ClientProxy::interpret_command(std::string cmd) {
     }
 }
 
+void ClientProxy::disconnect() {
+    this->socket.close();
+}
+
 Command* ClientProxy::get_command() {
     std::string cmd;
     this->socket.receive(cmd);

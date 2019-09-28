@@ -38,7 +38,7 @@ int SocketAcceptor::bind(const std::string port) {
             freeaddrinfo(result);
             return SUCCESS;
         }
-        close(this->fd);
+        this->close(this->fd);
         rst_iter = rst_iter->ai_next;
     }
     freeaddrinfo(result);
@@ -60,5 +60,16 @@ Socket SocketAcceptor::accept() {
     return std::move(new_socket);
 }
 
+void SocketAcceptor::close() {
+    if (this->fd != INVALID_FD) {
+        ::close(this->fd);
+        this->fd = INVALID_FD;
+    }
+}
+
 /*--------------------------PRIVATE-----------------------------*/
-SocketAcceptor::~SocketAcceptor() {}
+SocketAcceptor::~SocketAcceptor() {
+    if (this->fd != INVALID_FD) {
+        this->close();
+    }
+}

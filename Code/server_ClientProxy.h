@@ -18,6 +18,8 @@ class ClientProxy {
 
         Command* get_command();
 
+        void disconnect();
+
         void send_welcome_message(std::string msg);
 
         void send_command_answer(Command* cmd);

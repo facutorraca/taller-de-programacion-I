@@ -85,16 +85,23 @@ int Socket::connect(const std::string host, const std:: string port) {
             freeaddrinfo(result);
             return SUCCESS;
         }
-        close(this->fd);
+        ::close(this->fd);
         rst_iter = rst_iter->ai_next;
     }
     freeaddrinfo(result);
     return ERROR;
 }
 
+void Socket::close() {
+    if (this->fd != INVALID_FD) {
+        ::close(this->fd);
+        this->fd = INVALID_FD;
+    }
+}
+
 /*--------------------------PRIVATE-----------------------------*/
 Socket::~Socket() {
     if (this->fd != INVALID_FD) {
-        close(this->fd);
+        ::close(this->fd);
     }
 }

@@ -36,6 +36,15 @@ void ThreadAcceptor::run() {
     this->thread = std::thread(&ThreadAcceptor::accept_clients, this);
 }
 
+void ThreadAcceptor::stop() {
+    this->acceptor.close();
+    this->server_running = false;
+}
+
+void ThreadAcceptor::join() {
+    this->thread.join();
+}
+
 void ThreadAcceptor::accept_clients() {
     while (this->server_running) {
         Socket socket = this->acceptor.accept();

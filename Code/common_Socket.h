@@ -23,6 +23,8 @@ class Socket {
 
         int connect(const std::string host, const std::string port);
 
+        void close();
+
         ~Socket();
 };
 

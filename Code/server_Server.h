@@ -17,7 +17,9 @@ class Server {
 
 
     private:
-        void control_quit();
+        void wait_quit();
+
+        void stop_clients(); 
 
         void load_configs(const std::string filename);
 

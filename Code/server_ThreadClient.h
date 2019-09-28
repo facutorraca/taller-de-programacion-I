@@ -31,6 +31,8 @@ class ThreadClient {
 
         void join();
 
+        void stop();
+
         bool is_dead();
 
         ~ThreadClient();

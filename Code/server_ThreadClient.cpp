@@ -27,6 +27,11 @@ void ThreadClient::join() {
     this->thread.join();
 }
 
+void ThreadClient::stop() {
+    this->client.disconnect();
+    this->dead = true;
+}
+
 void ThreadClient::communicate() {
     this->client.send_welcome_message(this->config["newClient"]);
 
