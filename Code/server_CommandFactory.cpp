@@ -2,8 +2,11 @@
 #include "server_Command.h"
 #include "server_CommandMkd.h"
 #include "server_CommandRmd.h"
+#include "server_CommandPwd.h"
 #include "server_CommandUser.h"
 #include "server_CommandList.h"
+#include "server_CommandSyst.h"
+#include "server_CommandHelp.h"
 #include "server_CommandQuit.h"
 #include "server_CommandPass.h"
 #include "server_CommandUnknown.h"
@@ -12,6 +15,12 @@
 Command* CommandFactory::create_command() {
     if (this->cmd.compare("LIST") == 0) {
         return new CommandList();
+    }
+    if (this->cmd.compare("SYST") == 0) {
+        return new CommandSyst();
+    }
+    if (this->cmd.compare("HELP") == 0) {
+        return new CommandHelp();
     }
     if (this->cmd.compare("QUIT") == 0) {
         return new CommandQuit();
@@ -27,6 +36,9 @@ Command* CommandFactory::create_command() {
     }
     if (this->cmd.compare("RMD") == 0) {
         return new CommandRmd(this->arg);
+    }
+    if (this->cmd.compare("PWD") == 0) {
+        return new CommandPwd();
     }
     return new CommandUnknown();
 }
