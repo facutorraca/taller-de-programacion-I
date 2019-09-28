@@ -9,7 +9,7 @@
 #include <netdb.h>
 #include <string>
 
-#define ERROR 1
+#define ERROR -1
 #define SUCCESS 0
 #define INVALID_FD -1
 #define MAX_PENDING_CONNECTIONS 10
@@ -19,8 +19,8 @@ SocketAcceptor::SocketAcceptor() {
     this->fd = INVALID_FD;
 }
 
-int SocketAcceptor::bind(const std::string port) {
-    struct addrinfo *result;  //Pointer to the result list
+void SocketAcceptor::bind(const std::string port) {
+    struct addrinfo *result = nullptr;  //Pointer to the result list
 
     struct addrinfo hints; //Criteria for selecting the socket addr structures
     memset(&hints, 0, sizeof(struct addrinfo));
@@ -28,6 +28,11 @@ int SocketAcceptor::bind(const std::string port) {
     hints.ai_socktype = SOCK_STREAM;  //TCP
     hints.ai_flags = AI_PASSIVE;        //AI_PASSIVE for server, 0 for client
     getaddrinfo(nullptr, port.c_str(), &hints, &result);
+
+    if (!result) {
+        throw SocketAcceptorError("Get Address Info Failed");
+        return;
+    }
 
     struct addrinfo *rst_iter = result;
     while (rst_iter) {
@@ -37,20 +42,19 @@ int SocketAcceptor::bind(const std::string port) {
 
         if (::bind(this->fd, rst_iter->ai_addr, rst_iter->ai_addrlen) == SUCCESS) {
             freeaddrinfo(result);
-            return SUCCESS;
+            return;
         }
         ::close(this->fd);
         rst_iter = rst_iter->ai_next;
     }
     freeaddrinfo(result);
-    return ERROR;
+    throw SocketAcceptorError("Bind Failed");
 }
 
-int SocketAcceptor::listen() {
-    if (::listen(this->fd, MAX_PENDING_CONNECTIONS) == -1) {
-        return ERROR;
+void SocketAcceptor::listen() {
+    if (::listen(this->fd, MAX_PENDING_CONNECTIONS) == ERROR) {
+        throw SocketAcceptorError("Listen Failed");
     }
-    return SUCCESS;
 }
 
 Socket SocketAcceptor::accept() {
@@ -65,6 +69,7 @@ Socket SocketAcceptor::accept() {
 void SocketAcceptor::close() {
     shutdown(this->fd, SHUT_RDWR);
     ::close(this->fd);
+    throw SocketAcceptorError("Close Failed");
     this->fd = INVALID_FD;
 }
 

@@ -10,6 +10,7 @@
 #include <vector>
 #include <map>
 
+#include <iostream>
 ThreadAcceptor::ThreadAcceptor(const std::string port,
                                std::map<std::string, std::string>& config,
                                ProtectedSet& directories,
@@ -36,7 +37,6 @@ void ThreadAcceptor::verify_clients() {
 
 void ThreadAcceptor::stop() {
     this->acceptor.close();
-    //this->server_running = false;
 }
 
 void ThreadAcceptor::run() {

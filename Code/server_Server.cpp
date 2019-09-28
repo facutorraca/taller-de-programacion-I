@@ -1,4 +1,5 @@
 #include "server_Server.h"
+#include "server_FileError.h"
 #include "server_ThreadClient.h"
 #include <map>
 #include <string>
@@ -18,6 +19,9 @@ Server::Server(const std::string port, const std::string filename) {
 void Server::load_configs(const std::string filename) {
     std::ifstream f_conf;
     f_conf.open(filename);
+    if (!f_conf.is_open()) {
+        throw FileError("File Open Failed");
+    }
 
     std::string line;
     while (getline(f_conf, line)) {

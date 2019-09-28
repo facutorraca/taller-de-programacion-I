@@ -12,9 +12,9 @@ class SocketAcceptor {
     public:
         SocketAcceptor();
 
-        int bind(const std::string port);
+        void bind(const std::string port);
 
-        int listen();
+        void listen();
 
         void close();
 
