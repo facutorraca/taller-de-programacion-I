@@ -9,7 +9,7 @@
 #include <netdb.h>
 #include <string>
 
-#define ERROR -1
+#define ERROR 1
 #define SUCCESS 0
 #define INVALID_FD -1
 #define MAX_PENDING_CONNECTIONS 10
@@ -47,7 +47,7 @@ int SocketAcceptor::bind(const std::string port) {
 }
 
 int SocketAcceptor::listen() {
-    if (::listen(this->fd, MAX_PENDING_CONNECTIONS) == ERROR) {
+    if (::listen(this->fd, MAX_PENDING_CONNECTIONS) == -1) {
         return ERROR;
     }
     return SUCCESS;

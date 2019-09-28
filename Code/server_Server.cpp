@@ -47,7 +47,7 @@ void Server::stop_clients() {
 }
 
 void Server::start() {
-    this->acceptor->run();
+    this->acceptor->start();
     this->wait_quit();
     this->stop_clients();
 
