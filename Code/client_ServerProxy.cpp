@@ -7,6 +7,7 @@
 #define BEGIN_LIST_CODE "150"
 #define END_LIST_CODE "226"
 #define QUIT_CODE "221"
+#define LEN_FTP_CODE 3
 
 ServerProxy::ServerProxy(const std::string host, const std::string port):
     host(host),
@@ -27,19 +28,24 @@ bool ServerProxy::is_connected() {
     return this->connected;
 }
 
+void ServerProxy::receive_list() {
+    std::string answer;
+    while (answer.substr(0, LEN_FTP_CODE).compare(END_LIST_CODE) != 0) {
+        this->socket.receive(answer);
+        std::cout << answer;
+        answer.clear();
+    }
+}
+
 void ServerProxy::execute(const std::string cmd) {
     std::string answer;
     this->socket.send(cmd + "\n");
     this->socket.receive(answer);
     std::cout << answer;
-    if (answer.substr(0,3).compare(BEGIN_LIST_CODE) == 0) {
-        while (answer.substr(0,3).compare(END_LIST_CODE) != 0) {
-            answer.clear();
-            this->socket.receive(answer);
-            std::cout << answer;
-        }
+    if (answer.substr(0, LEN_FTP_CODE).compare(BEGIN_LIST_CODE) == 0) {
+        this->receive_list();
     }
-    if (answer.substr(0,3).compare(QUIT_CODE) == 0) {
+    if (answer.substr(0, LEN_FTP_CODE).compare(QUIT_CODE) == 0) {
         this->connected = false;
     }
 }

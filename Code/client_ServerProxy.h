@@ -11,6 +11,9 @@ class ServerProxy {
     std::string port;
     bool connected;
 
+    private:
+        void receive_list();
+
     public:
         ServerProxy(const std::string host, const std::string port);
 
