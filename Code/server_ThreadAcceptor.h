@@ -11,12 +11,14 @@
 #include <map>
 
 class ThreadAcceptor {
-    std::thread thread;
-    std::atomic<bool> server_running;
     SocketAcceptor acceptor;
+
+    std::thread thread;
     ProtectedSet& directories;
     std::vector<ThreadClient*>& clients;
     std::map<std::string, std::string>& config;
+
+    std::atomic<bool> server_running;
 
     private:
         void verify_clients();

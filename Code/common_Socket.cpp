@@ -13,7 +13,7 @@
 
 /*--------------------------PUBLIC------------------------------*/
 Socket::Socket() {
-    this->fd = -1;
+    this->fd = INVALID_FD;
 }
 
 Socket::Socket(int fd) {
@@ -101,7 +101,5 @@ void Socket::close() {
 
 /*--------------------------PRIVATE-----------------------------*/
 Socket::~Socket() {
-    if (this->fd != INVALID_FD) {
-        ::close(this->fd);
-    }
+    this->close();
 }

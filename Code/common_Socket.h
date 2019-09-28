@@ -16,7 +16,7 @@ class Socket {
         Socket(int fd);
 
         Socket(Socket&& other);
-
+ 
         int receive(std::string& buf);
 
         int send(const std::string& msg);

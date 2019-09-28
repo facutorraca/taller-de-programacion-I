@@ -4,6 +4,8 @@
 #include "server_CommandFactory.h"
 #include <string>
 
+#define ERROR 1
+#define SUCCESS 0
 #define LEN_INST_NO_ARGS 4
 
 ClientProxy::ClientProxy(Socket socket):
@@ -31,15 +33,21 @@ void ClientProxy::disconnect() {
 
 Command* ClientProxy::get_command() {
     std::string cmd;
-    this->socket.receive(cmd);
-    cmd.pop_back(); //Pop EOL
-    this->interpret_command(cmd);
-    return this->cmd_factory.create_command();
+    if (this->socket.receive(cmd) == SUCCESS) {
+        cmd.pop_back(); //Pop EOL
+        this->interpret_command(cmd);
+        return this->cmd_factory.create_command();
+    }
+    return nullptr;
 }
 
-void ClientProxy::send_command_answer(Command* command) {
-    command->send_answer(this->socket);
+int ClientProxy::send_command_answer(Command* command) {
+    if (command->send_answer(this->socket)) {
+        delete command;
+        return SUCCESS;
+    }
     delete command;
+    return ERROR;
 }
 
 ClientProxy::~ClientProxy() {}

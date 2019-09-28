@@ -16,9 +16,9 @@ class SocketAcceptor {
 
         int listen();
 
-        Socket accept();
-
         void close();
+
+        Socket accept();
 
         ~SocketAcceptor();
 };

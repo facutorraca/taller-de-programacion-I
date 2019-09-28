@@ -2,6 +2,7 @@
 #include "server_SocketAcceptor.h"
 #include "server_ThreadClient.h"
 #include "server_ProtectedSet.h"
+#include "server_SocketAcceptorError.h"
 #include "common_Socket.h"
 #include <cstdbool>
 #include <thread>
@@ -38,7 +39,7 @@ void ThreadAcceptor::run() {
 
 void ThreadAcceptor::stop() {
     this->acceptor.close();
-    this->server_running = false;
+    //this->server_running = false;
 }
 
 void ThreadAcceptor::join() {
@@ -47,16 +48,20 @@ void ThreadAcceptor::join() {
 
 void ThreadAcceptor::accept_clients() {
     while (this->server_running) {
-        Socket socket = this->acceptor.accept();
+        try {
+            Socket socket = this->acceptor.accept();
 
-        ThreadClient* new_client = new ThreadClient(std::move(socket),
-                                                    this->config,
-                                                    this->directories);
-        this->clients.push_back(new_client);
-        new_client->run();
+            ThreadClient* new_client = new ThreadClient(std::move(socket),
+                                                        this->config,
+                                                        this->directories);
+            new_client->run();
+            this->clients.push_back(new_client);
 
-        this->verify_clients();
+            this->verify_clients();
+        } catch (const SocketAcceptorError &exception) {
+            this->server_running = false;
+        }
     }
 }
 
-ThreadAcceptor::~ThreadAcceptor() { }
+ThreadAcceptor::~ThreadAcceptor() {}

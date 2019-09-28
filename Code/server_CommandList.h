@@ -15,7 +15,7 @@ class CommandList : public Command {
     public:
         CommandList();
 
-        void send_answer(Socket& socket);
+        int send_answer(Socket& socket);
 
         void execute(User& user,
                      std::map<std::string, std::string>& config,

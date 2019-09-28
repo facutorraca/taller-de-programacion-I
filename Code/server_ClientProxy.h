@@ -16,9 +16,9 @@ class ClientProxy {
     public:
         ClientProxy(Socket socket);
 
-        Command* get_command();
-
         void disconnect();
+
+        Command* get_command();
 
         void send_welcome_message(std::string msg);
 

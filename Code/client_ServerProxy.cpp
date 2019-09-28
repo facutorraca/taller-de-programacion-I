@@ -10,7 +10,7 @@
 #define LEN_FTP_CODE 3
 
 ServerProxy::ServerProxy(const std::string host, const std::string port):
-    host(host),
+    host(host), 
     port(port)
 {
     this->connected = false;

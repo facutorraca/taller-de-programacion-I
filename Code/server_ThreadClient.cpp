@@ -6,7 +6,8 @@
 #include <string>
 #include <thread>
 
-
+#define ERROR 1
+#define SUCCESS 0
 
 ThreadClient::ThreadClient(Socket socket,
                            std::map<std::string, std::string>& config,
@@ -37,9 +38,15 @@ void ThreadClient::communicate() {
 
     while (!this->dead) {
         Command* command = this->client.get_command();
-        command->execute(user, this->config, this->directories);
-        this->client.send_command_answer(command);
-        this->dead = this->user.logged_out();
+        if (command) {
+            command->execute(user, this->config, this->directories);
+            if (this->client.send_command_answer(command) == ERROR) {
+                this->dead = true; //Connection interrupted during send
+            }
+            this->dead = this->user.logged_out();
+        } else {
+            this->dead = true;///Connection interrupted during recv
+        }
     }
 }
 

@@ -15,11 +15,10 @@ class Server {
     std::vector<ThreadClient*> clients;
     std::map<std::string, std::string> config;
 
-
     private:
         void wait_quit();
 
-        void stop_clients(); 
+        void stop_clients();
 
         void load_configs(const std::string filename);
 

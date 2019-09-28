@@ -21,7 +21,7 @@ class ServerProxy {
 
         void connect();
 
-        bool is_connected();
+        bool is_connected(); 
 
         ~ServerProxy();
 };

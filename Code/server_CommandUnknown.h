@@ -15,7 +15,7 @@ class CommandUnknown : public Command {
                      std::map<std::string, std::string>& config,
                      ProtectedSet& directories);
 
-        void send_answer(Socket& socket);
+        int send_answer(Socket& socket);
 
         ~CommandUnknown();
 };

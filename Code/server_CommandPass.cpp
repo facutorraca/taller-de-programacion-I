@@ -20,8 +20,8 @@ void CommandPass::execute(User& user,
         this->answer.assign("530 " + config["loginFailed"] + "\n");
 }
 
-void CommandPass::send_answer(Socket& socket) {
-    socket.send(this->answer);
+int CommandPass::send_answer(Socket& socket) {
+    return socket.send(this->answer);
 }
 
 CommandPass::~CommandPass() {}

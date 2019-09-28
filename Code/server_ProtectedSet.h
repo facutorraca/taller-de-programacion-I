@@ -21,3 +21,4 @@ class ProtectedSet {
 };
 
 #endif
+ 

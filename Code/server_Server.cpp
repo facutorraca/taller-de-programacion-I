@@ -15,26 +15,6 @@ Server::Server(const std::string port, const std::string filename) {
                                         this->clients);
 }
 
-void Server::wait_quit() {
-    bool quit = false;
-    while (!quit) {
-        char cmd = std::cin.get();
-        if (cmd == 'q') {
-            quit = true;
-        }
-    }
-    std::cout << "Chau!" <<'\n';
-}
-
-void Server::stop_clients() {
-    for (size_t i = 0; i < clients.size(); i++ ) {
-        this->clients[i]->stop();
-        this->clients[i]->join();
-        delete this->clients[i];
-    }
-    std::cout << "client closed" << '\n';
-}
-
 void Server::load_configs(const std::string filename) {
     std::ifstream f_conf;
     f_conf.open(filename);
@@ -49,6 +29,20 @@ void Server::load_configs(const std::string filename) {
         this->config.insert(std::pair<std::string, std::string>(key, val));
     }
     f_conf.close();
+}
+
+void Server::wait_quit() {
+    do {
+        char input = std::cin.get();
+    } while (input != 'q');
+}
+
+void Server::stop_clients() {
+    for (size_t i = 0; i < clients.size(); i++ ) {
+        this->clients[i]->stop();
+        this->clients[i]->join();
+        delete this->clients[i];
+    }
 }
 
 void Server::start() {

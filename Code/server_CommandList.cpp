@@ -7,13 +7,16 @@
 #include <vector>
 #include <map>
 
+#define ERROR 1
+#define SUCCESS 0
+
 CommandList::CommandList() {}
 
 void CommandList::execute(User& user,
                          std::map<std::string, std::string>& config,
                          ProtectedSet& directories) {
 
-    if (!user.is_logged()) {
+    if (!user.logged()) {
         this->answers.push_back("530 " + config["clientNotLogged"] + "\n");
         return;
     }
@@ -31,10 +34,13 @@ void CommandList::execute(User& user,
     this->answers.push_back("226 " + config["listEnd"] + "\n");
 }
 
-void CommandList::send_answer(Socket& socket) {
+int CommandList::send_answer(Socket& socket) {
     for (size_t i = 0; i < this->answers.size(); i++) {
-        socket.send(this->answers[i]);
+        if (socket.send(this->answers[i]) == ERROR) {
+            return ERROR;
+        }
     }
+    return SUCCESS;
 }
 
 CommandList::~CommandList() {}

@@ -15,11 +15,11 @@ class CommandUser : public Command {
     public:
         CommandUser(std::string username);
 
-        void send_answer(Socket& socket);
-
         void execute(User& user,
                      std::map<std::string, std::string>& config,
                      ProtectedSet& directories);
+
+        int send_answer(Socket& socket);
 
         ~CommandUser();
 };

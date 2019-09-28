@@ -10,12 +10,12 @@
 #include <cstdbool>
 
 class ThreadClient {
-    User user;
+    ClientProxy client;
+
+    std::thread thread;
     std::atomic<bool> dead;
 
-    ClientProxy client;
-    std::thread thread;
-
+    User user;
     ProtectedSet& directories;
     std::map<std::string, std::string>& config;
 

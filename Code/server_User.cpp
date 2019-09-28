@@ -35,7 +35,7 @@ bool User::verify_login() {
     return false;
 }
 
-bool User::is_logged() {
+bool User::logged() {
     return (this->log_state == Logged);
 }
 

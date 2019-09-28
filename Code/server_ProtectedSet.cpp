@@ -25,3 +25,4 @@ void ProtectedSet::get_elements(std::vector<std::string>& buf) {
         buf.push_back(*iter);
     }
 }
+ 

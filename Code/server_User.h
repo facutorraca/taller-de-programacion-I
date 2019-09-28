@@ -20,7 +20,7 @@ class User {
 
         void log_out();
 
-        bool is_logged();
+        bool logged();
 
         bool logged_out();
 

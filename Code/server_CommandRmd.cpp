@@ -13,7 +13,7 @@ CommandRmd::CommandRmd(std::string directory):
 void CommandRmd::execute(User& user,
                           std::map<std::string, std::string>& config,
                           ProtectedSet& directories) {
-    if (!user.is_logged()) {
+    if (!user.logged()) {
         this->answer.assign("530 " + config["clientNotLogged"] + "\n");
     }
 
@@ -23,8 +23,8 @@ void CommandRmd::execute(User& user,
         this->answer.assign("550 " + config["rmdFailed"] + "\n");
 }
 
-void CommandRmd::send_answer(Socket& socket) {
-    socket.send(this->answer);
+int CommandRmd::send_answer(Socket& socket) {
+    return socket.send(this->answer);
 }
 
 CommandRmd::~CommandRmd() {}

@@ -3,7 +3,7 @@
 
 #include "client_ServerProxy.h"
 #include <string>
-
+ 
 class Client {
     ServerProxy server;
 

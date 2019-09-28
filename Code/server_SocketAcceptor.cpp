@@ -1,3 +1,4 @@
+#include "server_SocketAcceptorError.h"
 #include "server_SocketAcceptor.h"
 #include "common_Socket.h"
 #include <sys/socket.h>
@@ -42,7 +43,6 @@ int SocketAcceptor::bind(const std::string port) {
         rst_iter = rst_iter->ai_next;
     }
     freeaddrinfo(result);
-    std::cout << "Error en bind" << '\n'; //Cambiar esto!
     return ERROR;
 }
 
@@ -54,9 +54,11 @@ int SocketAcceptor::listen() {
 }
 
 Socket SocketAcceptor::accept() {
-    int new_fd = ::accept(this->fd, NULL, NULL);
+    int new_fd = ::accept(this->fd, nullptr, nullptr);
+    if (new_fd == INVALID_FD) {
+        throw SocketAcceptorError("Accept Failed");
+    }
     Socket new_socket(new_fd);
-
     return std::move(new_socket);
 }
 
@@ -69,7 +71,5 @@ void SocketAcceptor::close() {
 
 /*--------------------------PRIVATE-----------------------------*/
 SocketAcceptor::~SocketAcceptor() {
-    if (this->fd != INVALID_FD) {
-        this->close();
-    }
+    this->close();
 }
