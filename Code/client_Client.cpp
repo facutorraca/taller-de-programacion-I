@@ -2,7 +2,7 @@
 #include "client_ServerProxy.h"
 #include <string>
 #include <iostream>
- 
+
 Client::Client(const std::string host, const std::string port):
     server(host, port) {}
 

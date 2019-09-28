@@ -7,7 +7,7 @@
 #include <netdb.h>
 #include <string>
 
-#define ERROR -1
+#define ERROR 1
 #define SUCCESS 0
 #define INVALID_FD -1
 
@@ -51,6 +51,7 @@ int Socket::send(const std::string& msg) {
                             MSG_NOSIGNAL);
 
         if (bytes_sent == 0 || bytes_sent == -1) {
+            std::cout << "entre" << '\n';
             return ERROR;
         }
         total_bytes = total_bytes + bytes_sent;

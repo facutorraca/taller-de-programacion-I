@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cstdbool>
 
+#define ERROR 1
+#define SUCCESS 0
 #define BEGIN_LIST_CODE "150"
 #define END_LIST_CODE "226"
 #define QUIT_CODE "221"
@@ -32,15 +34,24 @@ void ServerProxy::receive_list() {
     std::string answer;
     while (answer.substr(0, LEN_FTP_CODE).compare(END_LIST_CODE) != 0) {
         answer.clear();
-        this->socket.receive(answer);
+        if (this->socket.receive(answer) == ERROR) {
+            this->connected = false;
+            return;
+        }
         std::cout << answer;
     }
 }
 
 void ServerProxy::execute(const std::string cmd) {
     std::string answer;
-    this->socket.send(cmd + "\n");
-    this->socket.receive(answer);
+    if(this->socket.send(cmd + "\n") == ERROR) {
+        this->connected = false;
+        return;
+    }
+    if (this->socket.receive(answer) == ERROR) {
+        this->connected = false;
+        return;
+    }
     std::cout << answer;
     if (answer.substr(0, LEN_FTP_CODE).compare(BEGIN_LIST_CODE) == 0) {
         this->receive_list();
