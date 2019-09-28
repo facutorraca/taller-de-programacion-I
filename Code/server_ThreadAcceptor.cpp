@@ -47,7 +47,7 @@ void ThreadAcceptor::run() {
             ThreadClient* new_client = new ThreadClient(std::move(socket),
                                                         this->config,
                                                         this->directories);
-            new_client->run();
+            new_client->start();
             this->clients.push_back(new_client);
 
             this->verify_clients();

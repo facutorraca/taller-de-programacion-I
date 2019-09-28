@@ -20,20 +20,12 @@ ThreadClient::ThreadClient(Socket socket,
     this->dead = false;
 }
 
-void ThreadClient::run() {
-    this->thread = std::thread(&ThreadClient::communicate, this);
-}
-
-void ThreadClient::join() {
-    this->thread.join();
-}
-
 void ThreadClient::stop() {
     this->client.disconnect();
     this->dead = true;
 }
 
-void ThreadClient::communicate() {
+void ThreadClient::run() {
     this->client.send_welcome_message(this->config["newClient"]);
 
     while (!this->dead) {
