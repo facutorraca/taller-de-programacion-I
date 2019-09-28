@@ -13,7 +13,6 @@ User::User(std::string real_user, std::string real_pass) {
 
 void User::set_username(std::string username) {
     this->username.assign(username);
-    this->log_state = NoPassword;
 }
 
 void User::set_password(std::string password) {

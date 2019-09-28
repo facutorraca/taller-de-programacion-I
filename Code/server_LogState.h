@@ -3,7 +3,6 @@
 
 typedef enum log_state {
   NotLogged,
-  NoPassword,
   Logged,
   LoggedOut
 } log_state_t;
