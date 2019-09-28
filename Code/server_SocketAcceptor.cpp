@@ -63,14 +63,14 @@ Socket SocketAcceptor::accept() {
 }
 
 void SocketAcceptor::close() {
-    if (this->fd != INVALID_FD) {
-        shutdown(this->fd, SHUT_RDWR);
-        ::close(this->fd);
-        this->fd = INVALID_FD;
-    }
+    shutdown(this->fd, SHUT_RDWR);
+    ::close(this->fd);
+    this->fd = INVALID_FD;
 }
 
 /*--------------------------PRIVATE-----------------------------*/
 SocketAcceptor::~SocketAcceptor() {
-    this->close();
+    if (this->fd != INVALID_FD) {
+        this->close();
+    }
 }

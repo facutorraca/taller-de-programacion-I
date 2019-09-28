@@ -29,6 +29,7 @@ void ThreadAcceptor::verify_clients() {
         if (this->clients[i]->is_dead()) {
             this->clients[i]->join();
             delete this->clients[i];
+            this->clients.erase(this->clients.begin() + i);
         }
     }
 }

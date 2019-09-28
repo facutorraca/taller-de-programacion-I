@@ -51,7 +51,6 @@ int Socket::send(const std::string& msg) {
                             MSG_NOSIGNAL);
 
         if (bytes_sent == 0 || bytes_sent == -1) {
-            std::cout << "entre" << '\n';
             return ERROR;
         }
         total_bytes = total_bytes + bytes_sent;

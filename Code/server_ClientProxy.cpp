@@ -38,14 +38,16 @@ Command* ClientProxy::get_command() {
         this->interpret_command(cmd);
         return this->cmd_factory.create_command();
     }
+    this->disconnect();
     return nullptr;
 }
 
 int ClientProxy::send_command_answer(Command* command) {
-    if (command->send_answer(this->socket)) {
+    if (command->send_answer(this->socket) == SUCCESS) {
         delete command;
         return SUCCESS;
     }
+    this->disconnect();
     delete command;
     return ERROR;
 }
