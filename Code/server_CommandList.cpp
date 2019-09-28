@@ -34,13 +34,10 @@ void CommandList::execute(User& user,
     this->answers.push_back("226 " + config["listEnd"] + "\n");
 }
 
-int CommandList::send_answer(Socket& socket) {
+void CommandList::send_answer(Socket& socket) {
     for (size_t i = 0; i < this->answers.size(); i++) {
-        if (socket.send(this->answers[i]) == ERROR) {
-            return ERROR;
-        }
+        socket.send(this->answers[i]);
     }
-    return SUCCESS;
 }
 
 CommandList::~CommandList() {}

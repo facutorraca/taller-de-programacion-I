@@ -31,7 +31,6 @@ void SocketAcceptor::bind(const std::string port) {
 
     if (!result) {
         throw SocketAcceptorError("Get Address Info Failed");
-        return;
     }
 
     struct addrinfo *rst_iter = result;
@@ -67,15 +66,14 @@ Socket SocketAcceptor::accept() {
 }
 
 void SocketAcceptor::close() {
-    shutdown(this->fd, SHUT_RDWR);
-    ::close(this->fd);
-    throw SocketAcceptorError("Close Failed");
-    this->fd = INVALID_FD;
+    if (this->fd != INVALID_FD) {
+        shutdown(this->fd, SHUT_RDWR);
+        ::close(this->fd);
+        this->fd = INVALID_FD;
+    }
 }
 
 /*--------------------------PRIVATE-----------------------------*/
 SocketAcceptor::~SocketAcceptor() {
-    if (this->fd != INVALID_FD) {
-        this->close();
-    }
+    this->close();
 }

@@ -12,10 +12,10 @@ void CommandPwd::execute(User& user,
     if (user.logged()) {
         this->answer.assign("257 " + config["currentDirectoryMsg"] + "\n");
     } else {
-        this->answer.assign("214 " + config["clientNotLogged"] + "\n");
+        this->answer.assign("530 " + config["clientNotLogged"] + "\n");
     }
 }
 
-int CommandPwd::send_answer(Socket& socket) {
-    return socket.send(this->answer);
+void CommandPwd::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }

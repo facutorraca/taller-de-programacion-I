@@ -13,7 +13,7 @@ class Command {
                              std::map<std::string, std::string>& config,
                              ProtectedSet& directories) = 0;
 
-        virtual int send_answer(Socket& socket) = 0;
+        virtual void send_answer(Socket& socket) = 0;
 
         virtual ~Command() {} //Esto esta mal!!
 };

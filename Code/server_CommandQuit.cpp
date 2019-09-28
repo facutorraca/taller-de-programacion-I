@@ -15,8 +15,8 @@ void CommandQuit::execute(User& user,
     this->answer.assign("221 " + config["quitSuccess"] + "\n");
 }
 
-int CommandQuit::send_answer(Socket& socket) {
-    return socket.send(this->answer);
+void CommandQuit::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }
 
 CommandQuit::~CommandQuit() {}

@@ -1,4 +1,5 @@
 #include "client_ServerProxy.h"
+#include "common_SocketError.h"
 #include "common_Socket.h"
 #include <string>
 #include <iostream>
@@ -6,10 +7,10 @@
 
 #define ERROR 1
 #define SUCCESS 0
-#define BEGIN_LIST_CODE "150"
-#define END_LIST_CODE "226"
-#define QUIT_CODE "221"
 #define LEN_FTP_CODE 3
+#define QUIT_CODE "221"
+#define END_LIST_CODE "226"
+#define BEGIN_LIST_CODE "150"
 
 ServerProxy::ServerProxy(const std::string host, const std::string port):
     host(host),
@@ -34,9 +35,11 @@ void ServerProxy::receive_list() {
     std::string answer;
     while (answer.substr(0, LEN_FTP_CODE).compare(END_LIST_CODE) != 0) {
         answer.clear();
-        if (this->socket.receive(answer) == ERROR) {
+        try {
+            this->socket.receive(answer);
+        } catch (const SocketError& exception) {
+            std::cerr << exception.what() << " -> Server was closed" << '\n';
             this->connected = false;
-            return;
         }
         std::cout << answer;
     }
@@ -44,15 +47,16 @@ void ServerProxy::receive_list() {
 
 void ServerProxy::execute(const std::string cmd) {
     std::string answer;
-    if(this->socket.send(cmd + "\n") == ERROR) {
+
+    try {
+        this->socket.send(cmd + "\n");
+        this->socket.receive(answer);
+        std::cout << answer;
+    } catch (const SocketError& exception) {
+        std::cerr << exception.what() << " -> Server was closed" << '\n';
         this->connected = false;
-        return;
     }
-    if (this->socket.receive(answer) == ERROR) {
-        this->connected = false;
-        return;
-    }
-    std::cout << answer;
+
     if (answer.substr(0, LEN_FTP_CODE).compare(BEGIN_LIST_CODE) == 0) {
         this->receive_list();
     }

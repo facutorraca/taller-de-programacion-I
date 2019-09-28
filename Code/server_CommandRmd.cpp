@@ -18,13 +18,13 @@ void CommandRmd::execute(User& user,
     }
 
     if (directories.erase(this->directory)) {
-        this->answer.assign("250 " + config["rmdSuccess"] + "\n");
+        this->answer.assign("250 \"" + this->directory + "\" " + config["rmdSuccess"] + "\n");
     } else
         this->answer.assign("550 " + config["rmdFailed"] + "\n");
 }
 
-int CommandRmd::send_answer(Socket& socket) {
-    return socket.send(this->answer);
+void CommandRmd::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }
 
 CommandRmd::~CommandRmd() {}

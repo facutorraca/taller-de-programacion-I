@@ -10,15 +10,15 @@ void CommandUnknown::execute(User& user,
                              std::map<std::string, std::string>& config,
                              ProtectedSet& directories) {
     if (user.logged()) {
-        this->answer.assign("500 " + config["unknownCommand"] + "\n");
+        this->answer.assign("530 " + config["unknownCommand"] + "\n");
     } else {
         this->answer.assign("530 " + config["clientNotLogged"] + "\n");
     }
 
 }
 
-int CommandUnknown::send_answer(Socket& socket) {
-    return socket.send(this->answer);
+void CommandUnknown::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }
 
 CommandUnknown::~CommandUnknown() {}

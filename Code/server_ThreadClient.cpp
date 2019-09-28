@@ -6,7 +6,6 @@
 #include <string>
 #include <thread>
 
-#define ERROR 1
 #define SUCCESS 0
 
 ThreadClient::ThreadClient(Socket socket,
@@ -32,7 +31,7 @@ void ThreadClient::run() {
         Command* command = this->client.get_command();
         if (command) {
             command->execute(user, this->config, this->directories);
-            if (this->client.send_command_answer(command) == ERROR) {
+            if (this->client.send_command_answer(command) == SUCCESS) {
                 this->dead = true; //Connection interrupted during send
             }
             this->dead = this->user.logged_out();

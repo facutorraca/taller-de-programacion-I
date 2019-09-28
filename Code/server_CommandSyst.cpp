@@ -16,6 +16,6 @@ void CommandSyst::execute(User& user,
     }
 }
 
-int CommandSyst::send_answer(Socket& socket) {
-    return socket.send(this->answer);
+void CommandSyst::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }

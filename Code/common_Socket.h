@@ -16,12 +16,12 @@ class Socket {
         Socket(int fd);
 
         Socket(Socket&& other);
- 
-        int receive(std::string& buf);
 
-        int send(const std::string& msg);
+        void receive(std::string& buf);
 
-        int connect(const std::string host, const std::string port);
+        void send(const std::string& msg);
+
+        void connect(const std::string host, const std::string port);
 
         void close();
 

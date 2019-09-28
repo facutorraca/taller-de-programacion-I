@@ -27,8 +27,8 @@ void CommandMkd::execute(User& user,
     }
 }
 
-int CommandMkd::send_answer(Socket& socket) {
-    return socket.send(this->answer);
+void CommandMkd::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }
 
 CommandMkd::~CommandMkd() {}

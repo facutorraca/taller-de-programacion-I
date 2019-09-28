@@ -12,10 +12,10 @@ void CommandHelp::execute(User& user,
     if (user.logged()) {
         this->answer.assign("215 " + config["commands"] + "\n");
     } else {
-        this->answer.assign("214 " + config["clientNotLogged"] + "\n");
+        this->answer.assign("530 " + config["clientNotLogged"] + "\n");
     }
 }
 
-int CommandHelp::send_answer(Socket& socket) {
-    return socket.send(this->answer);
+void CommandHelp::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }

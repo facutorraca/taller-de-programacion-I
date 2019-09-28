@@ -16,7 +16,7 @@ class CommandSyst : public Command {
                      std::map<std::string, std::string>& config,
                      ProtectedSet& directories);
 
-        int send_answer(Socket& socket);
+        void send_answer(Socket& socket);
 };
 
 #endif

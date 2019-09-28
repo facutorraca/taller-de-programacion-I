@@ -17,8 +17,8 @@ void CommandUser::execute(User& user,
     this->answer.assign("331 " + config["passRequired"] + "\n");
 }
 
-int CommandUser::send_answer(Socket& socket) {
-    return socket.send(this->answer);
+void CommandUser::send_answer(Socket& socket) {
+    socket.send(this->answer);
 }
 
 CommandUser::~CommandUser() {}

@@ -1,7 +1,9 @@
 #include "server_ClientProxy.h"
+#include "common_SocketError.h"
 #include "common_Socket.h"
 #include "server_Command.h"
 #include "server_CommandFactory.h"
+#include <iostream>
 #include <string>
 
 #define ERROR 1
@@ -32,24 +34,31 @@ void ClientProxy::disconnect() {
 }
 
 Command* ClientProxy::get_command() {
-    std::string cmd;
-    if (this->socket.receive(cmd) == SUCCESS) {
+    try {
+        std::string cmd;
+        this->socket.receive(cmd);
         cmd.pop_back(); //Pop EOL
         this->interpret_command(cmd);
         return this->cmd_factory.create_command();
+    } catch (const SocketError& exception) {
+        std::cerr << exception.what() << " -> Client was closed" << '\n';
+        this->disconnect();
+        return nullptr;
     }
-    this->disconnect();
-    return nullptr;
+
 }
 
 int ClientProxy::send_command_answer(Command* command) {
-    if (command->send_answer(this->socket) == SUCCESS) {
+    try {
+        command->send_answer(this->socket);
         delete command;
         return SUCCESS;
+    } catch (const SocketError& exception) {
+        std::cerr << exception.what() << " -> Client was closed" << '\n';
+        this->disconnect();
+        delete command;
+        return ERROR;
     }
-    this->disconnect();
-    delete command;
-    return ERROR;
 }
 
 ClientProxy::~ClientProxy() {}
