@@ -10,7 +10,7 @@ void CommandHelp::execute(User& user,
                           std::map<std::string, std::string>& config,
                           ProtectedSet& directories) {
     if (user.logged()) {
-        this->answer.assign("215 " + config["commands"] + "\n");
+        this->answer.assign("214 " + config["commands"] + "\n");
     } else {
         this->answer.assign("530 " + config["clientNotLogged"] + "\n");
     }
