@@ -10,7 +10,7 @@
 #define LEN_FTP_CODE 3
 
 ServerProxy::ServerProxy(const std::string host, const std::string port):
-    host(host), 
+    host(host),
     port(port)
 {
     this->connected = false;
@@ -31,9 +31,9 @@ bool ServerProxy::is_connected() {
 void ServerProxy::receive_list() {
     std::string answer;
     while (answer.substr(0, LEN_FTP_CODE).compare(END_LIST_CODE) != 0) {
+        answer.clear();
         this->socket.receive(answer);
         std::cout << answer;
-        answer.clear();
     }
 }
 

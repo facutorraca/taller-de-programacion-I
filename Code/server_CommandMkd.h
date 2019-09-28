@@ -15,7 +15,7 @@ class CommandMkd : public Command {
     public:
         CommandMkd(std::string directory);
 
-        void send_answer(Socket& socket);
+        int send_answer(Socket& socket);
 
         void execute(User& user,
                      std::map<std::string, std::string>& config,
@@ -25,4 +25,3 @@ class CommandMkd : public Command {
 };
 
 #endif
- 

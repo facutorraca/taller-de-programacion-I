@@ -12,8 +12,8 @@
 ThreadClient::ThreadClient(Socket socket,
                            std::map<std::string, std::string>& config,
                            ProtectedSet& directories):
-    user(config["user"], config["password"]),
     client(std::move(socket)),
+    user(config["user"], config["password"]),
     directories(directories),
     config(config)
 {

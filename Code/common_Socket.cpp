@@ -94,6 +94,7 @@ int Socket::connect(const std::string host, const std:: string port) {
 
 void Socket::close() {
     if (this->fd != INVALID_FD) {
+        shutdown(this->fd, SHUT_RDWR);
         ::close(this->fd);
         this->fd = INVALID_FD;
     }

@@ -32,13 +32,14 @@ void Server::load_configs(const std::string filename) {
 }
 
 void Server::wait_quit() {
+    char input;
     do {
-        char input = std::cin.get();
+        input = std::cin.get();
     } while (input != 'q');
 }
 
 void Server::stop_clients() {
-    for (size_t i = 0; i < clients.size(); i++ ) {
+    for (size_t i = 0; i < clients.size(); i++ ) {;
         this->clients[i]->stop();
         this->clients[i]->join();
         delete this->clients[i];
