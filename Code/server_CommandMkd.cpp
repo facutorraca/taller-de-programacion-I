@@ -19,7 +19,7 @@ void CommandMkd::execute(User& user,
         return;
     } else {
         if (directories.insert(this->directory)) {
-            this->answer.assign("257 " + this->directory + " " +
+            this->answer.assign("257 \"" + this->directory + "\" " +
                                 config["mkdSuccess"] + "\n");
         } else {
             this->answer.assign("550 " + config["mkdFailed"] + "\n");
