@@ -17,13 +17,13 @@ void CommandMkd::execute(User& user,
     if (!user.logged()) {
         this->answer.assign("530 " + config["clientNotLogged"] + "\n");
         return;
+    }
+
+    if (directories.insert(this->directory)) {
+        this->answer.assign("257 \"" + this->directory + "\" " +
+                             config["mkdSuccess"] + "\n");
     } else {
-        if (directories.insert(this->directory)) {
-            this->answer.assign("257 \"" + this->directory + "\" " +
-                                config["mkdSuccess"] + "\n");
-        } else {
-            this->answer.assign("550 " + config["mkdFailed"] + "\n");
-        }
+        this->answer.assign("550 " + config["mkdFailed"] + "\n");
     }
 }
 

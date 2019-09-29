@@ -2,7 +2,6 @@
 #define _SOCKET_ACCEPTOR_ERROR_H_
 
 #include <stdexcept>
-#include <iostream>
 
 class SocketAcceptorError : public std::runtime_error {
     public:
