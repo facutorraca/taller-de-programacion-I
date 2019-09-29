@@ -14,8 +14,15 @@ ClientProxy::ClientProxy(Socket socket):
     socket(std::move(socket))
 {}
 
-void ClientProxy::send_welcome_message(std::string msg) {
-    this->socket.send("220 " + msg + "\n");
+int ClientProxy::send_welcome_message(std::string msg) {
+    try {
+        this->socket.send("220 " + msg + "\n");
+        return SUCCESS;
+    } catch (const SocketError& exception) {
+        std::cerr << exception.what() << " -> Client was closed" << '\n';
+        this->disconnect();
+        return ERROR;
+    }
 }
 
 void ClientProxy::interpret_command(std::string cmd) {

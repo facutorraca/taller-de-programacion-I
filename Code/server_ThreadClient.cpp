@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 
+#define ERROR 1
 #define SUCCESS 0
 
 ThreadClient::ThreadClient(Socket socket,
@@ -25,7 +26,9 @@ void ThreadClient::stop() {
 }
 
 void ThreadClient::run() {
-    this->client.send_welcome_message(this->config["newClient"]);
+    if (this->client.send_welcome_message(this->config["newClient"]) == ERROR) {
+        this->dead = true;
+    }
 
     while (!this->dead) {
         Command* command = this->client.get_command();

@@ -10,7 +10,7 @@
 #define LEN_FTP_CODE 3
 #define QUIT_CODE "221"
 #define END_LIST_CODE "226"
-#define BEGIN_LIST_CODE "150"
+#define BEG_LIST_CODE "150"
 
 ServerProxy::ServerProxy(const std::string host, const std::string port):
     host(host),
@@ -57,7 +57,7 @@ void ServerProxy::execute(const std::string cmd) {
         this->connected = false;
     }
 
-    if (answer.substr(0, LEN_FTP_CODE).compare(BEGIN_LIST_CODE) == 0) {
+    if (answer.substr(0, LEN_FTP_CODE).compare(BEG_LIST_CODE) == 0) {
         this->receive_list();
     }
     if (answer.substr(0, LEN_FTP_CODE).compare(QUIT_CODE) == 0) {

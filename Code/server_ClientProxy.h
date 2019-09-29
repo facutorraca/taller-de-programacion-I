@@ -20,7 +20,7 @@ class ClientProxy {
 
         Command* get_command();
 
-        void send_welcome_message(std::string msg);
+        int send_welcome_message(std::string msg);
 
         int send_command_answer(Command* cmd);
 
