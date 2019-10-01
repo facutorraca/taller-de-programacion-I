@@ -7,6 +7,7 @@
 #include "server_ProtectedSet.h"
 #include <map>
 #include <thread>
+#include <string>
 #include <atomic>
 #include <cstdbool>
 

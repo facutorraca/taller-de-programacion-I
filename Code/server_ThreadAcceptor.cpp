@@ -51,7 +51,7 @@ void ThreadAcceptor::run() {
             this->clients.push_back(new_client);
 
             this->verify_clients();
-        } catch (const SocketAcceptorError &exception) {
+        } catch(const SocketAcceptorError &exception) {
             this->server_running = false;
         }
     }

@@ -15,9 +15,12 @@ void CommandPass::execute(User& user,
                           ProtectedSet& directories) {
     user.set_password(this->password);
     if (user.verify_login()) {
-        this->answer.assign("230 " + config["loginSuccess"] + "\n");
-    } else
-        this->answer.assign("530 " + config["loginFailed"] + "\n");
+        this->answer.assign(std::string(LOG_SUCS) + " " +
+                            config["loginSuccess"] + "\n");
+    } else {
+        this->answer.assign(std::string(LOG_FAIL) + " " +
+                            config["loginFailed"] + "\n");
+    }
 }
 
 void CommandPass::send_answer(Socket& socket) {

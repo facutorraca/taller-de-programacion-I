@@ -3,6 +3,7 @@
 #include <mutex>
 #include <string>
 #include <vector>
+#include <utility>
 #include <cstdbool>
 
 bool ProtectedSet::erase(std::string str) {
@@ -25,4 +26,3 @@ void ProtectedSet::get_elements(std::vector<std::string>& buf) {
         buf.push_back(*iter);
     }
 }
- 

@@ -12,7 +12,8 @@ void CommandQuit::execute(User& user,
                           std::map<std::string, std::string>& config,
                           ProtectedSet& directories) {
     user.log_out();
-    this->answer.assign("221 " + config["quitSuccess"] + "\n");
+    this->answer.assign(std::string(QUIT) + " " +
+                        config["quitSuccess"] + "\n");
 }
 
 void CommandQuit::send_answer(Socket& socket) {

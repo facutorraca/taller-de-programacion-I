@@ -18,7 +18,7 @@ int ClientProxy::send_welcome_message(std::string msg) {
     try {
         this->socket.send("220 " + msg + "\n");
         return SUCCESS;
-    } catch (const SocketError& exception) {
+    } catch(const SocketError& exception) {
         std::cerr << exception.what() << " -> Client was closed" << '\n';
         this->disconnect();
         return ERROR;
@@ -47,12 +47,11 @@ Command* ClientProxy::get_command() {
         cmd.pop_back(); //Pop EOL
         this->interpret_command(cmd);
         return this->cmd_factory.create_command();
-    } catch (const SocketError& exception) {
+    } catch(const SocketError& exception) {
         std::cerr << exception.what() << " -> Client was closed" << '\n';
         this->disconnect();
         return nullptr;
     }
-
 }
 
 int ClientProxy::send_command_answer(Command* command) {
@@ -60,7 +59,7 @@ int ClientProxy::send_command_answer(Command* command) {
         command->send_answer(this->socket);
         delete command;
         return SUCCESS;
-    } catch (const SocketError& exception) {
+    } catch(const SocketError& exception) {
         std::cerr << exception.what() << " -> Client was closed" << '\n';
         this->disconnect();
         delete command;

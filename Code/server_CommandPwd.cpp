@@ -10,9 +10,11 @@ void CommandPwd::execute(User& user,
                           std::map<std::string, std::string>& config,
                           ProtectedSet& directories) {
     if (user.logged()) {
-        this->answer.assign("257 " + config["currentDirectoryMsg"] + "\n");
+        this->answer.assign(std::string(PWD) + " " +
+                            config["currentDirectoryMsg"] + "\n");
     } else {
-        this->answer.assign("530 " + config["clientNotLogged"] + "\n");
+        this->answer.assign(std::string(NOT_LOGG) + " " +
+                            config["clientNotLogged"] + "\n");
     }
 }
 

@@ -39,7 +39,9 @@ void SocketAcceptor::bind(const std::string port) {
                           rst_iter->ai_socktype,
                           rst_iter->ai_protocol);
 
-        if (::bind(this->fd, rst_iter->ai_addr, rst_iter->ai_addrlen) == SUCCESS) {
+        if (::bind(this->fd,
+                    rst_iter->ai_addr,
+                    rst_iter->ai_addrlen) == SUCCESS) {
             freeaddrinfo(result);
             return;
         }

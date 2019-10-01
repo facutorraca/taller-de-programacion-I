@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <map>
 
 #define ERROR 1
 #define SUCCESS 0

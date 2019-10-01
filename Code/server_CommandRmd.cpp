@@ -14,13 +14,18 @@ void CommandRmd::execute(User& user,
                           std::map<std::string, std::string>& config,
                           ProtectedSet& directories) {
     if (!user.logged()) {
-        this->answer.assign("530 " + config["clientNotLogged"] + "\n");
+        this->answer.assign(std::string(NOT_LOGG) + " " +
+                            config["clientNotLogged"] + "\n");
     }
 
     if (directories.erase(this->directory)) {
-        this->answer.assign("250 \"" + this->directory + "\" " + config["rmdSuccess"] + "\n");
-    } else
-        this->answer.assign("550 " + config["rmdFailed"] + "\n");
+        this->answer.assign(std::string(RMD_SUCS) +
+                            " \"" + this->directory + "\" " +
+                            config["rmdSuccess"] + "\n");
+    } else {
+        this->answer.assign(std::string(RMD_FAIL) + " " +
+                            config["rmdFailed"] + "\n");
+    }
 }
 
 void CommandRmd::send_answer(Socket& socket) {

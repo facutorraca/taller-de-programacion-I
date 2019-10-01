@@ -10,10 +10,9 @@ class Socket {
     int fd;
 
     public:
-
         Socket();
 
-        Socket(int fd);
+        explicit Socket(int fd);
 
         Socket(Socket&& other);
 

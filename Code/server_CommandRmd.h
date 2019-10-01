@@ -13,7 +13,7 @@ class CommandRmd : public Command {
     std::string directory;
 
     public:
-        CommandRmd(std::string directory);
+        explicit CommandRmd(std::string directory);
 
         void execute(User& user,
                      std::map<std::string, std::string>& config,

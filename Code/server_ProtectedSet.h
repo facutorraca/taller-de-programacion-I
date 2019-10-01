@@ -8,12 +8,11 @@
 #include <cstdbool>
 
 class ProtectedSet {
-
     std::mutex s_mtx;
     std::set<std::string> set;
 
     public:
-        bool erase (std::string str);
+        bool erase(std::string str);
 
         bool insert(std::string str);
 
@@ -21,4 +20,3 @@ class ProtectedSet {
 };
 
 #endif
- 

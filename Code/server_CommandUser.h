@@ -13,7 +13,7 @@ class CommandUser : public Command {
     std::string username;
 
     public:
-        CommandUser(std::string username);
+        explicit CommandUser(std::string username);
 
         void execute(User& user,
                      std::map<std::string, std::string>& config,

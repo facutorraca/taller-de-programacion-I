@@ -11,7 +11,7 @@
 #define HELP "214"
 #define QUIT "221"
 #define USER "331"
-#define UNKW "550"
+#define UNKW "530"
 #define SYST "215"
 #define NOT_LOGG "530"
 #define MKD_SUCS "257"

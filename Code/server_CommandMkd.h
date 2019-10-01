@@ -13,7 +13,7 @@ class CommandMkd : public Command {
     std::string directory;
 
     public:
-        CommandMkd(std::string directory);
+        explicit CommandMkd(std::string directory);
 
         void send_answer(Socket& socket);
 

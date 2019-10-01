@@ -13,17 +13,19 @@ CommandMkd::CommandMkd(std::string directory):
 void CommandMkd::execute(User& user,
                          std::map<std::string, std::string>& config,
                          ProtectedSet& directories) {
-
     if (!user.logged()) {
-        this->answer.assign("530 " + config["clientNotLogged"] + "\n");
+        this->answer.assign(std::string(NOT_LOGG) + " " +
+                            config["clientNotLogged"] + "\n");
         return;
     }
 
     if (directories.insert(this->directory)) {
-        this->answer.assign("257 \"" + this->directory + "\" " +
-                             config["mkdSuccess"] + "\n");
+        this->answer.assign(std::string(MKD_SUCS) +
+                            " \"" + this->directory + "\" " +
+                            config["mkdSuccess"] + "\n");
     } else {
-        this->answer.assign("550 " + config["mkdFailed"] + "\n");
+        this->answer.assign(std::string(MKD_FAIL) + " " +
+                            config["mkdFailed"] + "\n");
     }
 }
 

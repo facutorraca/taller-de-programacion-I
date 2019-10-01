@@ -37,7 +37,7 @@ void ServerProxy::receive_list() {
         answer.clear();
         try {
             this->socket.receive(answer);
-        } catch (const SocketError& exception) {
+        } catch(const SocketError& exception) {
             std::cerr << exception.what() << " -> Server was closed" << '\n';
             this->connected = false;
         }
@@ -52,7 +52,7 @@ void ServerProxy::execute(const std::string cmd) {
         this->socket.send(cmd + "\n");
         this->socket.receive(answer);
         std::cout << answer;
-    } catch (const SocketError& exception) {
+    } catch(const SocketError& exception) {
         std::cerr << exception.what() << " -> Server was closed" << '\n';
         this->connected = false;
     }

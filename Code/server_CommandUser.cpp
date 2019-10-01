@@ -14,7 +14,8 @@ void CommandUser::execute(User& user,
                           std::map<std::string, std::string>& config,
                           ProtectedSet& directories) {
     user.set_username(this->username);
-    this->answer.assign("331 " + config["passRequired"] + "\n");
+    this->answer.assign(std::string(USER) + " " +
+                        config["passRequired"] + "\n");
 }
 
 void CommandUser::send_answer(Socket& socket) {

@@ -6,6 +6,7 @@
 #include "server_Command.h"
 #include "server_ProtectedSet.h"
 #include <string>
+#include <map>
 
 class CommandUnknown : public Command {
     std::string answer;

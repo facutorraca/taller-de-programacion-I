@@ -5,7 +5,7 @@
 
 class SocketAcceptorError : public std::runtime_error {
     public:
-        explicit SocketAcceptorError(const char* error) : runtime_error(error) {}
+        explicit SocketAcceptorError(const char* error): runtime_error(error) {}
 };
 
 #endif

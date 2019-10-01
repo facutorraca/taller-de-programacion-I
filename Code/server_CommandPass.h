@@ -13,7 +13,7 @@ class CommandPass : public Command {
     std::string password;
 
     public:
-        CommandPass(std::string password);
+        explicit CommandPass(std::string password);
 
         void execute(User& user,
                      std::map<std::string, std::string>& config,

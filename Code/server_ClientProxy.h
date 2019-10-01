@@ -14,7 +14,7 @@ class ClientProxy {
         void interpret_command(std::string cmd);
 
     public:
-        ClientProxy(Socket socket);
+        explicit ClientProxy(Socket socket);
 
         void disconnect();
 
