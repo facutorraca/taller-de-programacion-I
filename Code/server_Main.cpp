@@ -7,12 +7,13 @@
 
 #define ERROR 1
 #define SUCCESS 0
-#define ARGS_EXPECTED 2
+#define ARGS_EXPECTED 3
 
 int main(int argc, char const *argv[]) {
     if (argc != ARGS_EXPECTED) {
-        std::cerr << "2" << " arguments expected, "
+        std::cerr << "3" << " arguments expected, "
                   << argc << " were given" << '\n';
+        return ERROR;
     }
 
     std::string port(argv[1]);
@@ -23,8 +24,10 @@ int main(int argc, char const *argv[]) {
         server.start();
     } catch(const SocketAcceptorError &exception) {
         std::cerr << exception.what() << '\n';
+        return ERROR;
     } catch(const FileError &exception) {
         std::cerr << exception.what() << '\n';
+        return ERROR;
     }
 
     return SUCCESS;

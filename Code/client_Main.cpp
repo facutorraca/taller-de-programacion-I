@@ -6,12 +6,13 @@
 
 #define ERROR 1
 #define SUCCESS 0
-#define ARGS_EXPECTED 2
+#define ARGS_EXPECTED 3
 
 int main(int argc, char const *argv[]) {
     if (argc != ARGS_EXPECTED) {
-        std::cerr << "2" << " arguments expected, "
+        std::cerr << "3" << " arguments expected, "
                   << argc << " were given" << '\n';
+        return ERROR;
     }
 
     std::string host(argv[1]);
@@ -22,6 +23,7 @@ int main(int argc, char const *argv[]) {
         client.start();
     } catch(const SocketError& exception) {
         std::cerr << exception.what() << '\n';
+        return ERROR;
     }
 
     return SUCCESS;
