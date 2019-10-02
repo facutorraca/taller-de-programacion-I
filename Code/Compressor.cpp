@@ -24,9 +24,9 @@ int Compressor::set_output_file(const char* o_filename) {
 
 void Compressor::compress() {
     for (size_t i = 0; i < cmp_threads.size(); i++) {
-        this->cmp_threads[i]->run();
+        this->cmp_threads[i]->start();
     }
-    this->wtr_thread->run();
+    this->wtr_thread->start();
     for (size_t i = 0; i < cmp_threads.size(); i++) {
         this->cmp_threads[i]->join();
     }
@@ -47,7 +47,7 @@ void Compressor::init_threads(size_t block_len, int num_thrds) {
 
 void Compressor::init_queues(size_t max_q_len, int num_thrds) {
     for (int i = 0; i < num_thrds; i++) {
-        this->queues.emplace_back(ProtectedQueue(max_q_len));
+        this->queues.emplace_back(max_q_len);
     }
 }
 

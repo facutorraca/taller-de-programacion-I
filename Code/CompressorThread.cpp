@@ -26,7 +26,7 @@ CompressorThread::CompressorThread(size_t block_len,
     this->curr_block = start;
 }
 
-void CompressorThread::run() {
+void CompressorThread::start() {
     this->thread = std::thread(&CompressorThread::compress, this);
 }
 

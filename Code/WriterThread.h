@@ -23,7 +23,7 @@ class WriterThread {
         explicit WriterThread(std::vector<ProtectedQueue>& queues,
                               Writer& writer);
 
-        void run();
+        void start();
 
         void join();
 

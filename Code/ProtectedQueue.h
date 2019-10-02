@@ -10,7 +10,8 @@
 class ProtectedQueue {
     size_t max_q_len;
     std::queue<Block*> queue;
-    std::condition_variable cv;
+    std::condition_variable cv_pop;  
+    std::condition_variable cv_push;
     std::mutex q_mtx;
     bool q_closed;
 

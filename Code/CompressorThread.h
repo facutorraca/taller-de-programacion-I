@@ -27,7 +27,7 @@ class CompressorThread {
                          Reader& reader,
                          ProtectedQueue& queue);
 
-        void run();
+        void start();
 
         void join();
 

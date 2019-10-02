@@ -13,7 +13,7 @@ WriterThread::WriterThread(std::vector<ProtectedQueue>& queues,
                          writer(writer),
                          queues(queues) {}
 
-void WriterThread::run() {
+void WriterThread::start() {
     this->thread = std::thread(&WriterThread::write_file, this);
 }
 

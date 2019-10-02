@@ -23,17 +23,17 @@ ProtectedQueue::ProtectedQueue(ProtectedQueue&& p_queue):
 void ProtectedQueue::push(Block* block) {
     std::unique_lock<std::mutex> lock(this->q_mtx);
     while (this->queue.size() >= this->max_q_len) {
-        this->cv.wait(lock);
+        this->cv_push.wait(lock);
     }
 
     this->queue.push(block);
-    this->cv.notify_all();
+    this->cv_push.notify_all();
 }
 
 Block* ProtectedQueue::pop() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
     while (this->queue.empty() && !this->q_closed) {
-        this->cv.wait(lock);
+        this->cv_pop.wait(lock);
     }
 
     if (this->queue.empty()) {
@@ -42,7 +42,7 @@ Block* ProtectedQueue::pop() {
     } else {
         Block* block = this->queue.front();
         this->queue.pop();
-        this->cv.notify_all();
+        this->cv_pop.notify_all();
         return block;
     }
 }
@@ -57,7 +57,7 @@ void ProtectedQueue::close() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
     this->q_closed = true;
     //Notify free pass to take!
-    this->cv.notify_all();
+    this->cv_pop.notify_all();
 }
 
 bool ProtectedQueue::closed() {
