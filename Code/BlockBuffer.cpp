@@ -19,9 +19,7 @@ int BlockBuffer::numbers_stored() {
     return this->buffer.size();
 }
 
-void BlockBuffer::add_number(const char* str_number) {
-    uint32_t number;
-    memcpy(&number, str_number, 4);
+void BlockBuffer::add_number(uint32_t number) {
     this->buffer.push_back(ntohl(number));
 }
 

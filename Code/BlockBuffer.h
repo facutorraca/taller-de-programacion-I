@@ -2,8 +2,8 @@
 #define _BLOCK_BUFFER_H_
 
 #include "Block.h"
-#include <cstdint>
 #include <vector>
+#include <cstdint>
 #include <cstdbool>
 #include <iostream>
 
@@ -25,7 +25,7 @@ class BlockBuffer {
 
         Block* create_compressed_block();
 
-        void add_number(const char* str_number);
+        void add_number(uint32_t number);
 
         ~BlockBuffer();
 };

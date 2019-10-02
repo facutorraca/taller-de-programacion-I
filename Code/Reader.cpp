@@ -1,6 +1,7 @@
 #include "Reader.h"
 #include "BlockBuffer.h"
 #include <mutex>
+#include <string>
 #include <fstream>
 #include <cstdint>
 #include <cstring>
@@ -42,10 +43,9 @@ int Reader::set_block(int block_pos) {
 }
 
 int Reader::read_block(BlockBuffer& buffer) {;
-    char number[DW_BYTES];
-    memset(number, 0, DW_BYTES * sizeof(char));
+    uint32_t number;
 
-    while (!buffer.is_full() && this->input->read(number, DW_BYTES)) {
+    while (!buffer.is_full() && this->input->read((char*)&number, DW_BYTES)) {
         buffer.add_number(number);
     }
     if (this->input->eof() || this->input->fail()) {

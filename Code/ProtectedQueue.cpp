@@ -27,7 +27,7 @@ void ProtectedQueue::push(Block* block) {
     }
 
     this->queue.push(block);
-    this->cv_push.notify_all();
+    this->cv_pop.notify_all();
 }
 
 Block* ProtectedQueue::pop() {
@@ -42,11 +42,10 @@ Block* ProtectedQueue::pop() {
     } else {
         Block* block = this->queue.front();
         this->queue.pop();
-        this->cv_pop.notify_all();
+        this->cv_push.notify_all();
         return block;
     }
 }
-
 
 bool ProtectedQueue::empty() {
     std::unique_lock<std::mutex> lock(this->q_mtx);
