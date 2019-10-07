@@ -18,7 +18,7 @@ ProtectedQueue::ProtectedQueue(ProtectedQueue&& p_queue):
 
     p_queue.max_q_len = 0;
     p_queue.q_closed = true;
-}
+} 
 
 void ProtectedQueue::push(Block* block) {
     std::unique_lock<std::mutex> lock(this->q_mtx);
